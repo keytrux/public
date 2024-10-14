@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#474B4F"
+    tools:context=".MainActivity">
+
+    <EditText
+        android:id="@+id/plain_text_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#6B6E70"
+        android:inputType="text"
+        android:textAlignment="textStart"
+        android:textSize="18sp"
+        tools:ignore="TouchTargetSizeCheck"
+        tools:text="Your name" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="396dp"
+        android:layout_height="170dp"
+        android:layout_below="@id/plain_text_input"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="0dp"
+        app:srcCompat="@drawable/catd" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="391dp"
+        android:layout_height="123dp"
+        android:layout_below="@id/imageView"
+        android:layout_centerInParent="true"
+        app:srcCompat="@drawable/second" />
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:layout_below="@id/imageView2"
+        android:layout_centerInParent="true"
+        android:backgroundTint="#86c232"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="200dp"
+        android:layout_height="150dp"
+        android:layout_below="@id/spinner"
+        android:layout_marginLeft="50dp"
+        app:srcCompat="@drawable/beds" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/spinner"
+        android:layout_marginLeft="50px"
+
+        android:layout_marginTop="100px"
+        android:layout_toRightOf="@id/imageView6"
+        android:fontFamily="@font/gil"
+        android:text="Price:"
+        android:textAlignment="center"
+        android:textColor="#86C232"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textView5"
+        android:layout_marginLeft="50px"
+
+        android:layout_toRightOf="@id/imageView6"
+        android:fontFamily="@font/gil"
+        android:text="Qantity"
+        android:textColor="#61892f"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="37dp"
+        android:layout_height="37dp"
+        android:layout_below="@id/textView6"
+        android:layout_marginLeft="19dp"
+        android:layout_toRightOf="@id/imageView6"
+        android:backgroundTint="#61892f"
+        android:onClick="decreaseQuantity"
+        android:text="-"
+        android:textColor="#222629"
+        android:textSize="14sp"
+        tools:ignore="TouchTargetSizeCheck" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textView6"
+        android:layout_marginLeft="15px"
+
+        android:layout_marginTop="15px"
+        android:layout_marginRight="15px"
+        android:layout_toRightOf="@id/button"
+        android:fontFamily="@font/gil"
+        android:text="0"
+        android:textColor="#61892f"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="40dp"
+        android:layout_height="37dp"
+        android:layout_below="@id/textView6"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_toRightOf="@id/textView7"
+        android:backgroundTint="#61892f"
+        android:text="+"
+        android:onClick="increaseQuantity"
+        android:textColor="#222629"
+        tools:ignore="TouchTargetSizeCheck"
+        />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="353dp"
+        android:layout_height="46dp"
+        android:layout_below="@id/imageView6"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="26dp"
+        android:backgroundTint="#86C232"
+        android:fontFamily="@font/gil"
+        android:onClick="addToCart"
+        android:text="Add to cart"
+        android:textColor="#222629"
+        tools:ignore="TouchTargetSizeCheck" />
+</RelativeLayout>

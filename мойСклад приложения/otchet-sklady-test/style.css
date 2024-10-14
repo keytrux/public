@@ -1,0 +1,242 @@
+.rows{
+	margin: 0 0 10px;
+}
+.input{
+	display: inline-block;
+	vertical-align: top;
+    font-size: 12px;
+	height: 26px;
+    white-space: nowrap;
+	padding: 0 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+.button{
+	background: #fff;
+    background: -moz-linear-gradient(center top,#fff,#e6e6e6) repeat scroll 0 0 transparent;
+    background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#fff),color-stop(100%,#e6e6e6));
+    background: -webkit-linear-gradient(top,#fff,#e6e6e6);
+    background: -o-linear-gradient(top,#fff,#e6e6e6);
+    background: -ms-linear-gradient(top,#fff,#e6e6e6);
+    background: linear-gradient(top,#fff,#e6e6e6);
+	cursor: pointer;
+}
+
+.button.success{
+	background: #cce255;
+    background: -moz-linear-gradient(center top,#cce255,#a1b900) repeat scroll 0 0 transparent;
+    background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#cce255),color-stop(100%,#a1b900));
+    background: -webkit-linear-gradient(top,#cce255,#a1b900);
+    background: -o-linear-gradient(top,#cce255,#a1b900);
+    background: -ms-linear-gradient(top,#cce255,#a1b900);
+    background: linear-gradient(top,#cce255,#a1b900);
+    border-color: #a1b900;
+	color: #fff;
+}
+
+.selector{
+	display: inline-block;
+	vertical-align: top;
+	width: 26px;
+	height: 26px;
+	border: 1px solid #ccc;
+	position: relative;
+	cursor: pointer;
+}
+
+.selector .icon{
+	background-image: url(images/plus_minus_sprite.png);
+	background-position: 0 -26px;
+	width: 8px;
+	height: 4px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.selector:hover .icon{
+	background-position: 12px -26px;
+}
+
+.options{
+	width: 26px;
+	height: 26px;
+	position: relative;
+	cursor: pointer;
+}
+
+.options .icon{
+	background-image: url(images/plus_minus_sprite.png);
+	background-position: 0 -16px;
+	width: 10px;
+	height: 10px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.options:hover .icon{
+	background-position: 10px -16px;
+}
+
+.options.show{
+	border: 1px solid #ccc;
+    border-bottom: 0;
+    border-radius: 3px 3px 0 0;
+}
+
+.text{
+	outline: none;
+	line-height: 26px;
+}
+
+.absolute{
+	display: block;
+	position: absolute;
+	left: 0;
+	top: 100%;
+	background: #fff;
+	z-index: 10;
+}
+
+span.link{
+	display: inline-block;
+	cursor: pointer;
+	color: #186999;
+}
+
+span.link:hover{
+	color: #f88001;
+}
+
+.store-label{
+	background-color: #e4f1fa;
+    padding: 3px 6px;
+    white-space: nowrap;
+    font-size: 11px;
+	line-height: 14px;
+    border: 1px solid #c2e0f3;
+    color: #186999;
+}
+
+label.checkbox{}
+
+label.checkbox input{
+	display: none;
+}
+
+label.checkbox input + span{
+	display: block;
+	position: relative;
+	padding-left: 20px;
+	height: 16px;
+	font-size: 14px;
+	line-height: 16px;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+}
+
+label.checkbox input:hover + span:before{
+	background: #50565a;
+}
+
+label.checkbox input + span:before{
+	content: "";
+	display: block;
+	width: 12px;
+	height: 12px;
+	border: 1px solid #fff;
+	border-radius: 3px;
+	position: absolute;
+	left: 0;
+	top: 0;
+	-webkit-transition: all 0.2s, background 0.2s ease-in-out;
+	transition: all 0.2s, background 0.2s ease-in-out;
+	background: #f3f3f3;
+}
+
+label.checkbox input:checked + span:before{
+	width: 10px;
+	height: 10px;
+	border-radius: 3px;
+	border: 2px solid #adadad;
+	-webkit-transform: rotate(90deg);
+	transform: rotate(90deg);
+	background: #50565a;
+}
+
+.list{
+	padding: 5px;
+	margin: 0;
+	list-style-type: none;
+}
+
+.list li{}
+
+.table{
+	width: 100%;
+	border-spacing: 0;
+    border-collapse: collapse;
+}
+
+.table th{}
+
+.table td{
+	font-size: 14px;
+	line-height: 14px;
+}
+
+.table.zebra tr:hover td{
+	background: #fffb8c;
+}
+
+.table.zebra tr:last-child td{
+	border-bottom: none;
+}
+
+.table.zebra th{
+	font-size: 14px;
+	line-height: 20px;
+	padding: 5px;
+	border-bottom: 2px solid #186999;
+}
+
+.table.zebra td:first-child{
+	padding: 5px;
+}
+
+.table.zebra td{
+	padding: 5px 5px 5px 0;
+	border-bottom: 1px solid #ddd;
+	line-height: 20px;
+}
+
+.loading {
+	display: inline-block;
+	vertical-align: top;
+	background-image: url('images/loading.gif');
+	background-size: cover;
+	height: 26px;
+	width: 26px;
+}
+
+#myProgress {
+	width: 100%;
+	background-color: rgb(255, 255, 255);
+	border: 1px solid #ddd;
+  }
+  
+  #myBar {
+	width: 0%;
+	height: 20px;
+	background-color: #1f75a8;
+	text-align: center; /* To center it horizontally (if you want) */
+  	line-height: 20px; /* To center it vertically */
+  	color: white;
+	
+  }

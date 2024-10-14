@@ -1,0 +1,7 @@
+.personal-table-menu{width: 100%;}
+.personal-table-menu td{padding: 0 10px 10px 0; }
+.personal-table-menu td:last-child{padding: 0 0 10px 0;}
+.personal-table-menu a.link{display: block; height: 100%; background: #ffe700; background: linear-gradient(to right,#fff168,#ffe700); border-radius: 4px; padding: 20px; color: #000; font-weight: 700; text-decoration: none; text-transform: uppercase;}
+.personal-table-menu a.link img{display: inline-block; vertical-align: middle; width: 50px; height: 50px;}
+.personal-table-menu a.link span{display: inline-block; vertical-align: middle;}
+.personal-table-menu .personal-order{}

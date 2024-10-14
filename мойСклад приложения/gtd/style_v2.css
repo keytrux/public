@@ -1,0 +1,392 @@
+/*меню Оприходования/Приемки/Товары*/
+ul.menu
+{
+	padding: 0;
+	margin: 0 0 20px;
+	display: block;
+	width: 100%;
+}
+
+ul.menu li
+{
+	display: inline-block;
+	vertical-align: top;
+}
+
+ul.menu li span
+{
+	display: block;
+    padding: 5px 10px;
+    border: 1px solid;
+	border-radius: .25rem;
+    border-color: #696969;
+	color: #696969;
+	text-transform: uppercase;
+    font-size: 12px;
+    line-height: 16px;
+	cursor: pointer;
+}
+
+ul.menu li.active span
+{
+	color: #3d5a80;
+	border-color: #3d5a80;
+	background-color: rgba(152, 193, 217, 0.8);
+}
+
+ul.menu li:hover span
+{
+	background: #3d5a80;
+	color: #fff;
+	text-decoration: underline;
+}
+
+span.link
+{
+	display: inline-block;
+	cursor: pointer;
+	color: #186999;
+}
+
+span.link:hover
+{
+	color:  rgb(238, 108, 77);
+}
+
+.period /*контейнер с датами */
+{
+	display: block;
+}
+
+.rows /*два календаря*/
+{
+	margin: 0 0 10px;
+}
+
+.input /*календарь */
+{
+	display: inline-block;
+	vertical-align: top;
+    font-size: 12px;
+	height: 26px;
+    white-space: nowrap;
+	padding: 0 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+.enterStep2, .supplyStep2, .enterStep3, .supplyStep3  /*контейнеры для работы с документами после выбора №*/
+{
+	display: none;
+}
+
+.btn_date, .btn_enter, .btn_date_supply, .btn_search, button, .btn_supply /*кнопка "Выбрать период", "Поиск товара"*/
+{
+	display: inline-block;
+	font-weight: 400;
+	text-align: center;
+	text-decoration: none;
+	vertical-align: middle;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	user-select: none;
+	border: 1px solid transparent;
+	padding: .375rem .75rem;
+	font-size: 0.9rem;
+	border-radius: .25rem;
+	transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+	color: #fff;
+    background-color: rgba(61, 90, 128, 0.75);
+    border-color: #3d5a80;
+}
+
+.btn_date:hover, .btn_enter:hover, .btn_date_supply:hover, .btn_search:hover, button:hover, .btn_supply:hover /*кнопка "Выбрать период", "Поиск товара" при наведении*/
+{
+    background-color: rgba(152, 193, 217, 0.8);
+    border-color: #3d5a80;
+	color: #3d5a80;
+}
+
+
+
+.btn_back /*кнопка "Назад"*/
+{
+	display: inline-block;
+	font-weight: 400;
+	text-align: center;
+	text-decoration: none;
+	vertical-align: middle;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	user-select: none;
+	border: 1px solid transparent;
+	padding: .375rem .75rem;
+	font-size: 0.9rem;
+	border-radius: .25rem;
+	transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+	color: #3d5a80;
+	border-color: #3d5a80;
+    background-color: rgba(152, 193, 217, 0.8);
+	margin-bottom: 10px;
+}
+
+.btn_back:hover /*кнопка "Назад" при наведении*/
+{
+	background: #3d5a80;
+	color: #fff;
+	text-decoration: underline;
+}
+
+input[type="text"], input[type="number"] { /*стиль для текстового поля*/
+	display: block;
+	height: calc(1rem + 1px);
+	padding: 0.3rem 0.3rem;
+	font-family: inherit;
+	font-size: 1rem;
+	font-weight: 400;
+	line-height: 1.5;
+	color: #212529;
+	background-color: #fff;
+	background-clip: padding-box;
+	border: 1px solid #808080;
+	border-radius: 0.25rem;
+	transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+	margin-bottom: 10px;
+}
+
+select { /*стиль выпадающего списка*/
+    display: block;
+    max-width: 215px;
+    width: 100%;
+    position: relative;
+	font-size: 1rem;
+	font-weight: 400;
+  	padding: 2px 5px;
+	color: #212529;
+	background-color: #fff;
+	background-clip: padding-box;
+	border: 1px solid #bdbdbd;
+	border-radius: 0.25rem;
+	transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+h4 /*заголовки "До", "После", "Не найдено", "Оприходование №..", "Приемка №.." и т.д.*/
+{
+	margin: 10px 0 10px 0;
+}
+
+.container-table-enter, .container-table-supply
+{
+	background-color: #e9ecef;
+	padding: 0 10px 10px 10px;
+	border-radius: 20px;
+	margin-top: 15px;
+	/* width: auto; */
+	height: auto;
+	overflow: auto;
+	max-height: 350px;
+	display: inline-block;
+	margin-bottom: 15px;
+}
+
+/* Псевдоэлементы для стилизации полосы прокрутки */
+.container-table-enter::-webkit-scrollbar, .container-table-supply::-webkit-scrollbar 
+{
+	width: 8px; /* Ширина скролл бара */
+}
+  
+.container-table-enter::-webkit-scrollbar-track, .container-table-supply::-webkit-scrollbar-track  {
+	background: #f1f1f1; /* Цвет фона дорожки */
+	border-radius: 10px; /* Округление углов */
+}
+  
+.container-table-enter::-webkit-scrollbar-thumb, .container-table-supply::-webkit-scrollbar-thumb {
+	background: #888; /* Цвет скролл бара */
+	border-radius: 10px; /* Округление углов */
+}
+  
+/* Изменение цвета скролл бара при наведении */
+.container-table-enter::-webkit-scrollbar-thumb:hover, .container-table-supply::-webkit-scrollbar-thumb:hover {
+	background: #555; /* Цвет при наведении */
+}
+
+
+.custom-checkbox {
+	/* position: absolute; */
+	margin: 0;
+	width: 0;
+	z-index: -1;
+	opacity: 0;
+  }
+  
+  .custom-checkbox + label {
+	display: inline-flex;
+	align-items: center;
+	user-select: none;
+	cursor: pointer; /* Добавляем курсор указателя */
+	transition: color 0.3s; /* Плавный переход для цвета текста */
+  }
+  
+  .custom-checkbox + label::before {
+	content: '';
+	display: inline-block;
+	width: 1.2em; /* Увеличиваем размер */
+	height: 1.2em; /* Увеличиваем размер */
+	flex-shrink: 0;
+	flex-grow: 0;
+	border: 2px solid #adb5bd; /* Увеличиваем толщину границы */
+	border-radius: 0.25em;
+	/* margin-right: 0.5em; */
+	/* margin: 0.1em; */
+	background-color: #f0f0f0; /* Фоновый цвет чекбокса */
+	transition: border-color 0.3s, background-color 0.3s; /* Плавный переход границы и фона */
+  }
+  
+  .custom-checkbox:checked + label::before {
+	border-color: #3d5a80; /* Цвет границы при выборе */
+	background-color: rgba(61, 90, 128, 0.75); /* Цвет фона при выборе */
+	background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23fff' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26 2.974 7.25 8 2.193z'/%3e%3c/svg%3e");
+  }
+  
+  /* Добавляем эффект при наведении */
+  .custom-checkbox + label:hover::before {
+	border-color: #3d5a80; /* Изменение цвета границы при наведении */
+	transition: border-color 0.3s;
+  }
+  
+  /* Изменяем цвет текста при выборе */
+  .custom-checkbox:checked + label {
+	color: rgba(61, 90, 128, 0.75); /* Цвет текста при выборе */
+  }
+
+table 
+{ /*стиль для таблицы*/
+	margin: 0 10px 10px 10px;
+	border-collapse: collapse;
+	border: 2px solid rgb(140, 140, 140);
+	font-family: sans-serif;
+	font-size: 0.9rem;
+	letter-spacing: 1px;
+}
+
+thead {
+	position: sticky; /* фиксируем заголовок */
+	top: 0; /* привязываем его к верхней части div */
+	background-color: #343a40; /* фон заголовка */
+	color: #ffffff;
+	z-index: 1; /* чтобы заголовок был поверх других ячеек */
+	border-bottom: 2px solid #ccc; /* нижняя граница для отделения заголовка */
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4); /* тень для улучшения видимости */
+  }
+
+th, td /*ячейки в таблице*/
+{
+	border: 1px solid grey;
+	padding: 7px;
+}
+
+.toggle-button 
+{ /* стиль для кнопки "Показать/скрыть таблицу"*/
+	cursor: pointer;
+	color: #3d5a80;
+	text-decoration: underline;
+	margin: 10px 0 10px 0;
+	display: none;
+}
+
+/* Стили для анимации загрузки */
+.loader 
+{
+	border: 8px solid #f3f3f3; /* Цвет фона */
+	border-top: 8px solid #3498db; /* Цвет верхней части */
+	border-radius: 50%;
+	width: 50px;
+	height: 50px;
+	animation: spin 1s linear infinite;
+	display: none; /* Скрываем загрузчик по умолчанию */
+	margin: auto;
+}
+
+@keyframes spin 
+{ /* стиль для анимации загрузки */
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(360deg); }
+}
+
+.btn_post /*кнопка "Проставить ГТД"*/
+{
+	display: inline-block;
+	font-weight: 400;
+	text-align: center;
+	text-decoration: none;
+	vertical-align: middle;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	user-select: none;
+	border: 1px solid transparent;
+	padding: .375rem .75rem;
+	font-size: 0.9rem;
+	border-radius: .25rem;
+	transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+	color: #fff;
+	background-color: rgb(238, 108, 77);
+    border-color: rgba(238, 108, 77, 0.75);
+    
+}
+
+.btn_post:hover /*кнопка "Проставить ГТД" при наведении*/
+{
+	background-color: rgba(238, 108, 77, 0.75);
+    border-color: rgb(238, 108, 77);
+}
+
+.btn_all /*кнопка "Проставить всем нехватающим"*/
+{
+	display: inline-block;
+	font-weight: 400;
+	text-align: center;
+	text-decoration: none;
+	vertical-align: middle;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	user-select: none;
+	border: 1px solid transparent;
+	padding: .375rem .75rem;
+	font-size: 0.9rem;
+	border-radius: .25rem;
+	transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+	color: #fff;
+	background-color: rgb(8, 138, 19);
+    border-color: rgba(9, 124, 18);
+	margin: 10px 0 10px 0;
+}
+.btn_all:hover /*кнопка "Проставить всем нехватающим" при наведении*/
+{
+	background-color: rgba(8, 138, 19, 0.75);
+    border-color: rgba(9, 124, 18);
+}
+
+.newClass /*кнопка "Проставить всем нехватающим" после нажатия*/
+{
+	display: inline-block;
+	font-weight: 400;
+	text-align: center;
+	text-decoration: none;
+	vertical-align: middle;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	user-select: none;
+	border: 1px solid transparent;
+	padding: .375rem .75rem;
+	font-size: 0.9rem;
+	border-radius: .25rem;
+	transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+	color: #000;
+	margin: 10px 0 10px 0;
+	background-color: rgba(151, 151, 151, 0.562);
+    border-color: rgba(22, 22, 22, 0.384);
+}

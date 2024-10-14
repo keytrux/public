@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivitySecond"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="18dp">
+
+        <TextView
+            android:id="@+id/file"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/writeCode"
+            android:text="TextView"
+            android:textSize="16dp" />
+
+        <Button
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/writeActual_balance"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="10dp"
+            android:onClick="back_entry"
+            android:text="◀"
+            app:cornerRadius="18dp"
+            android:textSize="16dp"/>
+
+        <Button
+            android:id="@+id/btn_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/writeActual_balance"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="10dp"
+            android:onClick="next_entry"
+            android:text="▶"
+            android:textSize="16dp"
+            app:cornerRadius="18dp" />
+
+        <TextView
+            android:id="@+id/textCode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/file"
+            android:layout_marginTop="15dp"
+            android:text="Скан-код: "
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/writeTextCode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/file"
+            android:layout_marginTop="15dp"
+            android:layout_toRightOf="@+id/textCode"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/textName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textCode"
+            android:layout_marginTop="10dp"
+            android:text="Название: "
+            android:textSize="16dp" />
+
+
+        <TextView
+            android:id="@+id/writeName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textCode"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@+id/textName"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/textCell"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textName"
+            android:layout_marginTop="30dp"
+            android:text="Линия: "
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/writeCell"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textName"
+            android:layout_marginTop="30dp"
+            android:layout_toRightOf="@+id/textCode"
+            android:text=""
+            android:textSize="16dp" />
+
+        <EditText
+            android:id="@+id/writeCode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#b1d864"
+            android:hint="Нажать для сканирования скан-кода"
+            android:inputType="number"
+            android:maxLines="1"
+            android:selectAllOnFocus="true"
+            android:textColor="#fff"
+            android:textColorHint="#fff"
+            android:textSize="18dp" />
+
+
+        <TextView
+            android:id="@+id/textEstimated_balance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/writeCell"
+            android:layout_marginTop="10dp"
+            android:text="Кол-во (по накладной/набрано): "
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/textEstimated_balance2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textEstimated_balance"
+            android:layout_marginTop="10dp"
+            android:textSize="18dp" />
+
+        <EditText
+            android:id="@+id/amountEstimated_balance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textEstimated_balance"
+            android:layout_toRightOf="@+id/textEstimated_balance2"
+            android:imeOptions="actionDone"
+            android:inputType="numberDecimal|numberSigned"
+            android:maxLength="10"
+            android:maxLines="1"
+            android:selectAllOnFocus="true"
+            android:textSize="18dp" />
+
+        <TextView
+            android:id="@+id/textActual_balance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/amountEstimated_balance"
+            android:layout_marginTop="10dp"
+            android:text="Введите кол-во в упаковках: "
+            android:textSize="16dp" />
+
+        <EditText
+            android:id="@+id/writeActual_balance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/amountEstimated_balance"
+            android:layout_toRightOf="@+id/textActual_balance"
+            android:inputType="numberDecimal|numberSigned"
+            android:maxLength="8"
+            android:selectAllOnFocus="true"
+            android:textSize="18dp" />
+
+        <TextView
+            android:id="@+id/textError"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textActual_balance"
+
+            android:text=""
+            android:textColor="#ff0000"
+            android:textSize="16dp" />
+
+
+        <Button
+            android:id="@+id/save_text"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btn_next"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:onClick="saveText"
+            android:text="Сохранить"
+            android:textSize="14dp"
+            app:cornerRadius="16dp" />
+
+
+        <Button
+            android:id="@+id/btn_scan"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/save_text"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:onClick="scan"
+            android:text="Камера"
+            android:textSize="14dp"
+            app:cornerRadius="16dp" />
+
+        <Button
+            android:id="@+id/open_text"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btn_scan"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:onClick="openText"
+            android:text="Открыть"
+            android:textSize="14dp"
+            app:cornerRadius="16dp" />
+
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/open_text"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:gravity="start"
+            android:textSize="17dp" />
+
+    </RelativeLayout>
+
+</ScrollView>

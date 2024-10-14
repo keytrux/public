@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".CatalogFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <ImageView
+        android:id="@+id/imageheader"
+        android:layout_width="match_parent"
+        android:layout_height="116dp"
+        android:layout_marginTop="-10dp"
+        app:srcCompat="@drawable/header" />
+
+
+    <ImageView
+        android:id="@+id/imagelamps"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_below="@+id/imageheader"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="50dp"
+        android:src="@drawable/lamps" />
+
+    <ImageView
+        android:id="@+id/imagenetwork_filters"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_below="@+id/imageheader"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="50dp"
+        android:layout_toRightOf="@+id/imagelamps"
+        android:src="@drawable/network_filters" />
+
+    <ImageView
+        android:id="@+id/imagefloor_lamps"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_below="@+id/imagelamps"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="50dp"
+        android:src="@drawable/floor_lamps" />
+
+    <ImageView
+        android:id="@+id/imageemergency_lighting"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_below="@+id/imagelamps"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="50dp"
+        android:layout_toRightOf="@+id/imagefloor_lamps"
+        android:src="@drawable/emergency_lighting" />
+
+
+</RelativeLayout>

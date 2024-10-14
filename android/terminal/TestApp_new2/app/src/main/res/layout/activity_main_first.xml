@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    tools:context=".MainActivityFirst"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <ScrollView
+            android:id="@+id/scrollRadio"
+            android:layout_width="wrap_content"
+            android:layout_height="400dp">
+
+            <RadioGroup
+                android:id="@+id/radioGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="5dp"
+                android:paddingRight="10dp">
+
+            </RadioGroup>
+        </ScrollView>
+
+        <Button
+            android:id="@+id/download"
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/update"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="30dp"
+            android:layout_toRightOf="@+id/scrollRadio"
+            android:text="Загрузить"
+            android:textSize="14dp"
+            app:cornerRadius="16dp" />
+
+        <Button
+            android:id="@+id/upload"
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/download"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@+id/scrollRadio"
+            android:onClick="upload"
+            android:text="Выгрузить"
+            app:cornerRadius="16dp" />
+
+        <TextView
+            android:id="@+id/textFile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/upload"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@+id/scrollRadio"
+            android:text="" />
+
+        <Button
+            android:id="@+id/edit"
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textFile"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@+id/scrollRadio"
+            android:text="Редактировать"
+            app:cornerRadius="16dp"
+            android:textSize="14dp"/>
+
+        <Button
+            android:id="@+id/update"
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/setting"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@+id/scrollRadio"
+            android:onClick="update"
+            android:text="Обновить"
+            android:textSize="15dp"
+            app:cornerRadius="16dp" />
+
+
+        <Button
+            android:id="@+id/setting"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="40dp"
+            android:background="@drawable/setting_icon"
+            android:onClick="setting"
+            />
+
+
+
+    </RelativeLayout>
+</ScrollView>
