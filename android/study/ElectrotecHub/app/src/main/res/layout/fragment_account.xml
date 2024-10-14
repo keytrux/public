@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".AccountFragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+                <ImageView
+                    android:id="@+id/imageheader"
+                    android:layout_width="match_parent"
+                    android:layout_height="116dp"
+                    android:layout_marginTop="-10dp"
+                    app:srcCompat="@drawable/header" />
+
+                <TextView
+                android:id="@+id/textExit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:fontFamily="@font/montserrat"
+                android:text="Выйти"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:textSize="20sp"
+                android:layout_marginTop="40dp"
+                android:layout_marginRight="20dp"
+                android:onClick="exit"/>
+
+                <ImageView
+                    android:id="@+id/imagePerson"
+                    android:layout_width="165dp"
+                    android:layout_height="175dp"
+                    android:layout_below="@id/imageheader"
+                    app:srcCompat="@drawable/personimg" />
+
+            <TextView
+                android:id="@+id/textName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/imageheader"
+                android:layout_toRightOf="@id/imagePerson"
+                android:text="Имя"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/writeName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textName"
+                android:layout_toRightOf="@id/imagePerson"
+                android:text="имя"
+                android:textColor="#04086E"
+                android:textColorHint="#04086E"
+                android:textSize="30sp" />
+
+            <TextView
+                android:id="@+id/textPhone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/writeName"
+                android:layout_toRightOf="@id/imagePerson"
+                android:text="Телефон"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/writeNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textPhone"
+                android:layout_toRightOf="@id/imagePerson"
+                android:text="телефон"
+                android:textColor="#04086E"
+                android:textColorHint="#04086E"
+                android:textSize="30sp" />
+
+    <View
+        android:id="@+id/hr"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/imagePerson"
+        android:background="@android:color/darker_gray" />
+
+</RelativeLayout>

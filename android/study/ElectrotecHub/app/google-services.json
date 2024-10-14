@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "672974681496",
+    "project_id": "dtbs-435ad",
+    "storage_bucket": "dtbs-435ad.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:672974681496:android:f38b50d0b2b3cd23faa7ed",
+        "android_client_info": {
+          "package_name": "com.example.electrotechub"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDF50eZ9UnKW6kdEs2UU61LcnKNzXtvrNw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

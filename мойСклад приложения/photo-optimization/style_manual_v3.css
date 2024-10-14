@@ -1,0 +1,441 @@
+html, body 
+{
+	height: 100%;
+	margin: 0;
+}
+
+p
+{
+	font-size: 1.5rem;
+	color: #293241;
+	font-family: Roboto, Geneva, Arial, Helvetica, sans-serif;
+}
+
+.container-fluid /*шапка страницы*/
+{
+	padding: 30px;
+	background-color: #3d5a80;
+	position: fixed; /* Set the navbar to fixed position */
+	top: 0; /* Position the navbar at the top of the page */
+	width: 100%; /* Full width */
+	overflow: hidden;
+	z-index: 15;
+}
+
+.container-fluid p
+{
+	width: 100%;
+	text-align: center;
+	color: white;
+}
+
+.wrapper /*общий контейнер*/
+{
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+} 
+
+.main_first /*основной контент, ьез футера*/
+{
+	flex: 1;
+}
+
+.main_container /*контейнер начало*/
+{
+    display: grid;
+    grid-template-columns: repeat(1, 100%); /* Создает 2 колонки по 20% */
+    align-items: center;
+    justify-content: center; /* Центрирует весь контейнер сетки */
+    margin-top: 270px;
+    margin-bottom: 30px;
+    gap: 10px;
+	font-family: Roboto, Geneva, Arial, Helvetica, sans-serif;
+}
+
+.main_container div
+{
+    text-align: center;
+}
+
+.block {
+	position: relative; /* Добавляем позиционирование для родительского блока */
+	display: inline-block; /* Позволяет блоку занимать только необходимую ширину */
+  }
+  
+  .block .preview {
+	display: none;
+	position: absolute;
+	top: 50%; /* Центрируем по вертикали */
+	left: 50%; /* Центрируем по горизонтали */
+	transform: translate(-50%, -50%); /* Центрирование */
+	width: auto; /* Делаем ширину авто, можно задать минимальную ширину */
+	min-width: 300px;
+	max-width: 600px; /* Максимальная ширина */
+	padding: 10px 15px;
+	box-sizing: border-box;
+	background: rgba(255, 255, 255, 0.9);
+	border: 1px solid rgba(0, 0, 0, 0.1);
+	border-radius: 8px; /* Закругляем углы */
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Добавляем тень для эффекта поднятия */
+	z-index: 10; /* Установим z-index для всплывающего окна */
+	transition: opacity 0.2s ease, transform 0.2s ease; /* Плавный эффект при появлении */
+	opacity: 0; /* Начальное состояние - скрыто */
+
+	font-size: 1rem;
+	color: #293241;
+	font-family: Roboto, Geneva, Arial, Helvetica, sans-serif;
+  }
+  
+  .block:hover .preview {
+	display: block;
+	opacity: 1; /* Показываем, делаем видимым */
+	transform: translate(-50%, -50%) scale(1.05); /* Немного увеличиваем при наведении */
+	cursor: pointer;
+  }
+
+.main /*подробная инструкция*/
+{
+	margin: 10px;
+}
+  
+.main-enter, .main-supply, .main-product /*Список*/
+{
+	font-family: Roboto, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 1.3rem;
+	cursor: pointer;
+	padding: 10px;
+	border: 1px solid #cccccc;
+	margin-bottom: 5px;
+	background-color: #f0f0f0;
+	transition: background-color 0.3s;
+}
+
+.main-enter:hover, .main-supply:hover, .main-product:hover /*список при наведении*/
+{
+	background-color: #e0e0e0;
+}
+
+/* Стилизация скролл бара */
+.content 
+{
+    max-height: 0; /* Установите нужную вам максимальную высоту */
+    opacity: 0; /* Начальная прозрачность */
+    overflow-y: auto; /* Включаем вертикальную прокрутку */
+    overflow-x: hidden; /* Скрываем горизонтальную прокрутку */
+    transition: max-height 0.5s ease-out, opacity 0.5s ease-out; /* Плавная анимация */
+    border: 1px solid #ddd;
+    border-top: none; /* Убираем верхнюю границу для лучшего визуального эффекта */
+    padding: 0 10px; /* Отступы по бокам */
+}
+
+/* Псевдоэлементы для стилизации полосы прокрутки */
+.content::-webkit-scrollbar, body::-webkit-scrollbar 
+{
+    width: 8px; /* Ширина скролл бара */
+}
+
+.content::-webkit-scrollbar-track, body::-webkit-scrollbar-track  {
+    background: #f1f1f1; /* Цвет фона дорожки */
+    border-radius: 10px; /* Округление углов */
+}
+
+.content::-webkit-scrollbar-thumb, body::-webkit-scrollbar-thumb {
+    background: #888; /* Цвет скролл бара */
+    border-radius: 10px; /* Округление углов */
+}
+
+/* Изменение цвета скролл бара при наведении */
+.content::-webkit-scrollbar-thumb:hover, body::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Цвет при наведении */
+}
+
+.content.show /*при нажатии на элемент списка*/
+{
+    max-height: 500px; /* Убедитесь, что максимальная высота совпадает */
+    opacity: 1; /* Полная яркость */
+    padding: 10px; /* Отступы по бокам */
+}
+
+img
+{
+	border-radius: 3%;
+}
+
+h1
+{
+	width: 100%;
+	text-align: center;
+	font-size: 2.5rem;
+	color: white;
+	font-family: Roboto, Geneva, Arial, Helvetica, sans-serif;
+}
+
+h6
+{
+	font-size: 1.5rem;
+	color: #293241;
+	font-family: Roboto, Geneva, Arial, Helvetica, sans-serif;
+}
+
+.icon
+{
+	margin: 10px;
+}
+
+footer
+{
+	bottom: 0;
+	width: 100%;
+	background-color: #3d5a80;
+}
+
+footer p
+{
+	font-size: 1rem;
+    color: #fff;
+}
+
+.step
+{
+    color: #218838;
+    font-weight: bold;
+	
+}
+
+@media (min-width: 621px) and (max-width: 800px)
+{ 
+	p
+	{
+		font-size: 1.3rem;
+		color: #293241;
+		font-family: Roboto, Geneva, Arial, Helvetica, sans-serif;
+	}
+	h1
+	{
+		width: 100%;
+		text-align: center;
+		font-size: 2rem;
+		color: white;
+		font-family: Roboto, Geneva, Arial, Helvetica, sans-serif;
+	}
+	.wrapper /*общий контейнер*/
+	{
+		display: flex;
+		flex-direction: column;
+		min-height: 100vh;
+	} 
+
+	.main_first /*основной контент, ьез футера*/
+	{
+		flex: 1;
+	}
+	.main_container /*контейнер начало*/
+	{
+		display: grid;
+		grid-template-columns: repeat(2, 45%); /* Создает 2 колонки по 20% */
+		align-items: center;
+		justify-content: center; /* Центрирует весь контейнер сетки */
+		margin-top: 270px;
+		margin-bottom: 30px;
+		gap: 50px;
+		font-family: Roboto, Geneva, Arial, Helvetica, sans-serif;
+	}
+
+	.main-enter, .main-supply, .main-product /*Список*/
+	{
+		font-family: Roboto, Geneva, Arial, Helvetica, sans-serif;
+		font-size: 1rem;
+		cursor: pointer;
+		padding: 10px;
+		border: 1px solid #cccccc;
+		margin-bottom: 5px;
+		background-color: #f0f0f0;
+		transition: background-color 0.3s;
+	}
+
+	.content.show /*при нажатии на элемент списка*/
+	{
+		max-height: 500px; /* Убедитесь, что максимальная высота совпадает */
+		opacity: 1; /* Полная яркость */
+		padding: 10px; /* Отступы по бокам */
+	}
+
+	.content.show img/*при нажатии на элемент списка*/
+	{
+		max-width: 550px;
+	}
+
+	footer
+	{
+		bottom: 0;
+		width: 100%;
+		background-color: #3d5a80;
+	}
+
+	footer p
+	{
+		font-size: 0.7rem;
+		color: #fff;
+	}
+}
+@media (min-width: 421px) and (max-width: 620px)
+{ 
+	p
+	{
+		font-size: 1rem;
+		color: #293241;
+		font-family: Roboto, Geneva, Arial, Helvetica, sans-serif;
+	}
+	h1
+	{
+		width: 100%;
+		text-align: center;
+		font-size: 1.5rem;
+		color: white;
+		font-family: Roboto, Geneva, Arial, Helvetica, sans-serif;
+	}
+	.wrapper /*общий контейнер*/
+	{
+		display: flex;
+		flex-direction: column;
+		min-height: 100vh;
+	} 
+
+	.main_first /*основной контент, ьез футера*/
+	{
+		flex: 1;
+	}
+
+	.main_container /*контейнер начало*/
+	{
+		display: grid;
+		grid-template-columns: repeat(1, 90%); /* Создает 2 колонки по 20% */
+		align-items: center;
+		justify-content: center; /* Центрирует весь контейнер сетки */
+		margin-top: 300px;
+		margin-bottom: 30px;
+		gap: 10px;
+		font-family: Roboto, Geneva, Arial, Helvetica, sans-serif;
+	}
+
+	.main-enter, .main-supply, .main-product /*Список*/
+	{
+		font-family: Roboto, Geneva, Arial, Helvetica, sans-serif;
+		font-size: 0.7rem;
+		cursor: pointer;
+		padding: 10px;
+		border: 1px solid #cccccc;
+		margin-bottom: 5px;
+		background-color: #f0f0f0;
+		transition: background-color 0.3s;
+	}
+
+	.content.show img/*при нажатии на элемент списка*/
+	{
+		max-width: 370px;
+	}
+
+	footer
+	{
+		bottom: 0;
+		width: 100%;
+		background-color: #3d5a80;
+	}
+
+	footer p
+	{
+		font-size: 0.5rem;
+		color: #fff;
+		text-align: center;
+	}
+
+	footer img
+	{
+		width: 15%;
+		display: block;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+}
+@media (min-width: 321px) and (max-width: 420px)
+{
+	p
+	{
+		font-size: 1rem;
+		color: #293241;
+		font-family: Roboto, Geneva, Arial, Helvetica, sans-serif;
+	}
+	h1
+	{
+		width: 100%;
+		text-align: center;
+		font-size: 1.5rem;
+		color: white;
+		font-family: Roboto, Geneva, Arial, Helvetica, sans-serif;
+	}
+	.wrapper /*общий контейнер*/
+	{
+		display: flex;
+		flex-direction: column;
+		min-height: 100vh;
+	} 
+
+	.main_first /*основной контент, ьез футера*/
+	{
+		flex: 1;
+	}
+
+	.main_container /*контейнер начало*/
+	{
+		display: grid;
+		grid-template-columns: repeat(1, 90%); /* Создает 2 колонки по 20% */
+		align-items: center;
+		justify-content: center; /* Центрирует весь контейнер сетки */
+		margin-top: 300px;
+		margin-bottom: 30px;
+		gap: 10px;
+		font-family: Roboto, Geneva, Arial, Helvetica, sans-serif;
+	}
+
+	.main-enter, .main-supply, .main-product /*Список*/
+	{
+		font-family: Roboto, Geneva, Arial, Helvetica, sans-serif;
+		font-size: 0.7rem;
+		cursor: pointer;
+		padding: 10px;
+		border: 1px solid #cccccc;
+		margin-bottom: 5px;
+		background-color: #f0f0f0;
+		transition: background-color 0.3s;
+	}
+
+	.content.show img/*при нажатии на элемент списка*/
+	{
+		max-width: 270px;
+	}
+
+	footer
+	{
+		bottom: 0;
+		width: 100%;
+		background-color: #3d5a80;
+	}
+
+	footer p
+	{
+		font-size: 0.5rem;
+		color: #fff;
+		text-align: center;
+	}
+
+	footer img
+	{
+		width: 15%;
+		display: block;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+}
