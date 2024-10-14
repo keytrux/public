@@ -1,0 +1,11 @@
+C:\Users\Victoria\Desktop\gh\Time\Time\bin\Debug\Time.exe.config
+C:\Users\Victoria\Desktop\gh\Time\Time\bin\Debug\Time.exe
+C:\Users\Victoria\Desktop\gh\Time\Time\bin\Debug\Time.pdb
+C:\Users\Victoria\Desktop\gh\Time\Time\obj\Debug\Time.csproj.AssemblyReference.cache
+C:\Users\Victoria\Desktop\gh\Time\Time\obj\Debug\Time.Form1.resources
+C:\Users\Victoria\Desktop\gh\Time\Time\obj\Debug\Time.Properties.Resources.resources
+C:\Users\Victoria\Desktop\gh\Time\Time\obj\Debug\Time.csproj.GenerateResource.cache
+C:\Users\Victoria\Desktop\gh\Time\Time\obj\Debug\Time.csproj.CoreCompileInputs.cache
+C:\Users\Victoria\Desktop\gh\Time\Time\obj\Debug\Time.exe
+C:\Users\Victoria\Desktop\gh\Time\Time\obj\Debug\Time.pdb
+C:\Users\Victoria\Desktop\gh\Time\Time\obj\Debug\Time.Add.resources
