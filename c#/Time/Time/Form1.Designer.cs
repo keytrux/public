@@ -32,6 +32,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.WorkArea = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.add_btn = new System.Windows.Forms.Button();
             this.log = new System.Windows.Forms.Label();
             this.btn_calculate_timer = new System.Windows.Forms.Button();
             this.btn_del10min = new System.Windows.Forms.Button();
@@ -49,10 +50,13 @@
             this.result_text = new System.Windows.Forms.Label();
             this.btn_calculate = new System.Windows.Forms.Button();
             this.input = new System.Windows.Forms.TextBox();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.select_date = new System.Windows.Forms.DateTimePicker();
+            this.time_day_label = new System.Windows.Forms.Label();
+            this.time_day = new System.Windows.Forms.ListBox();
             this.log_text = new System.Windows.Forms.ListBox();
-            this.add_btn = new System.Windows.Forms.Button();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.WorkArea.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -93,6 +97,19 @@
             this.tabPage1.Size = new System.Drawing.Size(347, 280);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Секундомер";
+            // 
+            // add_btn
+            // 
+            this.add_btn.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.add_btn.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.add_btn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.add_btn.Location = new System.Drawing.Point(256, 221);
+            this.add_btn.Name = "add_btn";
+            this.add_btn.Size = new System.Drawing.Size(75, 36);
+            this.add_btn.TabIndex = 11;
+            this.add_btn.Text = "Добавить";
+            this.add_btn.UseVisualStyleBackColor = false;
+            this.add_btn.Click += new System.EventHandler(this.add_btn_Click);
             // 
             // log
             // 
@@ -270,11 +287,11 @@
             // 
             this.result_text.AutoSize = true;
             this.result_text.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.result_text.Location = new System.Drawing.Point(146, 155);
+            this.result_text.Location = new System.Drawing.Point(140, 150);
             this.result_text.Name = "result_text";
-            this.result_text.Size = new System.Drawing.Size(38, 24);
+            this.result_text.Size = new System.Drawing.Size(49, 24);
             this.result_text.TabIndex = 2;
-            this.result_text.Text = "0.0";
+            this.result_text.Text = "0.00";
             // 
             // btn_calculate
             // 
@@ -297,13 +314,13 @@
             this.input.Size = new System.Drawing.Size(53, 26);
             this.input.TabIndex = 0;
             // 
-            // timer1
-            // 
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
             // tabPage3
             // 
             this.tabPage3.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPage3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tabPage3.Controls.Add(this.select_date);
+            this.tabPage3.Controls.Add(this.time_day_label);
+            this.tabPage3.Controls.Add(this.time_day);
             this.tabPage3.Controls.Add(this.log_text);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
@@ -311,26 +328,51 @@
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Логи";
             // 
+            // select_date
+            // 
+            this.select_date.Location = new System.Drawing.Point(3, 3);
+            this.select_date.Name = "select_date";
+            this.select_date.Size = new System.Drawing.Size(124, 20);
+            this.select_date.TabIndex = 3;
+            this.select_date.ValueChanged += new System.EventHandler(this.select_date_ValueChanged);
+            // 
+            // time_day_label
+            // 
+            this.time_day_label.AutoSize = true;
+            this.time_day_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.time_day_label.Location = new System.Drawing.Point(251, 237);
+            this.time_day_label.Name = "time_day_label";
+            this.time_day_label.Size = new System.Drawing.Size(47, 13);
+            this.time_day_label.TabIndex = 2;
+            this.time_day_label.Text = "За день";
+            // 
+            // time_day
+            // 
+            this.time_day.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.time_day.FormattingEnabled = true;
+            this.time_day.ItemHeight = 16;
+            this.time_day.Location = new System.Drawing.Point(254, 254);
+            this.time_day.Name = "time_day";
+            this.time_day.Size = new System.Drawing.Size(73, 20);
+            this.time_day.TabIndex = 1;
+            // 
             // log_text
             // 
+            this.log_text.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.log_text.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.log_text.FormattingEnabled = true;
-            this.log_text.Location = new System.Drawing.Point(3, 3);
+            this.log_text.HorizontalScrollbar = true;
+            this.log_text.ItemHeight = 16;
+            this.log_text.Location = new System.Drawing.Point(3, 29);
             this.log_text.Name = "log_text";
-            this.log_text.Size = new System.Drawing.Size(337, 95);
+            this.log_text.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.log_text.Size = new System.Drawing.Size(337, 180);
             this.log_text.TabIndex = 0;
+            this.log_text.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.log_text_MouseDoubleClick);
             // 
-            // add_btn
+            // timer1
             // 
-            this.add_btn.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.add_btn.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.add_btn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.add_btn.Location = new System.Drawing.Point(256, 221);
-            this.add_btn.Name = "add_btn";
-            this.add_btn.Size = new System.Drawing.Size(75, 36);
-            this.add_btn.TabIndex = 11;
-            this.add_btn.Text = "Добавить";
-            this.add_btn.UseVisualStyleBackColor = false;
-            this.add_btn.Click += new System.EventHandler(this.add_btn_Click);
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // Form1
             // 
@@ -342,6 +384,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.Text = "Time";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.WorkArea.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
@@ -349,6 +392,7 @@
             this.tabPage2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.hour)).EndInit();
             this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -376,8 +420,12 @@
         private System.Windows.Forms.Button btn_calculate_timer;
         private System.Windows.Forms.Label log;
         private System.Windows.Forms.TabPage tabPage3;
-        private System.Windows.Forms.ListBox log_text;
         private System.Windows.Forms.Button add_btn;
+        private System.Windows.Forms.Label time_day_label;
+        private System.Windows.Forms.ListBox time_day;
+        public System.Windows.Forms.ListBox log_text;
+        private System.Windows.Forms.DateTimePicker select_date;
+        private System.Windows.Forms.Timer timer2;
     }
 }
 
