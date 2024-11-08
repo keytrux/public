@@ -23,9 +23,12 @@ namespace Time
         private void btn_add_Click(object sender, EventArgs e)
         {
             string logEntry = DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss      ") + Class.Time + "h " + comment.Text;
+            
             //mainForm.AddLogEntry(logEntry); // добавляем запись в log_text
             WriteLogToFile(logEntry);
             mainForm.UpdateListBox(logEntry);
+
+            mainForm.UpdateHoursDay(Class.Time);
             this.Hide();
         }
 

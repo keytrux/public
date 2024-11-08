@@ -40,6 +40,46 @@ namespace Time
             {
                 lastCheckedDate = currentDate; // Обновляем сохраненную дату
                 time_day_label.Text = "За день " + lastCheckedDate.Day.ToString() + "." + lastCheckedDate.Month.ToString(); // Обновляем метку
+
+                select_date.Value = DateTime.Now;
+
+                double sum = 0;
+                string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "log.txt");
+
+                // Проверяем, существует ли файл
+                if (File.Exists(filePath))
+                {
+                    // Читаем все строки из файла
+                    string[] lines = File.ReadAllLines(filePath);
+
+                    // Добавляем каждую строку в ListBox
+                    foreach (var line in lines)
+                    {
+                        string date_text = line.Length >= 10 ? line.Substring(0, 10) : line;
+                        string date_now = DateTime.Now.Day.ToString() + "." + DateTime.Now.Month.ToString() + "." + DateTime.Now.Year.ToString();
+                        if (date_text == date_now)
+                        {
+                            if (line.Length >= 29) // Убедитесь, что строка длинная
+                            {
+                                string numberString = line.Substring(25, 4).Trim();  // Удаляем пробелы
+                                if (double.TryParse(numberString, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out double number))
+                                {
+                                    // Успешное преобразование
+                                    sum += number;
+                                    log_text.Items.Add(line); // Предполагается, что у вас есть listBox1 на форме
+                                }
+                            }
+                        }
+
+
+                    }
+                    time_day.Items.Clear();
+                    time_day.Items.Add(sum.ToString("F2")); // Добавляем " h" в конце суммы
+                }
+                else
+                {
+                    MessageBox.Show("Файл log.txt не найден.");
+                }
             }
         }
 
@@ -52,6 +92,24 @@ namespace Time
         {
             // Добавляем новую запись в начало ListBox
             log_text.Items.Insert(0, entry);
+        }
+
+        public void UpdateHoursDay(string entry)
+        {
+            double totalHours = elapsedTime.TotalHours;
+
+            double sum = 0;
+
+            foreach (var item in time_day.Items)
+            {
+                if (double.TryParse(item.ToString(), out double number))
+                {
+                    sum += number; // добавляем к общей сумме
+                }
+            }
+            sum += totalHours;
+            time_day.Items.Clear();
+            time_day.Items.Add(sum.ToString("F2"));
         }
 
         private void btn_calculate_Click(object sender, EventArgs e)
@@ -183,9 +241,8 @@ namespace Time
                 }
             }
             sum += totalHours;
-            time_day.Items.Clear();
-            time_day.Items.Add(sum.ToString("F2")); // Добавляем " h" в конце суммы
-
+            //time_day.Items.Clear();
+            //time_day.Items.Add(sum.ToString("F2"));
             Class.Time = totalHours.ToString("F2").Replace(',', '.');
 
 
@@ -233,7 +290,6 @@ namespace Time
                 // Добавляем каждую строку в ListBox
                 foreach (var line in lines)
                 {
-                    log_text.Items.Add(line); // Предполагается, что у вас есть listBox1 на форме
                     string date_text = line.Length >= 10 ? line.Substring(0, 10) : line;
                     string date_now = DateTime.Now.Day.ToString() + "." + DateTime.Now.Month.ToString() + "." + DateTime.Now.Year.ToString();
                     if (date_text == date_now)
@@ -245,6 +301,7 @@ namespace Time
                             {
                                 // Успешное преобразование
                                 sum += number;
+                                log_text.Items.Add(line); // Предполагается, что у вас есть listBox1 на форме
                             }
                         }
                     }
