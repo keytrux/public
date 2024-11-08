@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Time
 {
@@ -18,9 +19,14 @@ namespace Time
         private bool running;
         private Timer timer;
         private DateTime lastCheckedDate;
+        private ContextMenuStrip contextMenu;
         public Form1()
         {
             InitializeComponent();
+            
+            log_text.MouseDown += log_text_MouseDown;
+
+
             elapsedTime = new TimeSpan();
             timer1.Interval = 1;
             timer1.Tick += timer1_Tick;
@@ -30,6 +36,20 @@ namespace Time
             timer2.Interval = 3600000;
             timer2.Tick += Timer_Tick;
             timer2.Start();
+        }
+        private void log_text_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                
+                int index = log_text.IndexFromPoint(e.Location);
+                if (index != -1)
+                {
+                    log_text.ContextMenuStrip = contextMenuStrip1;
+                    log_text.SelectedIndex = index; // Выделяем строку
+                    contextMenuStrip1.Show(log_text, e.Location); // Показываем контекстное меню
+                }
+            }
         }
         private void Timer_Tick(object sender, EventArgs e)
         {
@@ -274,47 +294,47 @@ namespace Time
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            select_date_ValueChanged(sender, e);
+            //time_day_label.Text = "За день " + DateTime.Now.Day.ToString() + "." + DateTime.Now.Month.ToString();
 
-            time_day_label.Text = "За день " + DateTime.Now.Day.ToString() + "." + DateTime.Now.Month.ToString();
+            //double sum = 0;
 
-            double sum = 0;
+            //string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "log.txt");
 
-            string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "log.txt");
+            //// Проверяем, существует ли файл
+            //if (File.Exists(filePath))
+            //{
+            //    // Читаем все строки из файла
+            //    string[] lines = File.ReadAllLines(filePath);
 
-            // Проверяем, существует ли файл
-            if (File.Exists(filePath))
-            {
-                // Читаем все строки из файла
-                string[] lines = File.ReadAllLines(filePath);
-
-                // Добавляем каждую строку в ListBox
-                foreach (var line in lines)
-                {
-                    string date_text = line.Length >= 10 ? line.Substring(0, 10) : line;
-                    string date_now = DateTime.Now.Day.ToString() + "." + DateTime.Now.Month.ToString() + "." + DateTime.Now.Year.ToString();
-                    if (date_text == date_now)
-                    {
-                        if (line.Length >= 29) // Убедитесь, что строка длинная
-                        {
-                            string numberString = line.Substring(25, 4).Trim();  // Удаляем пробелы
-                            if (double.TryParse(numberString, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out double number))
-                            {
-                                // Успешное преобразование
-                                sum += number;
-                                log_text.Items.Add(line); // Предполагается, что у вас есть listBox1 на форме
-                            }
-                        }
-                    }
+            //    // Добавляем каждую строку в ListBox
+            //    foreach (var line in lines)
+            //    {
+            //        string date_text = line.Length >= 10 ? line.Substring(0, 10) : line;
+            //        string date_now = DateTime.Now.Day.ToString() + "." + DateTime.Now.Month.ToString() + "." + DateTime.Now.Year.ToString();
+            //        if (date_text == date_now)
+            //        {
+            //            if (line.Length >= 29) // Убедитесь, что строка длинная
+            //            {
+            //                string numberString = line.Substring(25, 4).Trim();  // Удаляем пробелы
+            //                if (double.TryParse(numberString, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out double number))
+            //                {
+            //                    // Успешное преобразование
+            //                    sum += number;
+            //                    log_text.Items.Add(line); // Предполагается, что у вас есть listBox1 на форме
+            //                }
+            //            }
+            //        }
 
                     
-                }
-                time_day.Items.Clear();
-                time_day.Items.Add(sum.ToString("F2")); // Добавляем " h" в конце суммы
-            }
-            else
-            {
-                MessageBox.Show("Файл log.txt не найден.");
-            }
+            //    }
+            //    time_day.Items.Clear();
+            //    time_day.Items.Add(sum.ToString("F2")); // Добавляем " h" в конце суммы
+            //}
+            //else
+            //{
+            //    MessageBox.Show("Файл log.txt не найден.");
+            //}
         }
 
         private void select_date_ValueChanged(object sender, EventArgs e)
@@ -355,6 +375,104 @@ namespace Time
                 }
                 time_day.Items.Clear();
                 time_day.Items.Add(sum.ToString("F2")); // Добавляем " h" в конце суммы
+            }
+        }
+
+        private void Menu_delete_Click(object sender, EventArgs e)
+        {
+            if (log_text.SelectedItem != null)
+            {
+                string itemToDelete = log_text.SelectedItem.ToString();
+                DialogResult result = MessageBox.Show("Вы уверены, что хотите удалить лог " + itemToDelete + "?",
+                                           "Удаление",
+                                           MessageBoxButtons.YesNo,
+                                           MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                {
+                    log_text.Items.Remove(log_text.SelectedItem);
+                    DeleteLogEntryFromFile(itemToDelete);
+                    select_date_ValueChanged(sender, e);
+                }
+            }
+        }
+        private void DeleteLogEntryFromFile(string entryToDelete)
+        {
+            string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "log.txt");
+
+            try
+            {
+                // Читаем все строки из файла
+                List<string> allLines = new List<string>();
+                if (File.Exists(filePath))
+                {
+                    allLines = File.ReadAllLines(filePath).ToList();
+                }
+
+                // Удаляем строку (если она существует)
+                allLines.Remove(entryToDelete);
+
+                // Записываем обновленные строки обратно в файл
+                File.WriteAllLines(filePath, allLines);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка при удалении из файла: " + ex.Message);
+            }
+        }
+
+        private void Menu_edit_Click(object sender, EventArgs e)
+        {
+            if (log_text.SelectedIndex != -1)
+            {
+                // Получаем текущий текст выбранной строки
+                string selectedItem = log_text.SelectedItem.ToString();
+
+                // Создаем экземпляр формы EditForm
+                EditForm editForm = new EditForm(selectedItem);
+
+                // Показываем диалог и ждем результата
+                if (editForm.ShowDialog() == DialogResult.OK)
+                {
+                    // Обновляем элемент в ListBox с новым текстом
+                    int selectedIndex = log_text.SelectedIndex;
+                    log_text.Items[selectedIndex] = editForm.EditedText;
+                    UpdateLogFile(selectedIndex, editForm.EditedText);
+                    select_date_ValueChanged(sender, e);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Пожалуйста, выберите строку для редактирования.");
+            }
+        }
+        private void UpdateLogFile(int index, string newText)
+        {
+            string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "log.txt");
+
+            try
+            {
+                // Создаём список для хранения всех строк
+                List<string> allLines = new List<string>();
+
+                // Если файл существует, считываем все строки
+                if (File.Exists(filePath))
+                {
+                    allLines = File.ReadAllLines(filePath).ToList();
+                }
+
+                // Обновляем строку на нужной позиции
+                if (index >= 0 && index < allLines.Count)
+                {
+                    allLines[index] = newText;
+                }
+
+                // Записываем все строки обратно в файл
+                File.WriteAllLines(filePath, allLines);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка при обновлении файла: " + ex.Message);
             }
         }
     }

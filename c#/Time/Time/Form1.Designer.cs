@@ -57,11 +57,15 @@
             this.log_text = new System.Windows.Forms.ListBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.timer2 = new System.Windows.Forms.Timer(this.components);
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.Menu_edit = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_delete = new System.Windows.Forms.ToolStripMenuItem();
             this.WorkArea.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.hour)).BeginInit();
             this.tabPage3.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // WorkArea
@@ -374,6 +378,29 @@
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.Menu_edit,
+            this.Menu_delete});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
+            this.contextMenuStrip1.Size = new System.Drawing.Size(155, 48);
+            // 
+            // Menu_edit
+            // 
+            this.Menu_edit.Name = "Menu_edit";
+            this.Menu_edit.Size = new System.Drawing.Size(154, 22);
+            this.Menu_edit.Text = "Редактировать";
+            this.Menu_edit.Click += new System.EventHandler(this.Menu_edit_Click);
+            // 
+            // Menu_delete
+            // 
+            this.Menu_delete.Name = "Menu_delete";
+            this.Menu_delete.Size = new System.Drawing.Size(154, 22);
+            this.Menu_delete.Text = "Удалить";
+            this.Menu_delete.Click += new System.EventHandler(this.Menu_delete_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -393,6 +420,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.hour)).EndInit();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -426,6 +454,9 @@
         public System.Windows.Forms.ListBox log_text;
         private System.Windows.Forms.DateTimePicker select_date;
         private System.Windows.Forms.Timer timer2;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem Menu_edit;
+        private System.Windows.Forms.ToolStripMenuItem Menu_delete;
     }
 }
 
