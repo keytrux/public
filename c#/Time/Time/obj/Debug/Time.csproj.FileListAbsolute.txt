@@ -9,3 +9,4 @@ C:\Users\Victoria\Desktop\gh\Time\Time\obj\Debug\Time.csproj.CoreCompileInputs.c
 C:\Users\Victoria\Desktop\gh\Time\Time\obj\Debug\Time.exe
 C:\Users\Victoria\Desktop\gh\Time\Time\obj\Debug\Time.pdb
 C:\Users\Victoria\Desktop\gh\Time\Time\obj\Debug\Time.Add.resources
+C:\Users\Victoria\Desktop\gh\Time\Time\obj\Debug\Time.EditForm.resources
