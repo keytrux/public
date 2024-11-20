@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginStart="12dp"
+    android:layout_marginEnd="12dp"
+    android:layout_marginVertical="10dp"
+    android:layout_marginHorizontal="10dp"
+    app:cardElevation="8dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/recCard"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/recImage"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/install"
+            />
+
+        <TextView
+            android:id="@+id/recTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="25dp"
+            android:layout_toEndOf="@+id/recImage"
+            android:text="Title"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/recDesc"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_below="@+id/recTitle"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="1dp"
+            android:layout_toEndOf="@+id/recImage"
+            android:text="Description" />
+
+        <!--        <TextView-->
+<!--            android:layout_width="80dp"-->
+<!--            android:layout_height="30dp"-->
+<!--            android:id="@+id/listTime"-->
+<!--            android:text="time"-->
+<!--            android:layout_toEndOf="@+id/listName"-->
+<!--            android:layout_marginTop="25dp"-->
+<!--            android:layout_marginStart="100dp"/>-->
+
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>
