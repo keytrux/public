@@ -3,20 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\Victoria\\Desktop\\gh\\Time\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{EEECB598-354B-499C-8DA2-EB4FB14CAFD5}|Time\\Time.csproj|c:\\users\\victoria\\desktop\\gh\\time\\time\\editform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{EEECB598-354B-499C-8DA2-EB4FB14CAFD5}|Time\\Time.csproj|solutionrelative:time\\editform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{EEECB598-354B-499C-8DA2-EB4FB14CAFD5}|Time\\Time.csproj|C:\\Users\\Victoria\\Desktop\\gh\\Time\\time\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EEECB598-354B-499C-8DA2-EB4FB14CAFD5}|Time\\Time.csproj|solutionrelative:time\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EEECB598-354B-499C-8DA2-EB4FB14CAFD5}|Time\\Time.csproj|C:\\Users\\Victoria\\Desktop\\gh\\Time\\time\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "AbsoluteMoniker": "D:0:0:{EEECB598-354B-499C-8DA2-EB4FB14CAFD5}|Time\\Time.csproj|c:\\users\\victoria\\desktop\\gh\\time\\time\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{EEECB598-354B-499C-8DA2-EB4FB14CAFD5}|Time\\Time.csproj|solutionrelative:time\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EEECB598-354B-499C-8DA2-EB4FB14CAFD5}|Time\\Time.csproj|c:\\users\\victoria\\desktop\\gh\\time\\time\\editform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{EEECB598-354B-499C-8DA2-EB4FB14CAFD5}|Time\\Time.csproj|C:\\Users\\Victoria\\Desktop\\gh\\Time\\time\\editform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{EEECB598-354B-499C-8DA2-EB4FB14CAFD5}|Time\\Time.csproj|solutionrelative:time\\editform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EEECB598-354B-499C-8DA2-EB4FB14CAFD5}|Time\\Time.csproj|c:\\users\\victoria\\desktop\\gh\\time\\time\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EEECB598-354B-499C-8DA2-EB4FB14CAFD5}|Time\\Time.csproj|solutionrelative:time\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{EEECB598-354B-499C-8DA2-EB4FB14CAFD5}|Time\\Time.csproj|C:\\Users\\Victoria\\Desktop\\gh\\Time\\time\\editform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{EEECB598-354B-499C-8DA2-EB4FB14CAFD5}|Time\\Time.csproj|solutionrelative:time\\editform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
       "AbsoluteMoniker": "D:0:0:{EEECB598-354B-499C-8DA2-EB4FB14CAFD5}|Time\\Time.csproj|C:\\Users\\Victoria\\Desktop\\gh\\Time\\time\\add.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -38,17 +38,17 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 0,
               "Title": "Form1.cs",
               "DocumentMoniker": "C:\\Users\\Victoria\\Desktop\\gh\\Time\\Time\\Form1.cs",
               "RelativeDocumentMoniker": "Time\\Form1.cs",
               "ToolTip": "C:\\Users\\Victoria\\Desktop\\gh\\Time\\Time\\Form1.cs",
               "RelativeToolTip": "Time\\Form1.cs",
-              "ViewState": "AgIAAP4AAAAAAAAAAAAUwFABAAAPAAAAAAAAAA==",
+              "ViewState": "AgIAAOQBAAAAAAAAAAAiwP8BAABcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-09-30T15:17:58.665Z",
               "IsPinned": true,
@@ -64,20 +64,18 @@
               "RelativeToolTip": "Time\\EditForm.cs",
               "ViewState": "AgIAAAkAAAAAAAAAAAAswCEAAAAsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-08T22:25:14.3Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-08T22:25:14.3Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
               "Title": "EditForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "DocumentMoniker": "C:\\Users\\Victoria\\Desktop\\gh\\Time\\Time\\EditForm.cs",
               "RelativeDocumentMoniker": "Time\\EditForm.cs",
               "ToolTip": "C:\\Users\\Victoria\\Desktop\\gh\\Time\\Time\\EditForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "RelativeToolTip": "Time\\EditForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-08T22:25:08.024Z",
-              "EditorCaption": " [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]"
+              "WhenOpened": "2024-11-08T22:25:08.024Z"
             },
             {
               "$type": "Document",
@@ -89,8 +87,7 @@
               "RelativeToolTip": "Time\\Class.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-14T19:18:20.67Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-14T19:18:20.67Z"
             },
             {
               "$type": "Document",
@@ -102,8 +99,7 @@
               "RelativeToolTip": "Time\\Add.cs",
               "ViewState": "AgIAACIAAAAAAAAAAAAswDcAAAA5AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-10T19:48:49.092Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-10T19:48:49.092Z"
             },
             {
               "$type": "Document",
@@ -114,8 +110,7 @@
               "ToolTip": "C:\\Users\\Victoria\\Desktop\\gh\\Time\\Time\\Add.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "RelativeToolTip": "Time\\Add.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-10T19:41:38.973Z",
-              "EditorCaption": " [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]"
+              "WhenOpened": "2024-10-10T19:41:38.973Z"
             },
             {
               "$type": "Document",

@@ -98,7 +98,7 @@ namespace Time
                 }
                 else
                 {
-                    MessageBox.Show("Файл log.txt не найден.");
+                    MessageBox.Show("Файл log.txt не найден.", "Ошибка");
                 }
             }
         }
@@ -288,7 +288,7 @@ namespace Time
             }
             else
             {
-                MessageBox.Show("Пожалуйста, выберите элемент из списка.");
+                MessageBox.Show("Пожалуйста, выберите элемент из списка.", "Ошибка");
             }
         }
 
@@ -417,7 +417,7 @@ namespace Time
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Ошибка при удалении из файла: " + ex.Message);
+                MessageBox.Show("Ошибка при удалении из файла: " + ex.Message, "Ошибка");
             }
         }
 
@@ -443,7 +443,7 @@ namespace Time
             }
             else
             {
-                MessageBox.Show("Пожалуйста, выберите строку для редактирования.");
+                MessageBox.Show("Пожалуйста, выберите строку для редактирования.", "Ошибка");
             }
         }
         private void UpdateLogFile(int index, string newText)
@@ -472,8 +472,50 @@ namespace Time
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Ошибка при обновлении файла: " + ex.Message);
+                MessageBox.Show("Ошибка при обновлении файла: " + ex.Message, "Ошибка");
             }
+        }
+
+        private void btn_standup_Click(object sender, EventArgs e)
+        {
+            string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "log.txt");
+            List<string> filteredLines = new List<string>();
+
+            // Получаем выбранную дату в формате строки
+            string selectedDate = select_date.Value.ToString("dd.MM.yyyy");
+
+            // Если файл существует, считываем все строки
+            if (File.Exists(filePath))
+            {
+                var allLines = File.ReadAllLines(filePath).ToList();
+                filteredLines = allLines
+                    .Where(line => line.StartsWith(selectedDate))
+                    .Select(line =>
+                    {
+                        // Находим индекс начала "h"
+                        var index = line.IndexOf("h");
+                        return index >= 0 ? line.Substring(index + "h".Length).Trim() : string.Empty; // Возвращаем текст после "0.73h"
+                    })
+                    .Where(result => !string.IsNullOrWhiteSpace(result)) // Убираем пустые строки
+                    .ToList();
+            }
+            if (filteredLines.Count > 0)
+            {
+                var linesWithEmpty = new List<string>();
+
+                foreach (var line in filteredLines)
+                {
+                    linesWithEmpty.Add(line);
+                    linesWithEmpty.Add(""); // Добавляем пустую строку после каждой строки
+                }
+
+                MessageBox.Show(string.Join("\n", linesWithEmpty).TrimEnd('\n'), "Стендап");
+            }
+            else
+            {
+                MessageBox.Show("Нет логов за выбранную дату.", "Стендап");
+            }
+
         }
     }
 }
