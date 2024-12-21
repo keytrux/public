@@ -51,7 +51,6 @@
             this.btn_calculate = new System.Windows.Forms.Button();
             this.input = new System.Windows.Forms.TextBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.btn_standup = new System.Windows.Forms.Button();
             this.select_date = new System.Windows.Forms.DateTimePicker();
             this.time_day_label = new System.Windows.Forms.Label();
             this.time_day = new System.Windows.Forms.ListBox();
@@ -323,7 +322,6 @@
             // 
             this.tabPage3.BackColor = System.Drawing.SystemColors.Control;
             this.tabPage3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tabPage3.Controls.Add(this.btn_standup);
             this.tabPage3.Controls.Add(this.select_date);
             this.tabPage3.Controls.Add(this.time_day_label);
             this.tabPage3.Controls.Add(this.time_day);
@@ -333,19 +331,6 @@
             this.tabPage3.Size = new System.Drawing.Size(347, 280);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Логи";
-            // 
-            // btn_standup
-            // 
-            this.btn_standup.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.btn_standup.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btn_standup.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btn_standup.Location = new System.Drawing.Point(5, 236);
-            this.btn_standup.Name = "btn_standup";
-            this.btn_standup.Size = new System.Drawing.Size(99, 36);
-            this.btn_standup.TabIndex = 4;
-            this.btn_standup.Text = "Стэндап";
-            this.btn_standup.UseVisualStyleBackColor = false;
-            this.btn_standup.Click += new System.EventHandler(this.btn_standup_Click);
             // 
             // select_date
             // 
@@ -472,7 +457,6 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem Menu_edit;
         private System.Windows.Forms.ToolStripMenuItem Menu_delete;
-        private System.Windows.Forms.Button btn_standup;
     }
 }
 
