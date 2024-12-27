@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_grades"
+        android:title="Моя зачетка"
+        />
+
+    <item
+        android:id="@+id/nav_personal"
+        android:title="Личный кабинет"
+        />
+</menu>

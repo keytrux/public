@@ -1,1 +1,1 @@
-Мобильная игра на Unity - Flappy bird
+Мобильная игра для Android на Unity - Flappy bird
