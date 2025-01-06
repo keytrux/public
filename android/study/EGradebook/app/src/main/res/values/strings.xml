@@ -3,4 +3,9 @@
 
     <string name="select_group_prompt">Выберите группу</string>
 
+    <string name="select_group">Выберите группу</string>
+    <string name="select_student">Выберите студента</string>
+    <string name="select_course">Выберите курс</string>
+    <string name="select_semester">Выберите семестр</string>
+
 </resources>

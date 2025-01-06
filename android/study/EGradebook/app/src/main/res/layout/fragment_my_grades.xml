@@ -1,24 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:padding="16dp">
 
-    <TextView
-        android:id="@+id/textView_title"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Моя зачетка"
-        android:textSize="24sp"
-        android:textStyle="bold"/>
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/button_example"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Пример кнопки"/>
+        <!-- Заголовок -->
+        <TextView
+            android:id="@+id/textView_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="Моя зачетка"
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
-    <!-- Добавьте другие элементы интерфейса необходимые для вашего фрагмента -->
+        <!-- Спиннер для выбора курса -->
+        <Spinner
+            android:id="@+id/spinner_course"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"/>
 
-</LinearLayout>
+        <!-- Спиннер для выбора семестра -->
+        <Spinner
+            android:id="@+id/spinner_semester"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"/>
+
+        <!-- Кнопка "Показать оценки" -->
+        <Button
+            android:id="@+id/button_load_grades"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Показать оценки"
+            android:layout_marginBottom="10dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="20dp">
+
+            <!-- Кнопка "Практики" -->
+            <Button
+                android:id="@+id/button_practices"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Практики"/>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+
+            <!-- Кнопка "Курсовые работы" -->
+            <Button
+                android:id="@+id/button_coursework"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Курсовые работы"/>
+        </LinearLayout>
+
+        <!-- Заголовок Экзамены-->
+        <TextView
+            android:id="@+id/exam_text_student"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:layout_marginBottom="10dp"
+            android:textSize="16sp"
+            android:textStyle="bold"/>
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+
+            <TableLayout
+                android:id="@+id/table_exam"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:stretchColumns="1"
+                android:layout_marginBottom="20dp"/>
+        </HorizontalScrollView>
+
+        <!-- Заголовок Зачеты-->
+        <TextView
+            android:id="@+id/credit_text_student"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:layout_marginBottom="10dp"
+            android:textSize="16sp"
+            android:textStyle="bold"/>
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+
+            <TableLayout
+                android:id="@+id/table_credit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:stretchColumns="1"
+                android:layout_marginBottom="20dp"/>
+        </HorizontalScrollView>
+    </LinearLayout>
+</ScrollView>
