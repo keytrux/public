@@ -1,0 +1,68 @@
+{
+	"info": {
+		"_postman_id": "4423a989-a052-4c4a-9351-52368d23b700",
+		"name": "TDM",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "30523241"
+	},
+	"item": [
+		{
+			"name": "Тест",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "XXX"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "token",
+							"value": "XXX",
+							"type": "text"
+						},
+						{
+							"key": "articul",
+							"value": "SQ0736-0022",
+							"type": "text"
+						}
+					]
+				},
+				"url": "https://api3.tdme.ru/price77/nomenclatureParametersExpect"
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": {
+			"token": "XXX"
+		}
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

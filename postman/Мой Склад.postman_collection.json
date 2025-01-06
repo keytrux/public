@@ -1,0 +1,565 @@
+{
+	"info": {
+		"_postman_id": "c42c5397-3694-4202-bcf1-2250df35554d",
+		"name": "Мой Склад",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "30523241"
+	},
+	"item": [
+		{
+			"name": "ТСЗ",
+			"item": [
+				{
+					"name": "Склад",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": {
+								"password": "XXX",
+								"username": "XXX"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "https://api.moysklad.ru/api/remap/1.2/entity/store/"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Токен",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": {
+						"password": "XXX",
+						"username": "XXX"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"url": "https://online.moysklad.ru/api/remap/1.2/security/token"
+			},
+			"response": []
+		},
+		{
+			"name": "Товар",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Verify status code is 200\", function ()\r",
+							"{\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"if (pm.response.code != 200)"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": {
+						"password": "XXX",
+						"username": "XXX"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.moysklad.ru/api/remap/1.2/entity/product?expand=owner&limit=1",
+					"protocol": "https",
+					"host": [
+						"api",
+						"moysklad",
+						"ru"
+					],
+					"path": [
+						"api",
+						"remap",
+						"1.2",
+						"entity",
+						"product"
+					],
+					"query": [
+						{
+							"key": "expand",
+							"value": "images",
+							"disabled": true
+						},
+						{
+							"key": "expand",
+							"value": "owner"
+						},
+						{
+							"key": "limit",
+							"value": "1"
+						},
+						{
+							"key": "filter",
+							"value": "article = SQ0736-0022",
+							"disabled": true
+						},
+						{
+							"key": "offset",
+							"value": "17000",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Аудит",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": {
+						"password": "XXX",
+						"username": "XXX"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.moysklad.ru/api/remap/1.2/audit?filter=moment>=2024-01-17 00:00:01;moment<=2024-01-17 23:00:01",
+					"protocol": "https",
+					"host": [
+						"api",
+						"moysklad",
+						"ru"
+					],
+					"path": [
+						"api",
+						"remap",
+						"1.2",
+						"audit"
+					],
+					"query": [
+						{
+							"key": "filter",
+							"value": "moment>=2024-01-17 00:00:01;moment<=2024-01-17 23:00:01"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Отчет прибыльности",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": {
+						"password": "XXX",
+						"username": "XXX"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.moysklad.ru/api/remap/1.2/report/profit/byproduct?momentFrom=2024-02-01 00:00:00&momentTo=2024-02-29 23:59:59&filter=productFolder=https://api.moysklad.ru/api/remap/1.2/entity/productfolder/fdffa313-8424-11ec-0a80-0e2300088422",
+					"protocol": "https",
+					"host": [
+						"api",
+						"moysklad",
+						"ru"
+					],
+					"path": [
+						"api",
+						"remap",
+						"1.2",
+						"report",
+						"profit",
+						"byproduct"
+					],
+					"query": [
+						{
+							"key": "momentFrom",
+							"value": "2024-02-01 00:00:00"
+						},
+						{
+							"key": "momentTo",
+							"value": "2024-02-29 23:59:59"
+						},
+						{
+							"key": "offset",
+							"value": "2000",
+							"disabled": true
+						},
+						{
+							"key": "filter",
+							"value": "productFolder=https://api.moysklad.ru/api/remap/1.2/entity/productfolder/fdffa313-8424-11ec-0a80-0e2300088422"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "audit",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.moysklad.ru/api/remap/1.2/audit?filter=entityType=product;moment >= 2024-04-03 07:00:00;moment<=2024-04-03 08:00:00",
+					"protocol": "https",
+					"host": [
+						"api",
+						"moysklad",
+						"ru"
+					],
+					"path": [
+						"api",
+						"remap",
+						"1.2",
+						"audit"
+					],
+					"query": [
+						{
+							"key": "filter",
+							"value": "entityType=product;moment >= 2024-04-03 07:00:00;moment<=2024-04-03 08:00:00"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "jazzway",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": {
+						"password": "XXX",
+						"username": "XXX"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.moysklad.ru/api/remap/1.2/entity/product",
+					"protocol": "https",
+					"host": [
+						"api",
+						"moysklad",
+						"ru"
+					],
+					"path": [
+						"api",
+						"remap",
+						"1.2",
+						"entity",
+						"product"
+					],
+					"query": [
+						{
+							"key": "offset",
+							"value": "3000",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "counterparty",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": {
+						"password": "XXX",
+						"username": "XXX"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.moysklad.ru/api/remap/1.2/entity/counterparty?offset=3000",
+					"protocol": "https",
+					"host": [
+						"api",
+						"moysklad",
+						"ru"
+					],
+					"path": [
+						"api",
+						"remap",
+						"1.2",
+						"entity",
+						"counterparty"
+					],
+					"query": [
+						{
+							"key": "offset",
+							"value": "3000"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "organization",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": {
+						"password": "XXX",
+						"username": "XXX"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": "https://api.moysklad.ru/api/remap/1.2/entity/organization"
+			},
+			"response": []
+		},
+		{
+			"name": "enter (Оприходования)",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": {
+						"password": "XXX",
+						"username": "XXX"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.moysklad.ru/api/remap/1.2/entity/enter?filter=moment>= 2024-06-18 09:10:00; moment <= 2024-06-18 10:10:00&expand=position",
+					"protocol": "https",
+					"host": [
+						"api",
+						"moysklad",
+						"ru"
+					],
+					"path": [
+						"api",
+						"remap",
+						"1.2",
+						"entity",
+						"enter"
+					],
+					"query": [
+						{
+							"key": "filter",
+							"value": "moment>= 2024-06-18 09:10:00; moment <= 2024-06-18 10:10:00"
+						},
+						{
+							"key": "search",
+							"value": "00645",
+							"disabled": true
+						},
+						{
+							"key": "expand",
+							"value": "position"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "retail demand",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": {
+						"password": "XXX",
+						"username": "XXX"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.moysklad.ru/api/remap/1.2/entity/retaildemand",
+					"protocol": "https",
+					"host": [
+						"api",
+						"moysklad",
+						"ru"
+					],
+					"path": [
+						"api",
+						"remap",
+						"1.2",
+						"entity",
+						"retaildemand"
+					],
+					"query": [
+						{
+							"key": "filter",
+							"value": "group=https://api.moysklad.ru/api/remap/1.2/entity/group/9e9f1b44-4aef-11ed-0a80-0d51000f2fa6",
+							"disabled": true
+						},
+						{
+							"key": "filter",
+							"value": "store=https://api.moysklad.ru/api/remap/1.2/entity/store/03b55215-4aef-11ed-0a80-0b3d000f37ab; moment>=2024-06-17 00:00:00",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "enter position with gtd and country",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": {
+						"password": "XXX",
+						"username": "XXX"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.moysklad.ru/api/remap/1.2/entity/enter?expand=positions.assortment.country",
+					"protocol": "https",
+					"host": [
+						"api",
+						"moysklad",
+						"ru"
+					],
+					"path": [
+						"api",
+						"remap",
+						"1.2",
+						"entity",
+						"enter"
+					],
+					"query": [
+						{
+							"key": "expand",
+							"value": "positions.assortment.country"
+						},
+						{
+							"key": "search",
+							"value": "b79331d9-8431-11ec-0a80-0e2300149241",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "enter empty",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": {
+						"password": "XXX",
+						"username": "XXX"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": "https://api.moysklad.ru/api/remap/1.2/entity/enter/2c1496d9-2d3c-11ef-0a80-0f4200343834/positions"
+			},
+			"response": []
+		},
+		{
+			"name": "New Request",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "supply (Приемка)",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": {
+						"password": "XXX",
+						"username": "XXX"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.moysklad.ru/api/remap/1.2/entity/supply?limit=10&expand=positions",
+					"protocol": "https",
+					"host": [
+						"api",
+						"moysklad",
+						"ru"
+					],
+					"path": [
+						"api",
+						"remap",
+						"1.2",
+						"entity",
+						"supply"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "10"
+						},
+						{
+							"key": "expand",
+							"value": "positions"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New Request",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "audit",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": {
+			"password": "XXX",
+			"username": "XXX"
+		}
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
