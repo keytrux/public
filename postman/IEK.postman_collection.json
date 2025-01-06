@@ -1,0 +1,48 @@
+{
+	"info": {
+		"_postman_id": "3ca4d941-b53f-4059-9659-77ce7d554583",
+		"name": "IEK",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "30523241"
+	},
+	"item": [
+		{
+			"name": "Товары",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": {
+						"password": "XXX",
+						"username": "XXX"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://lk.iek.ru/api/products?art=&entity=roc,rrc,LogisticParameters",
+					"protocol": "https",
+					"host": [
+						"lk",
+						"iek",
+						"ru"
+					],
+					"path": [
+						"api",
+						"products"
+					],
+					"query": [
+						{
+							"key": "art",
+							"value": ""
+						},
+						{
+							"key": "entity",
+							"value": "roc,rrc,LogisticParameters"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

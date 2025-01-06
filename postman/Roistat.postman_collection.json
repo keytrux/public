@@ -1,0 +1,142 @@
+{
+	"info": {
+		"_postman_id": "eb1a7556-3021-4791-9791-594f1abd382d",
+		"name": "Roistat",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "30523241"
+	},
+	"item": [
+		{
+			"name": "Binotel",
+			"item": [
+				{
+					"name": "test",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "callDetails[callType]",
+									"value": "inbound",
+									"type": "text"
+								},
+								{
+									"key": "callDetails[callID]",
+									"value": "12345",
+									"type": "text"
+								},
+								{
+									"key": "callDetails[pbxNumberData][number]",
+									"value": "77009220500",
+									"type": "text"
+								},
+								{
+									"key": "callDetails[externalNumber]",
+									"value": "77773009987",
+									"type": "text"
+								},
+								{
+									"key": "callDetails[startTime]",
+									"value": "1727970600",
+									"type": "text"
+								},
+								{
+									"key": "callDetails[waitsec]",
+									"value": "10",
+									"type": "text"
+								},
+								{
+									"key": "callDetails[billsec]",
+									"value": "50",
+									"type": "text"
+								},
+								{
+									"key": "callDetails[getCallData][utm_source]",
+									"value": "roistat_123",
+									"type": "text"
+								},
+								{
+									"key": "callDetails[disposition]",
+									"value": "ANSWER",
+									"type": "text"
+								},
+								{
+									"key": "",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": "https://XXX.com:XXXX/binotel_end.php"
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "test amoCRM",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Test cupol365",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "test_krugosvetka66",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "r_cl_id",
+							"value": "13653",
+							"type": "text"
+						},
+						{
+							"key": "extended_fields[140495]",
+							"value": "krugosvetka66.ru",
+							"type": "text"
+						}
+					]
+				},
+				"url": "https://api.u-on.ru/XXX/lead/create.json"
+			},
+			"response": []
+		},
+		{
+			"name": "test elki",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}
