@@ -6,20 +6,19 @@
 
     <!-- Область для отображения фрагментов -->
     <fragment
-        android:id="@+id/nav_host_fragment"
+        android:id="@+id/nav_host_fragment_teacher"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:navGraph="@navigation/nav_graph"
+        app:navGraph="@navigation/nav_graph_teacher"
         app:defaultNavHost="true"/>
 
     <!-- Нижнее меню -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNavigationView"
+        android:id="@+id/bottomNavigationViewTeacher"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:padding="0dp"
-        app:menu="@menu/bottom_menu" />
+        app:menu="@menu/bottom_menu_teacher" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

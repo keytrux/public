@@ -2,6 +2,7 @@ package com.example.egradebook;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -10,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -24,14 +24,13 @@ import java.util.ArrayList;
 
 public class LoginStudent extends AppCompatActivity {
 
-    private boolean isLoginMode = true; // Режим по умолчанию - Авторизация
+    boolean isLoginMode = true; // Режим по умолчанию - Авторизация
 
-    private DatabaseHelper dbHelper;
-
-    private EditText etPhone, etPassword, etConfirmPassword, etName, etEmail;
-    private Button btnSwitchMode, btnSubmit;
-    private LinearLayout layoutExtraFields;
-    private Spinner groupSpinner;
+    DatabaseHelper dbHelper;
+    EditText etPhone, etPassword, etConfirmPassword, etName, etEmail;
+    Button btnSwitchMode, btnSubmit;
+    LinearLayout layoutExtraFields;
+    Spinner groupSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +62,6 @@ public class LoginStudent extends AppCompatActivity {
                     if (position == 0) {
                         return; // Если выбран "Выберите группу", ничего не делаем
                     }
-                    // Ваш код обработки выбора группы
                 }
 
                 @Override
@@ -73,7 +71,7 @@ public class LoginStudent extends AppCompatActivity {
             });
         }
 
-        // Инициализируем UI элементы
+        // Получаем элементы с активности
         etPhone = findViewById(R.id.etPhone);
         etPassword = findViewById(R.id.etPassword);
         etConfirmPassword = findViewById(R.id.etConfirmPassword);
@@ -83,12 +81,12 @@ public class LoginStudent extends AppCompatActivity {
         btnSubmit = findViewById(R.id.btnSubmit);
         layoutExtraFields = findViewById(R.id.layoutExtraFields);
 
-        etPhone.addTextChangedListener(new TextWatcher() {
+        etPhone.addTextChangedListener(new TextWatcher() // маска для номера телефона
+        {
             private boolean isUpdating;
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                // Метод перед изменением текста
             }
 
             @Override
@@ -127,7 +125,6 @@ public class LoginStudent extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                // Метод после изменения текста
             }
         });
 
@@ -139,14 +136,17 @@ public class LoginStudent extends AppCompatActivity {
             }
         });
 
-        btnSubmit.setOnClickListener(new View.OnClickListener() {
+        btnSubmit.setOnClickListener(new View.OnClickListener() // листенер на кнопку входа
+        {
             @Override
             public void onClick(View v) {
                 if (isLoginMode) {
                     // Логика авторизации
                     loginUser();
-                    if (loginUser() == true)
+                    Integer id_user = loginUser();
+                    if (id_user != 0)
                     {
+                        // открытие активности для студента
                         Intent intent = new Intent(LoginStudent.this, StudentPersonalAccount.class);
                         startActivity(intent);
                     }
@@ -165,64 +165,71 @@ public class LoginStudent extends AppCompatActivity {
     // Метод для выполнения SELECT-запроса к group_list
     private ArrayList<String> getSpinnerData() {
         ArrayList<String> spinnerData = new ArrayList<>();
-        String selectQuery = "SELECT name_group FROM group_list";
+        String selectQuery = "SELECT name_group FROM group_list"; // получение названия групп
 
         Cursor cursor = null;
         try {
             SQLiteDatabase db = dbHelper.getWritableDatabase();
             cursor = db.rawQuery(selectQuery, null);
 
-            // Берем значения из первого столбца (name_group)
             if (cursor.moveToFirst()) {
-                do {
+                do
+                {
                     spinnerData.add(cursor.getString(0)); // 0 - это index столбца name_group
-                } while (cursor.moveToNext());
+                }
+                while (cursor.moveToNext());
             }
         } catch (Exception e) {
             e.printStackTrace(); // Логируем ошибку, если что-то пошло не так
         } finally {
-            if (cursor != null) cursor.close(); // Закрываем курсор!
+            if (cursor != null) cursor.close(); // Закрываем курсор
         }
 
         return spinnerData;
     }
 
-
+    // метод для переключения режимов (авторизация/регистрация)
     private void toggleMode() {
         isLoginMode = !isLoginMode; // Переключаем режим
         updateUI();
     }
 
+    // метод для обновления элементов в зависимости от режимов
     private void updateUI() {
-        if (isLoginMode) {
-            // Режим авторизации: скрываем лишние поля
+        if (isLoginMode) // Режим авторизации: скрываем лишние поля
+        {
             layoutExtraFields.setVisibility(View.GONE);
             btnSubmit.setText("Войти");
             btnSwitchMode.setText("Перейти к регистрации");
-        } else {
-            // Режим регистрации: показываем дополнительные поля
+        }
+        else // Режим регистрации: показываем дополнительные поля
+        {
             layoutExtraFields.setVisibility(View.VISIBLE);
             btnSubmit.setText("Зарегистрироваться");
             btnSwitchMode.setText("Перейти к авторизации");
         }
     }
-    private boolean loginUser()
+
+    // метод авторизации
+    @SuppressLint("Range")
+    private Integer loginUser()
     {
         String phone = etPhone.getText().toString();
         String password = etPassword.getText().toString();
+        int id_user = 0;
 
         if (phone.isEmpty() || password.isEmpty()) {
-            Log.d("LOGIN_ERROR", "Телефон или пароль пустые!");
             Toast.makeText(this, "Вы ввели не все данные!", Toast.LENGTH_SHORT).show();
-            return false;
+            return null;
         }
 
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         boolean userFound = false;
-        String selectQuery = "SELECT * FROM users WHERE phone = ? AND password = ?";
-        Cursor cursor = db.rawQuery(selectQuery, new String[]{phone, password});
-        if (cursor.moveToFirst()) {  // Проверяет, есть ли результаты
+        String selectQuery = "SELECT * FROM users WHERE phone = ? AND password = ? AND role = ?"; // запрос на поиск пользователя
+        Cursor cursor = db.rawQuery(selectQuery, new String[]{phone, password, "студент"});
+        if (cursor.moveToFirst()) {  // Проверяем, есть ли результаты
             userFound = true; // Пользователь найден
+            id_user = cursor.getInt(cursor.getColumnIndex("id_user"));
             Toast.makeText(this, "Вы успешно авторизованы!", Toast.LENGTH_SHORT).show();
         }
         else
@@ -231,14 +238,27 @@ public class LoginStudent extends AppCompatActivity {
             userFound = false;
         }
 
+        if (userFound) {
+            saveUserPreferences(phone, id_user);
+        }
+
         // Закрываем курсор и базу данных
         cursor.close();
         db.close();
 
-        Log.d("LOGIN_STATUS", userFound ? "Пользователь найден!" : "Пользователь не найден!");
-
-        return userFound; // Возвращаем результат
+        return id_user; // Возвращаем результат
     }
+
+    // метод для сохранения данных студента
+    private void saveUserPreferences(String phone, Integer id_user) {
+        SharedPreferences sharedPreferences = getSharedPreferences("StudentPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("phone", phone);
+        editor.putInt("id_user", id_user);
+        editor.apply(); // Сохраняем данные
+    }
+
+    // метод регистрации
     @SuppressLint("Range")
     private void registerUser()
     {
@@ -293,21 +313,27 @@ public class LoginStudent extends AppCompatActivity {
             return;
         }
 
-
         SQLiteDatabase db = dbHelper.getWritableDatabase(); // Открываем базу данных
+
+        // проверка используется ли телефон
+        Cursor cursorUser = db.rawQuery("SELECT * FROM users WHERE phone = ?", new String[]{phone});
+        if (cursorUser.moveToFirst()) {
+            Toast.makeText(this, "Этот номер телефона уже используется", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         // добавление пользователя
         String insertQuery = "INSERT INTO users (phone, password, email, role) VALUES (?, ?, ?, ?)";
         db.execSQL(insertQuery, new Object[]{phone, password, email, "студент"});
 
-        // поиск названия id группы по выбранному селектору
+        // поиск названия id группы по выбранной группе
         Cursor cursor = db.rawQuery("SELECT id_group FROM group_list WHERE name_group = ?", new String[]{selectedGroup});
         if (cursor.moveToFirst()) {
             groupId = cursor.getInt(0); // Получаем ID группы
         }
         cursor.close();
 
-        // Получаем id вставленного пользователя
+        // Получаем id_user
         Cursor userCursor = db.rawQuery("SELECT last_insert_rowid() AS id_user", null);
         if (userCursor.moveToFirst()) {
             userId = userCursor.getInt(userCursor.getColumnIndex("id_user"));
@@ -326,5 +352,4 @@ public class LoginStudent extends AppCompatActivity {
 
         db.close(); // Закрываем базу данных
     }
-
 }

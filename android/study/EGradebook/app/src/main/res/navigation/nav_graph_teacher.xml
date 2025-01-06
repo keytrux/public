@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph_teacher"
+    app:startDestination="@id/nav_personal_teacher">
+
+    <!-- Моя зачетка -->
+    <fragment
+        android:id="@+id/nav_grades_teacher"
+        android:name="com.example.egradebook.GradesFragment"
+        android:label="Зачетки" />
+
+    <!-- Личный кабинет -->
+    <fragment
+        android:id="@+id/nav_personal_teacher"
+        android:name="com.example.egradebook.PersonalCabinetFragmentTeacher"
+
+        android:label="Личный кабинет" />
+</navigation>

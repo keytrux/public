@@ -34,6 +34,18 @@
             android:name=".StudentPersonalAccount"
             android:exported="false"
             android:windowSoftInputMode="stateHidden"/>
+        <activity
+            android:name=".Practices"
+            android:exported="false"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity
+            android:name=".Coursework"
+            android:exported="false"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity
+            android:name=".TeacherPersonalAccount"
+            android:exported="false"
+            android:windowSoftInputMode="stateHidden"/>
 
     </application>
 

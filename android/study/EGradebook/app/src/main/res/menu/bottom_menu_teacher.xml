@@ -1,9 +1,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/nav_grades"
-        android:title="Моя зачетка" />
+        android:id="@+id/nav_grades_teacher"
+        android:title="Зачетки" />
 
     <item
-        android:id="@+id/nav_personal"
+        android:id="@+id/nav_personal_teacher"
         android:title="Личный кабинет" />
 </menu>

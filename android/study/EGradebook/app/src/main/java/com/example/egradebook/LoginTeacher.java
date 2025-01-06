@@ -1,6 +1,8 @@
 package com.example.egradebook;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -33,7 +35,7 @@ public class LoginTeacher extends AppCompatActivity {
 
         dbHelper = new DatabaseHelper(this);
 
-        // Инициализируем UI элементы
+        // Получаем элементы активности
         etPhone = findViewById(R.id.etPhone);
         etPassword = findViewById(R.id.etPassword);
         etConfirmPassword = findViewById(R.id.etConfirmPassword);
@@ -43,12 +45,12 @@ public class LoginTeacher extends AppCompatActivity {
         btnSubmit = findViewById(R.id.btnSubmit);
         layoutExtraFields = findViewById(R.id.layoutExtraFields);
 
+        // маска для номера телефона
         etPhone.addTextChangedListener(new TextWatcher() {
             private boolean isUpdating;
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                // Метод перед изменением текста
             }
 
             @Override
@@ -87,7 +89,6 @@ public class LoginTeacher extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                // Метод после изменения текста
             }
         });
 
@@ -99,12 +100,20 @@ public class LoginTeacher extends AppCompatActivity {
             }
         });
 
+        // листенер для кнопки входа
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (isLoginMode) {
                     // Логика авторизации
                     loginUser();
+                    Integer id_user = loginUser();
+                    if (id_user != 0)
+                    {
+                        // открываем активность преподавателя
+                        Intent intent = new Intent(LoginTeacher.this, TeacherPersonalAccount.class);
+                        startActivity(intent);
+                    }
                 }
                 else {
                     // Логика регистрации
@@ -117,11 +126,13 @@ public class LoginTeacher extends AppCompatActivity {
         updateUI();
     }
 
+    // метод для переключения режима (авторизация/регистрация)
     private void toggleMode() {
         isLoginMode = !isLoginMode; // Переключаем режим
         updateUI();
     }
 
+    // метод для обновления элементов в зависимости от режимов
     private void updateUI() {
         if (isLoginMode) {
             // Режим авторизации: скрываем лишние поля
@@ -136,23 +147,27 @@ public class LoginTeacher extends AppCompatActivity {
         }
     }
 
-    private boolean loginUser()
+    // метод авторизации
+    @SuppressLint("Range")
+    private Integer loginUser()
     {
         String phone = etPhone.getText().toString();
         String password = etPassword.getText().toString();
+        int id_user = 0;
 
         if (phone.isEmpty() || password.isEmpty()) {
-            Log.d("LOGIN_ERROR", "Телефон или пароль пустые!");
             Toast.makeText(this, "Вы ввели не все данные!", Toast.LENGTH_SHORT).show();
-            return false;
+            return null;
         }
 
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         boolean userFound = false;
-        String selectQuery = "SELECT * FROM users WHERE phone = ? AND password = ?";
-        Cursor cursor = db.rawQuery(selectQuery, new String[]{phone, password});
+        String selectQuery = "SELECT * FROM users WHERE phone = ? AND password = ? AND role = ?";
+        Cursor cursor = db.rawQuery(selectQuery, new String[]{phone, password, "преподаватель"});
         if (cursor.moveToFirst()) {  // Проверяет, есть ли результаты
             userFound = true; // Пользователь найден
+            id_user = cursor.getInt(cursor.getColumnIndex("id_user"));
+            Toast.makeText(this, "Вы успешно авторизованы!", Toast.LENGTH_SHORT).show();
         }
         else
         {
@@ -160,17 +175,18 @@ public class LoginTeacher extends AppCompatActivity {
             userFound = false;
         }
 
+        if (userFound) {
+            saveUserPreferences(phone, id_user);
+        }
+
         // Закрываем курсор и базу данных
         cursor.close();
         db.close();
-        Log.d("SQLite","Запись найдена");
 
-        Log.d("LOGIN_STATUS", userFound ? "Пользователь найден!" : "Пользователь не найден!");
-        Toast.makeText(this, "Вы успешно авторизованы!", Toast.LENGTH_SHORT).show();
-        return userFound; // Возвращаем результат
-
+        return id_user; // Возвращаем результат
     }
 
+    // метод регистрации
     @SuppressLint("Range")
     private void registerUser()
     {
@@ -217,12 +233,18 @@ public class LoginTeacher extends AppCompatActivity {
             return;
         }
 
-
         SQLiteDatabase db = dbHelper.getWritableDatabase(); // Открываем базу данных
+
+        //проверка используется ли телефон
+        Cursor cursorUser = db.rawQuery("SELECT * FROM users WHERE phone = ?", new String[]{phone});
+        if (cursorUser.moveToFirst()) {
+            Toast.makeText(this, "Этот номер телефона уже используется", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         // добавление пользователя
         String insertQuery = "INSERT INTO users (phone, password, email, role) VALUES (?, ?, ?, ?)";
-        db.execSQL(insertQuery, new Object[]{phone, password, email, "студент"});
+        db.execSQL(insertQuery, new Object[]{phone, password, email, "преподаватель"});
 
         // Получаем id вставленного пользователя
         Cursor userCursor = db.rawQuery("SELECT last_insert_rowid() AS id_user", null);
@@ -242,5 +264,14 @@ public class LoginTeacher extends AppCompatActivity {
         }
 
         db.close(); // Закрываем базу данных
+    }
+
+    // метод для сохранения данных преподавателя
+    private void saveUserPreferences(String phone, Integer id_user) {
+        SharedPreferences sharedPreferences = getSharedPreferences("TeacherPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("phone", phone);
+        editor.putInt("id_user", id_user);
+        editor.apply(); // Сохраняем данные
     }
 }
