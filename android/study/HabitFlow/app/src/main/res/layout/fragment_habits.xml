@@ -1,0 +1,41 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="16dp">
+
+    <!-- Заголовок -->
+    <TextView
+        android:id="@+id/textView_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:baselineAligned="true"
+        android:text="Привычки"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <!-- Кнопка создания привычки -->
+    <Button
+        android:id="@+id/button_add"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_alignBaseline="@id/textView_title"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:backgroundTint="@color/button_switch_background"
+        android:text="+"
+        android:textColor="@color/button_text"
+        app:cornerRadius="16dp" />
+
+    <!-- RecyclerView -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView_habits"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/textView_title"
+        android:layout_marginTop="8dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="30dp" />
+</RelativeLayout>
