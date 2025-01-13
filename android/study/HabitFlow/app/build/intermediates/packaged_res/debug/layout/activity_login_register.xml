@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Поле для Телефона -->
+        <EditText
+            android:id="@+id/etPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Введите Телефон"
+            android:inputType="number"
+            android:maxLength="18"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Поле для Пароля -->
+        <EditText
+            android:id="@+id/etPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Введите Пароль"
+            android:inputType="textPassword"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Лэйаут для дополнительных полей (видим только в режиме регистрации) -->
+        <LinearLayout
+            android:id="@+id/layoutExtraFields"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <!-- Поле для подтверждения пароля -->
+            <EditText
+                android:id="@+id/etConfirmPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Подтвердите Пароль"
+                android:inputType="textPassword"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Поле для имя пользователя -->
+            <EditText
+                android:id="@+id/etName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Введите Имя"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Поле для email -->
+            <EditText
+                android:id="@+id/etEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Введите Email"
+                android:layout_marginBottom="16dp" />
+        </LinearLayout>
+
+        <!-- Кнопка входа/регистрации -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSubmit"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:text="Войти"
+            android:layout_marginBottom="10dp"
+            app:cornerRadius="16dp"
+            android:backgroundTint="@color/button_submit_background"
+            android:textColor="@color/button_text" />
+
+
+        <!-- Кнопка для переключения режимов -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSwitchMode"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:text="Перейти к регистрации"
+            app:cornerRadius="16dp"
+            android:backgroundTint="@color/button_switch_background"
+            android:textColor="@color/button_text"
+            />
+    </LinearLayout>
+</ScrollView>
