@@ -1,0 +1,17 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_habit"
+        android:title="Привычки"
+        android:icon="@drawable/ic_habit"/>
+
+    <item
+        android:id="@+id/nav_achievement"
+        android:title="Достижения"
+        android:icon="@drawable/ic_achievement"
+        />
+
+    <item
+        android:id="@+id/nav_personal"
+        android:title="Личный кабинет"
+        android:icon="@drawable/ic_personal"/>
+</menu>
