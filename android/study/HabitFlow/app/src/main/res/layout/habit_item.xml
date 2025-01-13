@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp">
+
+    <ImageView
+        android:id="@+id/habitIcon"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        />
+
+    <TextView
+        android:id="@+id/habitName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_toEndOf="@id/habitIcon"
+        android:fontFamily="sans-serif-medium"
+        android:maxWidth="150dp"
+        android:text="Habit Name"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/habitCreated"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_below="@id/habitName"
+        android:layout_toEndOf="@id/habitIcon"
+        android:fontFamily="sans-serif-medium"
+        android:maxWidth="150dp"
+        android:text="Habit Created"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/habitStreak"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toStartOf="@id/separator"
+        android:layout_marginStart="20dp"
+        android:layout_centerVertical="true"
+        android:fontFamily="sans-serif-medium"
+        android:text="Habit Streak"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/separator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toStartOf="@id/habitGoal"
+        android:layout_marginStart="1dp"
+        android:layout_centerVertical="true"
+        android:text="/"
+        android:textSize="14sp"
+        android:fontFamily="sans-serif-medium" />
+
+    <TextView
+        android:id="@+id/habitGoal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toStartOf="@id/habitCheckBox"
+        android:layout_marginEnd="10dp"
+        android:layout_centerVertical="true"
+        android:text="Habit Goal"
+        android:textSize="14sp"
+        android:fontFamily="sans-serif-medium" />
+
+    <CheckBox
+        android:id="@+id/habitCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:buttonTint="@color/button_switch_background"
+        android:checked="false"
+        android:minWidth="0dp"
+        android:minHeight="0dp"
+        android:padding="0dp" />
+
+</RelativeLayout>
