@@ -1,0 +1,248 @@
+body {
+    font-family: 'DejaVu Sans Mono', monospace;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; 
+}
+
+header {
+    background-image: url(/../images/header.jpg);
+    background-size: cover;
+    background-position: center;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    margin: 0; 
+    padding: 0;
+    text-align: center;
+    padding: 30px 0;
+    opacity: 0;
+    transform: translateY(-20px);
+    animation: fadeIn 0.8s ease-in-out forwards;
+}
+
+/* Анимация для header */
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.cart-button {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: white;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    opacity: 0.9;
+    text-decoration: none;
+}
+
+.cart-icon {
+    width: 60px;
+    height: 60px;
+    margin-right: 5px;
+}
+
+.item-count {
+    background-color: #ff5733;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 14px;
+    position: relative; 
+    top: -2px;
+}
+
+h1 {
+    color: #9ad3dd;
+}
+
+h2
+{
+    color: #171717;
+    margin-top: 0;
+}
+
+main
+{
+    flex: 1;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+}
+
+.flashes {
+    list-style: none;
+    padding: 0;
+}
+
+.flashes li {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #c3e6cb;
+}
+
+.products {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
+    width: 95%;
+    margin: 0 auto;
+    margin-bottom: 50px;
+}
+
+.product {
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+    justify-content: center;
+    flex: 1 1 calc(33.333% - 20px);
+    box-sizing: border-box;
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.product.animate {
+    opacity: 1;
+}
+
+.add-to-cart {
+    background-color: white;
+    color: black;
+    border: 1px solid black;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.main-button
+{
+    background-color: white;
+    color: black;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    opacity: 0.9;
+    text-decoration: none;
+}
+
+.cart {
+    width: 900px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 10px;
+    text-align: left;
+    padding: 10px;
+    border: 1px solid #ddd;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+li.animate {
+    opacity: 1;
+}
+
+li p, li h2 {
+    margin-left: 5px;
+}
+
+.fade-out {
+    opacity: 0;
+    transition: opacity 0.4s ease-out;
+}
+
+#delete {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.quantity-controls {
+    margin-left: auto; 
+    text-align: center;
+}
+
+.quantity-btn {
+    background-color: white;
+    color: black;
+    border: 1px solid black;
+    font-weight: bold;
+    padding: 0px 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-right: 10px;
+}
+
+.quantity-btn:hover, .reset:hover, .order:hover, .add-to-cart:hover  {
+    background-color: #f1f1f1;
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px auto;
+}
+
+.button-container form {
+    flex: none;
+}
+
+.reset, .order {
+    margin-right: auto;
+    background-color: white;
+    color: black;
+    border: 1px solid black;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    z-index: 998;
+}
+
+footer {
+    text-align: center;
+    background-color: #171717;
+    padding: 50px 0;
+    z-index: 999;
+} 
+
+footer p, footer ul, footer a {
+    color: white;
+}
