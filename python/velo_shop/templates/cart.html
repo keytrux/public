@@ -31,33 +31,40 @@
             <ul>
                 {% for item in cart %}
                     <li>
-                        <img src="{{ item.image }}" alt="{{ item.name }}" width="220" height="150"/>
-                        <div>
-                            <h3>{{ item.name }}</h3>
-                            <p>Цена: {{ item.price }}₽</p>
+                        <div class="product-item">
+                            <a href="/product/{{ item.id }}">
+                                <img src="{{ item.image }}" alt="{{ item.name }}" width="220" height="150"/>
+                            </a>
+                            
+                            <a href="/product/{{ item.id }}">
+                            <div class="product-details">
+                                <h3>{{ item.name }}</h3>
+                                <p>Цена: {{ item.price }}₽</p>
+                            </div></a>
                         </div>
-                        
+                    
                         <div class="quantity-controls">
                             <p id="count">Количество: {{ item.quantity }}</p>
-
+                    
                             <form action="/change_quantity" method="post" style="display:inline;" class="quantity-form">
                                 <input type="hidden" name="name" value="{{ item.name }}">
                                 <input type="hidden" name="sign" value="-">
                                 <button class="quantity-btn" type="submit">-</button>
                             </form>
-
+                    
                             <form action="/change_quantity" method="post" style="display:inline;" class="quantity-form">
                                 <input type="hidden" name="name" value="{{ item.name }}">
                                 <input type="hidden" name="sign" value="+">
                                 <button class="quantity-btn" type="submit">+</button>
                             </form>
                         </div>
-
+                    
                         <form action="/delete_item" method="post" style="display:inline;" class="delete-form">
                             <input type="hidden" name="name" value="{{ item.name }}">
-                            <button id = "delete" type="submit">X</button>
+                            <button id="delete" type="submit">X</button>
                         </form>
                     </li>
+                
                 {% endfor %}
             </ul>
             
@@ -77,11 +84,11 @@
     </main>
 
     <footer>
-        <p>© 2025 VeloShop</p>
+        <p>© 2025 Вело-шоп-63</p>
         <div class="contacts">
-            <a href="mailto:info@veloshop.com"><img src="/images/email-icon.png" alt="Почта" width="50"></a>
+            <a href="mailto:info@veloshop63.com"><img src="/images/email-icon.png" alt="Почта" width="50"></a>
             <a href="tel:+7986533688"><img src="/images/phone-icon.png" alt="Телефон" width="50"></a>
-            <a href="https://t.me/veloshop"><img src="/images/tg-icon.png" alt="Телеграмм" width="50"></a>
+            <a href="https://t.me/veloshop63"><img src="/images/tg-icon.png" alt="Телеграмм" width="50"></a>
             <p>Автозаводское ш., 6, Тольятти</p>
         </div>
     </footer>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <link rel="icon" href="images/icon.ico" type="image/x-icon">
+    <title>{{ product.name }}</title>
+</head>
+<body>
+    <header>
+        <a href="/" class="main-button">На главную</a>
+    </header>
+
+    <main>
+        <a href="/cart" class="cart-button">
+            <img src="/images/cart-icon.png" alt="Корзина" class="cart-icon">
+            <span class="item-count" id="item-count">{{ cart_length }}</span>
+        </a>
+    
+        <div class="product-card">
+            <div class="product-container">
+                <img src="{{ product.image }}" width="220" height="150" class="product-image">
+                <div class="product-details">
+                    <h3>{{ product.name }}</h3>
+                    <p>Цена: {{ product.price }}₽</p>
+                </div>
+            </div>
+    
+            <form action="/add_to_cart" method="post" class="add-to-cart-form">
+                <input type="hidden" name="image" value="{{ product.image }}">
+                <input type="hidden" name="price" value="{{ product.price }}">
+                <input type="hidden" name="name" value="{{ product.name }}">
+                <button type="submit" class="add-to-cart">Добавить в корзину</button>
+            </form>
+        </div>
+    </main>
+    
+    
+
+    <footer>
+        <p>© 2025 Вело-шоп-63</p>
+        <div class="contacts">
+            <a href="mailto:info@veloshop63.com"><img src="/images/email-icon.png" alt="Почта" width="50"></a>
+            <a href="tel:+7986533688"><img src="/images/phone-icon.png" alt="Телефон" width="50"></a>
+            <a href="https://t.me/veloshop63"><img src="/images/tg-icon.png" alt="Телеграмм" width="50"></a>
+            <p>Автозаводское ш., 6, Тольятти</p>
+        </div>
+    </footer>
+    
+</body>
+</html>

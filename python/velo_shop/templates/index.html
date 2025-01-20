@@ -12,7 +12,7 @@
 </head>
 <body>
     <header>
-        <h1>VeloShop</h1>
+        <h1>Вело-шоп-63</h1>
     </header>
 
     <a href="/cart" class="cart-button">
@@ -25,10 +25,14 @@
         <div class="products">
             {% for product in products %}
                 <div class="product">
-                    <img src="{{ product.image }}" width="220" height="150">
-                    <h3>{{ product.name }}</h3>
-                    <p>Цена: {{ product.price }}₽</p>
+                    <a href="/product/{{ product.id }}">
+                        <img src="{{ product.image }}" width="220" height="150">
+                        <h3>{{ product.name }}</h3>
+                        <p>Цена: {{ product.price }}₽</p>
+                    </a>
+
                     <form action="/add_to_cart" method="post" class="add-to-cart-form">
+                        <input type="hidden" name="id" value="{{ product.id }}">
                         <input type="hidden" name="image" value="{{ product.image }}">
                         <input type="hidden" name="price" value="{{ product.price }}">
                         <input type="hidden" name="name" value="{{ product.name }}">
@@ -40,11 +44,11 @@
     </main>
     
     <footer>
-        <p>© 2025 VeloShop</p>
+        <p>© 2025 Вело-шоп-63</p>
         <div class="contacts">
-            <a href="mailto:info@veloshop.com"><img src="/images/email-icon.png" alt="Почта" width="50"></a>
+            <a href="mailto:info@veloshop63.com"><img src="/images/email-icon.png" alt="Почта" width="50"></a>
             <a href="tel:+7986533688"><img src="/images/phone-icon.png" alt="Телефон" width="50"></a>
-            <a href="https://t.me/veloshop"><img src="/images/tg-icon.png" alt="Телеграмм" width="50"></a>
+            <a href="https://t.me/veloshop63"><img src="/images/tg-icon.png" alt="Телеграмм" width="50"></a>
             <p>Автозаводское ш., 6, Тольятти</p>
         </div>
     </footer>
