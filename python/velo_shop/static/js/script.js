@@ -18,6 +18,24 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 });
 
+// Ф-я для ввода только цифр в цену
+function validateInput(evt) {
+    const key = evt.key;
+
+    // Разрешаем клавиши: backspace, delete, tab, escape, enter
+    if (['Backspace', 'Delete', 'Tab', 'Escape', 'Enter'].includes(key)) {
+        return true;
+    }
+
+    // Разрешаем ввод только цифр
+    if (/[0-9]/.test(key)) {
+        return true;
+    }
+
+    // Запретить другие символы
+    return false;
+}
+
 // Ф-я при добавлении товара в корзину
 $(document).ready(function() {
     $('.add-to-cart-form').submit(function(event) {

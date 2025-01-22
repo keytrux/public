@@ -1,24 +1,19 @@
-from flask import Flask, render_template, request, redirect, url_for, send_from_directory, flash, jsonify
+from flask import Flask, render_template, request, redirect, url_for, send_from_directory, flash, jsonify, session
+import sqlite3
+import os
 
 application = Flask(__name__)
 application.secret_key = '333'
+application.config['UPLOAD_FOLDER'] = 'images/product'
+
+# Ф-я для подключения к бд
+def get_db_connection():
+    conn = sqlite3.connect('VeloShop.db')
+    conn.row_factory = sqlite3.Row  # Чтобы можно было обращаться к полям по имени
+    return conn
 
 # Массив для хранения товаров в корзине
 cart = []
-
-products = []
-
-products = [
-    {'id': 1, 'name': 'Велошлем Met Crossover MIPS Orange', 'image': '/images/helmet/helmet_1.jpg', 'price': 5499}, 
-    {'id': 2, 'name': 'Велошлем MET MILES', 'image': '/images/helmet/helmet_2.jpg', 'price': 5890}, 
-    {'id': 3, 'name': 'Велошлем Met Miles Helmet', 'image': '/images/helmet/helmet_3.jpg', 'price': 5900},
-    {'id': 4, 'name': 'Велосипедная фара и задний фонарь 0,5W/2ф красный M-WAVE', 'image': '/images/flashlight/flashlight_1.jpg', 'price': 2549}, 
-    {'id': 5, 'name': 'Фара передняя STG FL1580', 'image': '/images/flashlight/flashlight_2.png', 'price': 4760}, 
-    {'id': 6, 'name': 'Фара передняя KMS EOS-100, 300 лм, USB', 'image': '/images/flashlight/flashlight_3.jpg', 'price': 586},
-    {'id': 7, 'name': 'Шоссейный велосипед Fuji Bikes Gran Fondo', 'image': '/images/bicycle/bicycle_1.jpg', 'price': 79990}, 
-    {'id': 8, 'name': 'Велосипед для триатлона Bianchi', 'image': '/images/bicycle/bicycle_2.jpg', 'price': 99000}, 
-    {'id': 9, 'name': 'Велосипед Pinarello Catena CrMo', 'image': '/images/bicycle/bicycle_3.jpg', 'price': 65000},
-]
 
 @application.route('/images/<path:filename>')
 def send_image(filename):
@@ -28,13 +23,17 @@ def send_image(filename):
 def home():
     quantity = 0
 
+    # Извлечение всех продуктов из базы данных
+    conn = get_db_connection()
+    products = conn.execute('SELECT * FROM products').fetchall()
+    conn.close()
+
     for item in cart:
         quantity += item['quantity']
 
     return render_template('index.html', 
-        # Массив с товарами в каталоге
         products=products,
-        cart_length = quantity
+        cart_length=quantity
     )
 
 @application.route('/cart/quantity')
@@ -73,9 +72,64 @@ def add_to_cart():
 @application.route('/product/<int:product_id>')
 # Ф-я для карточки товара
 def view_product(product_id):
+    conn = get_db_connection()
+    products = conn.execute('SELECT * FROM products').fetchall()
+    conn.close()
+
     product = next((item for item in products if item['id'] == product_id), None)
 
     return render_template('product.html', product=product, cart=cart)
+
+@application.route('/admin', methods=['GET', 'POST'])
+def view_admin():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        
+        if username == 'admin' and password == 'admin':
+            session['logged_in'] = True
+            return redirect(url_for('view_admin'))
+
+        flash('Неправильный логин или пароль', 'error')
+
+    if not session.get('logged_in'):
+        return render_template('login.html')
+
+    # Если авторизован, отображаем страницу админки
+    conn = get_db_connection()
+    products = conn.execute('SELECT * FROM products').fetchall()
+    conn.close()
+
+    return render_template('admin.html', products=products)
+
+
+@application.route('/add_product', methods=['POST'])
+# Ф-я для добавления товара
+def add_product():
+    name = request.form['name']
+    price = request.form['price']
+    
+    # Обработка изображения
+    if 'image' not in request.files:
+        return "Нет файла для загрузки"
+    
+    file = request.files['image']
+    if file.filename == '':
+        return "Нет выбранного файла"
+
+    # Сохранение изображения
+    filename = file.filename
+    file_path = os.path.join(application.config['UPLOAD_FOLDER'], filename)
+    file.save(file_path)
+
+    # Сохранение записи в БД
+    conn = get_db_connection()
+    conn.execute('INSERT INTO products (name, image, price) VALUES (?, ?, ?)',
+                 (name, f'/images/product/{filename}', price))
+    conn.commit()
+    conn.close()
+    flash("Товар добавлен!", "success")
+    return redirect('/admin')
 
 @application.route('/cart')
 # Ф-я для отображения страницы корзины

@@ -42,7 +42,22 @@ header {
     color: white;
     padding: 10px 20px;
     border: none;
-    /* border-radius: 5px; */
+    cursor: pointer;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    opacity: 0.9;
+    text-decoration: none;
+}
+
+.admin-button {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background-color: white;
+    color: #171717;
+    padding: 10px 20px;
+    border: none;
     cursor: pointer;
     z-index: 1000;
     display: flex;
@@ -132,7 +147,7 @@ main
     opacity: 1;
 }
 
-.add-to-cart {
+.add-to-cart, .add-product, .sign-in {
     background-color: white;
     color: black;
     border: 1px solid black;
@@ -141,6 +156,73 @@ main
     cursor: pointer;
     transition: background-color 0.3s;
 }
+
+.main-add-product, .login-container {
+    width: 60%;
+    align-items: center;
+    text-align: center;
+    margin: 0 auto;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.login-container {
+    width: 20%;
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="file"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+input[type="file"] {
+    border: none;
+}
+
+.file-upload {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.file-upload input[type="file"] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    opacity: 0;
+    cursor: pointer;
+    height: 100%;
+    width: 100%;
+}
+
+.custom-file-upload {
+    display: inline-block;
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: #9ad3dd;
+    color: white;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.file-upload .custom-file-upload:hover {
+    background-color: #0056b3;
+}
+
 
 .product-card {
     width: 50%;
@@ -181,12 +263,12 @@ main
 }
 
 .product-item {
-    display: flex; /* Размещаем элементы в строку */
-    align-items: center; /* Центрируем по вертикали */
+    display: flex;
+    align-items: center;
 }
 
 .product-details {
-    margin-left: 20px; /* Отступ между изображением и текстом */
+    margin-left: 20px;
 }
 
 
@@ -247,7 +329,7 @@ li p, li h2 {
     margin-right: 10px;
 }
 
-.quantity-btn:hover, .reset:hover, .order:hover, .add-to-cart:hover  {
+.quantity-btn:hover, .reset:hover, .order:hover, .add-to-cart:hover, .add-product:hover, .sign-in:hover  {
     background-color: #f1f1f1;
 }
 
