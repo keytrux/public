@@ -50,9 +50,16 @@
     <h2>Существующие товары</h2>
     <ul>
         {% for product in products %}
-            <li><img src = "{{ product.image }}" width="50"> {{ product.name }} - {{ product.price }} руб.</li>
+            <li>
+                <img src="{{ product.image }}" width="50"> 
+                {{ product.name }} - {{ product.price }} руб.
+                <form method="POST" action="{{ url_for('delete_product', product_id=product.id) }}" style="display:inline;">
+                    <button type="submit" class = "delete-product">Удалить</button>
+                </form>
+            </li>
         {% endfor %}
     </ul>
+    
 
     <footer>
         <p>© 2025 Вело-шоп-63</p>

@@ -157,6 +157,16 @@ main
     transition: background-color 0.3s;
 }
 
+.delete-product {
+    background-color: white;
+    color: black;
+    border: 1px solid black;
+    padding: 5px 10px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
 .main-add-product, .login-container {
     width: 60%;
     align-items: center;
@@ -329,7 +339,7 @@ li p, li h2 {
     margin-right: 10px;
 }
 
-.quantity-btn:hover, .reset:hover, .order:hover, .add-to-cart:hover, .add-product:hover, .sign-in:hover  {
+.quantity-btn:hover, .reset:hover, .order:hover, .add-to-cart:hover, .add-product:hover, .sign-in:hover, .delete-product:hover  {
     background-color: #f1f1f1;
 }
 

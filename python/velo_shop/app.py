@@ -131,6 +131,16 @@ def add_product():
     flash("Товар добавлен!", "success")
     return redirect('/admin')
 
+@application.route('/delete_product/<int:product_id>', methods=['POST'])
+def delete_product(product_id):
+    conn = get_db_connection()
+    conn.execute('DELETE FROM products WHERE id = ?', (product_id,))
+    conn.commit()
+    conn.close()
+    flash('Товар успешно удален.')  # Подтверждение успешного удаления
+    return redirect('/admin')
+
+
 @application.route('/cart')
 # Ф-я для отображения страницы корзины
 def view_cart():
