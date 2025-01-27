@@ -238,14 +238,14 @@ def delete_product(product_id):
             if os.path.exists(image_path):
                 os.remove(image_path)
             else:
-                flash('Файл изображения не найден: ' + image_path)
+                flash('Файл изображения не найден: ' + image_path, 'error')
         except Exception as e:
-            flash('Ошибка при удалении изображения: ' + str(e))
+            flash('Ошибка при удалении изображения: ' + str(e), 'error')
 
     conn.execute('DELETE FROM products WHERE id_product = ?', (product_id,))
     conn.commit()
     conn.close()
-    flash('Товар успешно удален.')  # Подтверждение успешного удаления
+    flash('Товар успешно удален.', 'success')  # Подтверждение успешного удаления
     return redirect('/sign_in')
 
 @application.route('/cart')
