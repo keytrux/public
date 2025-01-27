@@ -111,12 +111,23 @@ main
 }
 
 .flashes li {
-    background-color: #d4edda;
-    color: #155724;
     padding: 10px;
     margin: 10px 0;
-    border: 1px solid #c3e6cb;
+    border: 1px solid transparent;
 }
+
+.flashes li.success {
+    background-color: #d4edda; /* Зеленый фон для успеха */
+    color: #155724; /* Зеленый текст для успеха */
+    border-color: #c3e6cb; /* Зеленая граница для успеха */
+}
+
+.flashes li.error {
+    background-color: #f8d7da; /* Красный фон для ошибки */
+    color: #721c24; /* Красный текст для ошибки */
+    border-color: #f5c6cb; /* Красная граница для ошибки */
+}
+
 
 .products {
     display: flex;

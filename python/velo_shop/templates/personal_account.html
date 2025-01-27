@@ -25,19 +25,20 @@
     </a>
 
     <main class="main-add-product">
-        <p>ID: {{id}}</p>
         <p>Имя: {{name}}</p>
         <p>Телефон: {{phone}}</p>
+
+        <h2>Мои заказы</h2>
+        <ul>
+            {% for order in orders %}
+                <li>
+                    {{ order.order_details }} - {{ order.amount }} руб.
+                </li>
+            {% endfor %}
+        </ul>
     </main>
     
-    <h2>Мои заказы</h2>
-    <ul>
-        {% for order in orders %}
-            <li>
-                {{ order.order_details }} - {{ order.amount }} руб.
-            </li>
-        {% endfor %}
-    </ul>
+    
 
     <footer>
         <p>© 2025 Вело-шоп-63</p>

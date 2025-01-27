@@ -87,8 +87,13 @@ def register():
     if request.method == 'POST':
         login = request.form.get('login')
         password = request.form.get('password')
+        confirm_password = request.form.get('confirm_password')
         phone = request.form.get('phone')
         name = request.form.get('name')
+
+        if password != confirm_password:
+            flash('Пароли не совпадают!', 'error')
+            return redirect(url_for('register'))
 
         # Проверка на заполненность полей
         if not login or not password or not phone or not name:
@@ -104,14 +109,26 @@ def register():
             conn.execute('INSERT INTO users (login, password, phone, name, role) VALUES (?, ?, ?, ?, ?)',
                          (login, hashed_password, phone, name, "user"))
             conn.commit()
+
+            # Авторизация пользователя
+            user = conn.execute('SELECT * FROM users WHERE login = ?', (login,)).fetchone()
+            session['logged_in'] = True
+            session['id_user'] = user['id_user']
+            session['role'] = user['role']
+            
             flash('Регистрация успешна! Вы можете войти в систему.', 'success')
-            return redirect(url_for('sign_in'))
+
+            return redirect(url_for('personal_account'))  # Перенаправление на личный кабинет
+
         except sqlite3.IntegrityError:
             flash('Данный логин уже используется.', 'error')
+            return redirect(url_for('register'))
+
         finally:
             conn.close()
 
     return render_template('login.html')  # Отображаем форму регистрации
+
 
 
 @application.route('/sign_in', methods=['GET', 'POST'])
@@ -167,6 +184,9 @@ def exit():
         quantity += item['quantity']
 
     session.pop('logged_in', None)
+    session.pop('id_user', None)
+    session.pop('role', None)
+    session.clear()
     return render_template('index.html', products=products, cart_length=quantity)
 
 @application.route('/personal_account')

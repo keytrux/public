@@ -15,6 +15,10 @@
         <a href="/" class="main-button">На главную</a>
     </header>
 
+    <a href="/sign_in" class="admin-button">
+        <span>Личный кабинет</span>
+    </a>
+
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
             <ul class="flashes">

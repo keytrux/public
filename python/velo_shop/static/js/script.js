@@ -16,6 +16,7 @@ document.addEventListener("DOMContentLoaded", function() {
     if (header) {
         header.classList.add('animate');
     }
+    
 });
 
 // Ф-я для ввода только цифр в цену
