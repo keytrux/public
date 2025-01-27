@@ -102,6 +102,20 @@ def view_admin():
 
     return render_template('admin.html', products=products)
 
+@application.route('/exit')
+def exit():
+    quantity = 0
+
+    # Извлечение всех продуктов из базы данных
+    conn = get_db_connection()
+    products = conn.execute('SELECT * FROM products').fetchall()
+    conn.close()
+
+    for item in cart:
+        quantity += item['quantity']
+
+    session.pop('logged_in', None)
+    return render_template('index.html', products=products, cart_length=quantity) 
 
 @application.route('/add_product', methods=['POST'])
 # Ф-я для добавления товара
@@ -134,12 +148,24 @@ def add_product():
 @application.route('/delete_product/<int:product_id>', methods=['POST'])
 def delete_product(product_id):
     conn = get_db_connection()
+
+    product = conn.execute('SELECT image FROM products WHERE id = ?', (product_id,)).fetchone()
+    if product:
+        image_path = os.path.join(os.getcwd(), product['image'][1:])  # Получаем полный путь к изображению
+        
+        try:
+            if os.path.exists(image_path):
+                os.remove(image_path)
+            else:
+                flash('Файл изображения не найден: ' + image_path)
+        except Exception as e:
+            flash('Ошибка при удалении изображения: ' + str(e))
+
     conn.execute('DELETE FROM products WHERE id = ?', (product_id,))
     conn.commit()
     conn.close()
     flash('Товар успешно удален.')  # Подтверждение успешного удаления
     return redirect('/admin')
-
 
 @application.route('/cart')
 # Ф-я для отображения страницы корзины

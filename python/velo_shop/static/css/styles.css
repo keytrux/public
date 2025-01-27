@@ -50,7 +50,7 @@ header {
     text-decoration: none;
 }
 
-.admin-button {
+.admin-button, .exit-button {
     position: fixed;
     top: 20px;
     left: 20px;
