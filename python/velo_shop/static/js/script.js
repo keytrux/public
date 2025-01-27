@@ -36,6 +36,24 @@ function validateInput(evt) {
     return false;
 }
 
+function showLogin() {
+    document.getElementById('loginForm').style.display = 'block';
+    document.getElementById('registerForm').style.display = 'none';
+    setActiveTab('loginTab');
+}
+
+function showRegister() {
+    document.getElementById('loginForm').style.display = 'none';
+    document.getElementById('registerForm').style.display = 'block';
+    setActiveTab('registerTab');
+}
+
+function setActiveTab(activeId) {
+    document.getElementById('loginTab').classList.remove('active');
+    document.getElementById('registerTab').classList.remove('active');
+    document.getElementById(activeId).classList.add('active');
+}
+
 // Ф-я при добавлении товара в корзину
 $(document).ready(function() {
     $('.add-to-cart-form').submit(function(event) {

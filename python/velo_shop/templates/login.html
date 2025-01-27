@@ -8,7 +8,7 @@
         <script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
         <script src="{{ url_for('static', filename='js/script.js') }}"></script>
         <link rel="icon" href="images/icon.ico" type="image/x-icon">
-        <title>Админка</title>
+        <title>Личный кабинет</title>
     </head>
 <body>
     <header>
@@ -16,7 +16,7 @@
     </header>
 
     <main class="login-container">
-        <h1>Вход в админку</h1>
+        <h1>Личный кабинет</h1>
 
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
@@ -28,7 +28,12 @@
             {% endif %}
         {% endwith %}
 
-        <form action="/admin" method="POST">
+        <div class="tabs">
+            <button id="loginTab" onclick="showLogin()">Авторизация</button>
+            <button id="registerTab" onclick="showRegister()">Регистрация</button>
+        </div>
+
+        <form id="loginForm" action="/sign_in" method="POST">
             <label for="username">Логин:</label>
             <input type="text" id="username" name="username" required>
 
@@ -36,6 +41,25 @@
             <input type="password" id="password" name="password" required>
 
             <button type="submit" class="sign-in">Войти</button>
+        </form>
+
+        <form id="registerForm" action="/register" method="POST" style="display:none;">
+            <label for="new_username">Логин:</label>
+            <input type="text" id="login" name="login" required>
+
+            <label for="new_password">Пароль:</label>
+            <input type="password" id="password" name="password" required>
+
+            <label for="confirm_password">Подтвердите пароль:</label>
+            <input type="password" id="confirm_password" name="confirm_password" required>
+
+            <label for="name">Имя:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="phone">Телефон:</label>
+            <input type="text" id="phone" name="phone" required>
+
+            <button type="submit" class="sign-up">Зарегистрироваться</button>
         </form>
     </main>
 

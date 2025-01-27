@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for, send_from_directory, flash, jsonify, session
 import sqlite3
 import os
+from datetime import datetime
+import hashlib
 
 application = Flask(__name__)
 application.secret_key = '333'
@@ -45,7 +47,7 @@ def cart_quantity():
 @application.route('/add_to_cart', methods=['POST'])
 # Ф-я для добавления товара в корзину
 def add_to_cart():
-    product_id = request.form.get('id')
+    product_id = request.form.get('id_product')
     product_name = request.form.get('name')
     product_price = request.form.get('price')
     product_image = request.form.get('image')
@@ -59,7 +61,7 @@ def add_to_cart():
         
         # Если товар новый
         cart.append({
-            'id': product_id,
+            'id_product': product_id,
             'name': product_name,
             'price': product_price,
             'image': product_image,
@@ -76,31 +78,81 @@ def view_product(product_id):
     products = conn.execute('SELECT * FROM products').fetchall()
     conn.close()
 
-    product = next((item for item in products if item['id'] == product_id), None)
+    product = next((item for item in products if item['id_product'] == product_id), None)
 
     return render_template('product.html', product=product, cart=cart)
 
-@application.route('/admin', methods=['GET', 'POST'])
-def view_admin():
+@application.route('/register', methods=['GET', 'POST'])
+def register():
     if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        
-        if username == 'admin' and password == 'admin':
-            session['logged_in'] = True
-            return redirect(url_for('view_admin'))
+        login = request.form.get('login')
+        password = request.form.get('password')
+        phone = request.form.get('phone')
+        name = request.form.get('name')
 
-        flash('Неправильный логин или пароль', 'error')
+        # Проверка на заполненность полей
+        if not login or not password or not phone or not name:
+            flash('Пожалуйста, заполните все поля.', 'error')
+            return redirect(url_for('register'))
 
-    if not session.get('logged_in'):
-        return render_template('login.html')
+        # Хешируем пароль
+        hashed_password = hashlib.sha256(password.encode()).hexdigest()
 
-    # Если авторизован, отображаем страницу админки
+        conn = get_db_connection()
+        try:
+            # Вставка нового пользователя
+            conn.execute('INSERT INTO users (login, password, phone, name, role) VALUES (?, ?, ?, ?, ?)',
+                         (login, hashed_password, phone, name, "user"))
+            conn.commit()
+            flash('Регистрация успешна! Вы можете войти в систему.', 'success')
+            return redirect(url_for('sign_in'))
+        except sqlite3.IntegrityError:
+            flash('Данный логин уже используется.', 'error')
+        finally:
+            conn.close()
+
+    return render_template('login.html')  # Отображаем форму регистрации
+
+
+@application.route('/sign_in', methods=['GET', 'POST'])
+def sign_in():
     conn = get_db_connection()
     products = conn.execute('SELECT * FROM products').fetchall()
     conn.close()
 
-    return render_template('admin.html', products=products)
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        # Хешируем введенный пароль
+        hashed_password = hashlib.sha256(password.encode()).hexdigest()
+
+        conn = get_db_connection()
+        users = conn.execute('SELECT * FROM users WHERE login = ? AND password = ?', (username, hashed_password)).fetchone()
+
+        if users:
+            session['logged_in'] = True
+            session['id_user'] = users['id_user']
+            session['role'] = users['role']  # Сохраним роль пользователя в сессии
+            
+            if users['role'] == 'admin':
+                return render_template('admin.html', products=products)
+
+            if users['role'] == 'user':
+                return redirect(url_for('personal_account'))
+
+        conn.close()
+        flash('Неправильный логин или пароль', 'error')
+
+    # Проверка, авторизован ли пользователь
+    if session.get('logged_in'):
+        # В зависимости от роли перенаправляем на нужную страницу
+        if session.get('role') == 'admin':
+            return render_template('admin.html', products=products)
+        elif session.get('role') == 'user':
+            return redirect(url_for('personal_account'))
+
+    return render_template('login.html', products=products)
+
 
 @application.route('/exit')
 def exit():
@@ -115,7 +167,16 @@ def exit():
         quantity += item['quantity']
 
     session.pop('logged_in', None)
-    return render_template('index.html', products=products, cart_length=quantity) 
+    return render_template('index.html', products=products, cart_length=quantity)
+
+@application.route('/personal_account')
+def personal_account():
+    conn = get_db_connection()
+    id_user = int(session.get('id_user'))
+    user = conn.execute('SELECT * FROM users WHERE id_user = ?', (id_user,)).fetchone()
+    orders = conn.execute('SELECT * FROM orders WHERE id_user = ?', (id_user,)).fetchall()
+    conn.close()
+    return render_template('personal_account.html', id=user['id_user'], name=user['name'], phone=user['phone'], orders=orders) 
 
 @application.route('/add_product', methods=['POST'])
 # Ф-я для добавления товара
@@ -143,13 +204,13 @@ def add_product():
     conn.commit()
     conn.close()
     flash("Товар добавлен!", "success")
-    return redirect('/admin')
+    return redirect('/sign_in')
 
 @application.route('/delete_product/<int:product_id>', methods=['POST'])
 def delete_product(product_id):
     conn = get_db_connection()
 
-    product = conn.execute('SELECT image FROM products WHERE id = ?', (product_id,)).fetchone()
+    product = conn.execute('SELECT image FROM products WHERE id_product = ?', (product_id,)).fetchone()
     if product:
         image_path = os.path.join(os.getcwd(), product['image'][1:])  # Получаем полный путь к изображению
         
@@ -161,11 +222,11 @@ def delete_product(product_id):
         except Exception as e:
             flash('Ошибка при удалении изображения: ' + str(e))
 
-    conn.execute('DELETE FROM products WHERE id = ?', (product_id,))
+    conn.execute('DELETE FROM products WHERE id_product = ?', (product_id,))
     conn.commit()
     conn.close()
     flash('Товар успешно удален.')  # Подтверждение успешного удаления
-    return redirect('/admin')
+    return redirect('/sign_in')
 
 @application.route('/cart')
 # Ф-я для отображения страницы корзины
@@ -212,6 +273,27 @@ def clear_cart():
 @application.route('/create_order', methods=['POST'])
 # Ф-я создания заказа
 def create_order():
+    if not session.get('logged_in'):
+        flash('Вы должны авторизоваться, чтобы оформить заказ', 'error')
+        return redirect(url_for('sign_in'))
+
+    
+    id_user = session.get('id_user')
+
+    # Формируем строку заказа и подсчитываем общую сумму
+    order_details = ', '.join([f"{item['name']} (x{item['quantity']})" for item in cart])
+    total_amount = sum(int(item['price']) * int(item['quantity']) for item in cart)
+
+    # Получаем текущую дату
+    order_date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
+    # Сохранение записи в БД
+    conn = get_db_connection()
+    conn.execute('INSERT INTO orders (id_user, order_details, amount, date_order) VALUES (?, ?, ?, ?)',
+                 (id_user, order_details, total_amount, order_date))
+    conn.commit()
+    conn.close()
+
     cart.clear()
     flash("Заказ оформлен!", "success")  # Добавляем flash-сообщение
     return redirect('/cart')

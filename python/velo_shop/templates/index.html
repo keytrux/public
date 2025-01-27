@@ -15,8 +15,8 @@
         <h1>Вело-шоп-63</h1>
     </header>
 
-    <a href="/admin" class="admin-button">
-        <span>Админка</span>
+    <a href="/sign_in" class="admin-button">
+        <span>Личный кабинет</span>
     </a>
 
     <a href="/cart" class="cart-button">
@@ -29,14 +29,14 @@
         <div class="products">
             {% for product in products %}
                 <div class="product">
-                    <a href="/product/{{ product.id }}">
+                    <a href="/product/{{ product.id_product }}">
                         <img src="{{ product.image }}" width="220" height="150">
                         <h3>{{ product.name }}</h3>
                         <p>Цена: {{ product.price }}₽</p>
                     </a>
 
                     <form action="/add_to_cart" method="post" class="add-to-cart-form">
-                        <input type="hidden" name="id" value="{{ product.id }}">
+                        <input type="hidden" name="id_product" value="{{ product.id_product }}">
                         <input type="hidden" name="image" value="{{ product.image }}">
                         <input type="hidden" name="price" value="{{ product.price }}">
                         <input type="hidden" name="name" value="{{ product.name }}">

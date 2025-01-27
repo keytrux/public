@@ -57,7 +57,7 @@
             <li>
                 <img src="{{ product.image }}" width="50"> 
                 {{ product.name }} - {{ product.price }} руб.
-                <form method="POST" action="{{ url_for('delete_product', product_id=product.id) }}" style="display:inline;">
+                <form method="POST" action="{{ url_for('delete_product', product_id=product.id_product) }}" style="display:inline;">
                     <button type="submit" class = "delete-product">Удалить</button>
                 </form>
             </li>

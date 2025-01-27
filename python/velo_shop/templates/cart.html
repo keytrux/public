@@ -32,11 +32,11 @@
                 {% for item in cart %}
                     <li>
                         <div class="product-item">
-                            <a href="/product/{{ item.id }}">
+                            <a href="/product/{{ item.id_product }}">
                                 <img src="{{ item.image }}" alt="{{ item.name }}" width="220" height="150"/>
                             </a>
                             
-                            <a href="/product/{{ item.id }}">
+                            <a href="/product/{{ item.id_product }}">
                             <div class="product-details">
                                 <h3>{{ item.name }}</h3>
                                 <p>Цена: {{ item.price }}₽</p>
