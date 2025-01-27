@@ -152,7 +152,8 @@ def sign_in():
             session['role'] = users['role']  # Сохраним роль пользователя в сессии
             
             if users['role'] == 'admin':
-                return render_template('admin.html', products=products)
+                # return render_template('admin.html', products=products)
+                return redirect(url_for('admin'))
 
             if users['role'] == 'user':
                 return redirect(url_for('personal_account'))
@@ -164,7 +165,8 @@ def sign_in():
     if session.get('logged_in'):
         # В зависимости от роли перенаправляем на нужную страницу
         if session.get('role') == 'admin':
-            return render_template('admin.html', products=products)
+            # return render_template('admin.html', products=products)
+            return redirect(url_for('admin'))
         elif session.get('role') == 'user':
             return redirect(url_for('personal_account'))
 
@@ -189,6 +191,13 @@ def exit():
     session.clear()
     return render_template('index.html', products=products, cart_length=quantity)
 
+@application.route('/admin')
+def admin():
+    conn = get_db_connection()
+    products = conn.execute('SELECT * FROM products').fetchall()
+    conn.close()
+    return render_template('admin.html', products=products)
+    
 @application.route('/personal_account')
 def personal_account():
     conn = get_db_connection()
