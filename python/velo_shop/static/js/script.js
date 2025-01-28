@@ -128,7 +128,21 @@ $(document).ready(function() {
             data: formData,
             success: function(response) {
                 if (response.success) {
-                    form.closest('li').remove(); // Удаляем элемент в списке
+                    const $listItem = form.closest('li');
+                    const $list = $listItem.parent();
+                    
+                    $listItem.remove(); // Удаляем элемент в списке
+                    updateTotalSum();
+                    
+                    // Проверяем, остался ли в списке еще элемент
+                    if ($list.children('li').length === 0) {
+                        // Если последний элемент был удален, удаляем кнопки
+                        $('main.cart h2').text('Корзина пуста'); // Меняем текст заголовка
+                        $('ul').remove(); // Удаляем список товаров
+                        $('button').remove(); // Удаляем кнопки
+                        $('.amount-cart').remove(); // Удаляем элементы с суммой или количеством
+                    }
+
                     console.log(response.message);
                 } else {
                     console.log(response.message);
@@ -140,6 +154,7 @@ $(document).ready(function() {
         });
     });
 });
+
 
 // Ф-я при изменении кол-ва товара в корзине
 $(document).ready(function() {
@@ -183,21 +198,19 @@ $(document).ready(function() {
         });
     });
 
-    // Функция для обновления общей суммы
-    function updateTotalSum() {
-        let totalSum = 0;
-
-        $('.total-price').each(function() {
-            const itemTotal = parseFloat($(this).text().replace('Итого: ', '').replace('₽', ''));
-            totalSum += itemTotal;
-        });
-
-        // Обновляем элемент, где отображается сумма
-        $('label:contains("Сумма:")').text('Сумма: ' + totalSum + '₽');
-    }
 });
 
+function updateTotalSum() {
+    let totalSum = 0;
 
+    $('.total-price').each(function() {
+        const itemTotal = parseFloat($(this).text().replace('Итого: ', '').replace('₽', ''));
+        totalSum += itemTotal;
+    });
+    console.log('Сумма: ' + totalSum + '₽');
+    // Обновляем элемент, где отображается сумма
+    $('label:contains("Сумма:")').text('Сумма: ' + totalSum + '₽');
+}
 
 
 
@@ -220,6 +233,7 @@ $(document).ready(function() {
                     $('main.cart h2').text('Корзина пуста'); // Меняем текст заголовка
                     $('ul').remove(); // Удаляем список товаров
                     $('button').remove(); // Удаляем кнопки
+                    $('.amount-cart').remove();
                     console.log(response.message);
                     
                 } else {
