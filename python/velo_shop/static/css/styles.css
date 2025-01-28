@@ -361,6 +361,12 @@ input[type="file"] {
     text-align: center;
 }
 
+.cart label {
+    align-items: left;
+    text-align: left;
+}
+
+
 .product-item {
     display: flex;
     align-items: center;

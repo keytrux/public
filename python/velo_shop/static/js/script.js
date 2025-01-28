@@ -143,16 +143,15 @@ $(document).ready(function() {
 
 // Ф-я при изменении кол-ва товара в корзине
 $(document).ready(function() {
+    updateTotalSum();
     $('.quantity-form').submit(function(event) {
         event.preventDefault();
         
         const formData = $(this).serialize();
         const form = $(this);
+        const countElement = form.closest('.quantity-controls').find('#count');
         
-        // Получаем цену из скрытого поля
         const price = parseFloat(form.find('input[name="price"]').val());
-        
-        // Находим элемент для обновления итоговой цены по совпадению data-price
         const totalPriceElement = $('.total-price[data-price="' + price + '"]');
 
         $.ajax({
@@ -164,12 +163,16 @@ $(document).ready(function() {
                     console.log(response.message);
                     const quantity = response.quantity; // Обновляем количество
                     
-                    // Пересчета итоговой цены
+                    countElement.text('Количество: ' + quantity); // Обновляем количество
+
+                    // Пересчитываем итоговую цену
                     const totalPrice = price * quantity;
                     
                     // Обновляем текст итоговой цены на странице
                     totalPriceElement.text('Итого: ' + totalPrice + '₽');
-
+                    
+                    // Обновляем общую сумму
+                    updateTotalSum();
                 } else {
                     console.log(response.message);
                 }
@@ -179,7 +182,21 @@ $(document).ready(function() {
             }
         });
     });
+
+    // Функция для обновления общей суммы
+    function updateTotalSum() {
+        let totalSum = 0;
+
+        $('.total-price').each(function() {
+            const itemTotal = parseFloat($(this).text().replace('Итого: ', '').replace('₽', ''));
+            totalSum += itemTotal;
+        });
+
+        // Обновляем элемент, где отображается сумма
+        $('label:contains("Сумма:")').text('Сумма: ' + totalSum + '₽');
+    }
 });
+
 
 
 
