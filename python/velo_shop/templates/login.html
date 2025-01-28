@@ -18,7 +18,9 @@
     <main class="login-container">
         <h1>Личный кабинет</h1>
 
-        {% with messages = get_flashed_messages(with_categories=true) %}
+        <div id="flash-messages-container"></div>
+
+        <!-- {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 <ul class="flashes">
                     {% for category, message in messages %}
@@ -26,39 +28,54 @@
                     {% endfor %}
                 </ul>
             {% endif %}
-        {% endwith %}
+        {% endwith %} -->
 
         <div class="tabs">
             <button id="loginTab" onclick="showLogin()" class="active">Авторизация</button>
             <button id="registerTab" onclick="showRegister()">Регистрация</button>
         </div>
 
-        <form id="loginForm" action="/sign_in" method="POST">
+        <form id="loginForm" action="/sign_in" method="POST" class="sign-in-form">
             <label for="username">Логин:</label>
             <input type="text" id="username" name="username" required>
-
+        
             <label for="password">Пароль:</label>
-            <input type="password" id="password" name="password" required>
-
+            <div class="password-container">
+                <input type="password" id="login_password" name="password" required>
+                <span class="toggle-password" toggle="login_password">
+                    <img src="images/site/eye.svg" alt="Показать пароль" class="eye-icon" width="20"> <!-- Иконка обычного глаза -->
+                </span>
+            </div>
+        
             <button type="submit" class="sign-in">Войти</button>
         </form>
-
-        <form id="registerForm" action="/register" method="POST" style="display:none;">
+        
+        <form id="registerForm" action="/register" method="POST" style="display:none;" class="register-form">
             <label for="new_username">Логин:</label>
             <input type="text" id="login" name="login" required>
-
+        
             <label for="new_password">Пароль:</label>
-            <input type="password" id="password" name="password" required>
-
+            <div class="password-container">
+                <input type="password" id="new_password" name="password" required>
+                <span class="toggle-password" toggle="new_password">
+                    <img src="images/site/eye.svg" alt="Показать пароль" class="eye-icon" width="20"> <!-- Иконка обычного глаза -->
+                </span>
+            </div>
+        
             <label for="confirm_password">Подтвердите пароль:</label>
-            <input type="password" id="confirm_password" name="confirm_password" required>
-
+            <div class="password-container">
+                <input type="password" id="confirm_password" name="confirm_password" required>
+                <span class="toggle-password" toggle="confirm_password">
+                    <img src="images/site/eye.svg" alt="Показать пароль" class="eye-icon" width="20"> <!-- Иконка обычного глаза -->
+                </span>
+            </div>
+        
             <label for="name">Имя:</label>
             <input type="text" id="name" name="name" required>
-
+        
             <label for="phone">Телефон:</label>
             <input type="text" id="phone" name="phone" required>
-
+        
             <button type="submit" class="sign-up">Зарегистрироваться</button>
         </form>
     </main>

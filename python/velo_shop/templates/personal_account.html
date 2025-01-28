@@ -24,20 +24,74 @@
         <span class="item-count" id="item-count">{{ cart_length }}</span>
     </a>
 
-    <main class="main-add-product">
+    <main class="main-personal-account">
+        <p>Логин: {{login}}</p>
         <p>Имя: {{name}}</p>
         <p>Телефон: {{phone}}</p>
-
+    
         <h2>Мои заказы</h2>
+
         <ul>
             {% for order in orders %}
-                <li>
-                    {{ order.order_details }} - {{ order.amount }} руб.
+                <li class="order-li">
+                    <label>Номер заказа: {{ order.id_order }}</label><br>
+                    
+                    <div class="orders-container">
+                        {% set items = order.order_details.split(', ') %}
+                        {% for item in items %}
+                            {% set product_info = item.strip() %}
+                            {% set product_name_quantity = product_info.rsplit(' (x', 1) %}
+
+                            {% if product_name_quantity | length > 0 %}
+                                {% set product_name = product_name_quantity[0].strip() %}
+                            {% else %}
+                                {% set product_name = 'Неизвестный товар' %}
+                            {% endif %}
+
+                            {% if product_name_quantity | length > 1 %}
+                                {% set product_quantity_price = product_name_quantity[1].split('-') %}
+                                {% if product_quantity_price | length > 0 %}
+                                    {% set product_quantity = product_quantity_price[0].replace(')', '').strip() %}
+                                {% else %}
+                                    {% set product_quantity = '1' %}
+                                {% endif %}
+
+                                {% if product_quantity_price | length > 1 %}
+                                    {% set product_price = product_quantity_price[1].strip() %}
+                                {% else %}
+                                    {% set product_price = '0' %}  {# Значение по умолчанию, если цена не указана #}
+                                {% endif %}
+                            {% else %}
+                                {% set product_quantity = '1' %}
+                                {% set product_price = '0' %}  {# Значение по умолчанию, если цена не указана #}
+                            {% endif %}
+
+                            {% set product_id = product_name %}  {# Пример извлечения ID из названия #}
+
+                            {% if product_id in product_dict %}
+                                <a href="/product/{{ product_dict[product_id].id_product }}">
+                                    <div class="product-item-order"> {# Класс для каждого товара #}
+                                        <img src="{{ product_dict[product_id].image_url }}" alt="{{ product_dict[product_id].name }}" style="width: 50px; height: auto; margin-right: 10px;" />
+                                        <div>
+                                            <strong>{{ product_dict[product_id].name }}</strong><br>
+                                            Количество: {{ product_quantity }}<br>
+                                            Цена за единицу: {{ product_price }}<br>
+                                            Итого: {{ (product_price | replace(' руб.', '') | int) * (product_quantity | int) }}
+                                        </div>                
+                                    </div></a>
+                            {% else %}
+                                <p>Товар {{ product_id }} не найден.</p>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <br>
+
+                    <label>Сумма: {{ order.amount }} руб.</label>
                 </li>
             {% endfor %}
         </ul>
-    </main>
-    
+
+    </main>    
     
 
     <footer>

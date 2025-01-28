@@ -92,13 +92,11 @@ def register():
         name = request.form.get('name')
 
         if password != confirm_password:
-            flash('Пароли не совпадают!', 'error')
-            return redirect(url_for('register'))
+            return jsonify({'success': False, 'message': 'Пароли не совпадают!'}), 400
 
         # Проверка на заполненность полей
         if not login or not password or not phone or not name:
-            flash('Пожалуйста, заполните все поля.', 'error')
-            return redirect(url_for('register'))
+            return jsonify({'success': False, 'message': 'Пожалуйста, заполните все поля.'}), 400
 
         # Хешируем пароль
         hashed_password = hashlib.sha256(password.encode()).hexdigest()
@@ -116,19 +114,15 @@ def register():
             session['id_user'] = user['id_user']
             session['role'] = user['role']
             
-            flash('Регистрация успешна! Вы можете войти в систему.', 'success')
-
-            return redirect(url_for('personal_account'))  # Перенаправление на личный кабинет
+            return jsonify({'success': True, 'redirect_url': url_for('personal_account')}), 200
 
         except sqlite3.IntegrityError:
-            flash('Данный логин уже используется.', 'error')
-            return redirect(url_for('register'))
+            return jsonify({'success': False, 'message': 'Данный логин уже используется.'}), 400
 
         finally:
             conn.close()
 
     return render_template('login.html')  # Отображаем форму регистрации
-
 
 
 @application.route('/sign_in', methods=['GET', 'POST'])
@@ -140,7 +134,6 @@ def sign_in():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        # Хешируем введенный пароль
         hashed_password = hashlib.sha256(password.encode()).hexdigest()
 
         conn = get_db_connection()
@@ -149,26 +142,25 @@ def sign_in():
         if users:
             session['logged_in'] = True
             session['id_user'] = users['id_user']
-            session['role'] = users['role']  # Сохраним роль пользователя в сессии
+            session['role'] = users['role']
             
-            if users['role'] == 'admin':
-                # return render_template('admin.html', products=products)
-                return redirect(url_for('admin'))
-
-            if users['role'] == 'user':
-                return redirect(url_for('personal_account'))
+            response = {
+                'success': True,
+                'redirect_url': url_for('admin' if users['role'] == 'admin' else 'personal_account')
+            }
+            return jsonify(response)
 
         conn.close()
         flash('Неправильный логин или пароль', 'error')
+        
+        response = {
+            'success': False,
+            'message': 'Неправильный логин или пароль',  # Возвращаем сообщение
+        }
+        return jsonify(response)
 
-    # Проверка, авторизован ли пользователь
     if session.get('logged_in'):
-        # В зависимости от роли перенаправляем на нужную страницу
-        if session.get('role') == 'admin':
-            # return render_template('admin.html', products=products)
-            return redirect(url_for('admin'))
-        elif session.get('role') == 'user':
-            return redirect(url_for('personal_account'))
+        return redirect(url_for('admin' if session.get('role') == 'admin' else 'personal_account'))
 
     return render_template('login.html', products=products)
 
@@ -204,8 +196,14 @@ def personal_account():
     id_user = int(session.get('id_user'))
     user = conn.execute('SELECT * FROM users WHERE id_user = ?', (id_user,)).fetchone()
     orders = conn.execute('SELECT * FROM orders WHERE id_user = ?', (id_user,)).fetchall()
+
+    # Получаем информацию о товарах
+    products = conn.execute('SELECT * FROM products').fetchall()
+    product_dict = {product['name']: {"id_product": product['id_product'], "image_url": product['image'], "price": product['price']} for product in products}
+
+
     conn.close()
-    return render_template('personal_account.html', id=user['id_user'], name=user['name'], phone=user['phone'], orders=orders) 
+    return render_template('personal_account.html', id=user['id_user'], login=user['login'], name=user['name'], phone=user['phone'], orders=orders, product_dict=product_dict)
 
 @application.route('/add_product', methods=['POST'])
 # Ф-я для добавления товара
@@ -310,7 +308,7 @@ def create_order():
     id_user = session.get('id_user')
 
     # Формируем строку заказа и подсчитываем общую сумму
-    order_details = ', '.join([f"{item['name']} (x{item['quantity']})" for item in cart])
+    order_details = ', '.join([f"{item['name']} (x{item['quantity']}) - {item['price']} руб." for item in cart])
     total_amount = sum(int(item['price']) * int(item['quantity']) for item in cart)
 
     # Получаем текущую дату

@@ -38,16 +38,38 @@ function validateInput(evt) {
 }
 
 function showLogin() {
+    document.getElementById('flash-messages-container').innerHTML = '';
+
     document.getElementById('loginForm').style.display = 'block';
     document.getElementById('registerForm').style.display = 'none';
     setActiveTab('loginTab');
 }
 
 function showRegister() {
+    document.getElementById('flash-messages-container').innerHTML = '';
+
     document.getElementById('loginForm').style.display = 'none';
     document.getElementById('registerForm').style.display = 'block';
     setActiveTab('registerTab');
 }
+
+// Ф-я для отображения/скрытия пароля
+$(document).ready(function() {
+    $('.toggle-password').click(function() {
+        const input = $(`#${$(this).attr('toggle')}`);
+        const type = input.attr('type') === 'password' ? 'text' : 'password';
+
+        input.attr('type', type);
+
+        const icon = type === 'password' ? 'images/site/eye.svg' : 'images/site/eye-off.svg'; // Изменим путь к SVG для зачеркнутого глаза
+        $(this).find('.eye-icon').attr('src', icon);
+
+        console.log(`Текущий тип поля для ${$(this).attr('toggle')}: ${type}`); // Отладочный вывод
+    });
+});
+
+
+
 
 function setActiveTab(activeId) {
     document.getElementById('loginTab').classList.remove('active');
@@ -126,7 +148,12 @@ $(document).ready(function() {
         
         const formData = $(this).serialize();
         const form = $(this);
-        const countElement = form.closest('.quantity-controls').find('#count');
+        
+        // Получаем цену из скрытого поля
+        const price = parseFloat(form.find('input[name="price"]').val());
+        
+        // Находим элемент для обновления итоговой цены по совпадению data-price
+        const totalPriceElement = $('.total-price[data-price="' + price + '"]');
 
         $.ajax({
             url: '/change_quantity',
@@ -135,7 +162,14 @@ $(document).ready(function() {
             success: function(response) {
                 if (response.success) {
                     console.log(response.message);
-                    countElement.text('Количество: ' + response.quantity); // Вывод нового кол-ва
+                    const quantity = response.quantity; // Обновляем количество
+                    
+                    // Пересчета итоговой цены
+                    const totalPrice = price * quantity;
+                    
+                    // Обновляем текст итоговой цены на странице
+                    totalPriceElement.text('Итого: ' + totalPrice + '₽');
+
                 } else {
                     console.log(response.message);
                 }
@@ -146,6 +180,11 @@ $(document).ready(function() {
         });
     });
 });
+
+
+
+
+
 
 // Ф-я при очистке корзины
 $(document).ready(function() {
@@ -176,3 +215,71 @@ $(document).ready(function() {
         });
     });
 });
+
+// Ф-я при авторизации
+$(document).ready(function() {
+    $('.sign-in-form').submit(function(event) {
+        event.preventDefault();
+        
+        const formData = $(this).serialize();
+
+        $.ajax({
+            url: '/sign_in',
+            type: 'POST',
+            data: formData,
+            dataType: 'json',
+            success: function(response) {
+                if (response.success) {
+                    // Перенаправляем пользователя на нужную страницу
+                    window.location.href = response.redirect_url;
+                } else {
+                    // Отображаем флеш-сообщение без перезагрузки
+                    showFlashMessage(response.message);
+                }
+            },
+            error: function() {
+                console.log("Произошла ошибка");
+            }
+        });
+    });
+
+    function showFlashMessage(message) {
+        const messageBox = $('<ul class="flashes"><li class="error animate__animated animate__fadeInUp">' + message + '</li></ul>');
+        $('#flash-messages-container').html(messageBox); // Обновляем контейнер для сообщений
+    }
+});
+
+// Ф-я при регистрации
+$(document).ready(function() {
+    $('.register-form').submit(function(event) {
+        event.preventDefault();
+
+        const formData = $(this).serialize();
+
+        $.ajax({
+            url: '/register',
+            type: 'POST',
+            data: formData,
+            dataType: 'json',
+            success: function(response) {
+                if (response.success) {
+                    // Перенаправляем пользователя на нужную страницу
+                    window.location.href = response.redirect_url;
+                } else {
+                    // Отображаем флеш-сообщение без перезагрузки
+                    showFlashMessage(response.message);
+                }
+            },
+            error: function(xhr) {
+                const response = xhr.responseJSON;
+                showFlashMessage(response.message || "Произошла ошибка");
+            }
+        });
+    });
+
+    function showFlashMessage(message) {
+        const messageBox = $('<ul class="flashes"><li class="error animate__animated animate__fadeInUp">' + message + '</li></ul>');
+        $('#flash-messages-container').html(messageBox); // Обновляем контейнер для сообщений
+    }
+});
+

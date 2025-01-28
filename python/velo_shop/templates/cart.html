@@ -43,7 +43,8 @@
                             <a href="/product/{{ item.id_product }}">
                             <div class="product-details">
                                 <h3>{{ item.name }}</h3>
-                                <p>Цена: {{ item.price }}₽</p>
+                                <p>Цена за единицу: {{ item.price }}₽</p>
+                                <p class="total-price" data-price="{{ item.price }}">Итого: {{ (item.price | int) * (item.quantity | int) }}₽</p>
                             </div></a>
                         </div>
                     
@@ -53,12 +54,14 @@
                             <form action="/change_quantity" method="post" style="display:inline;" class="quantity-form">
                                 <input type="hidden" name="name" value="{{ item.name }}">
                                 <input type="hidden" name="sign" value="-">
+                                <input type="hidden" name="price" value="{{ item.price }}">
                                 <button class="quantity-btn" type="submit">-</button>
                             </form>
                     
                             <form action="/change_quantity" method="post" style="display:inline;" class="quantity-form">
                                 <input type="hidden" name="name" value="{{ item.name }}">
                                 <input type="hidden" name="sign" value="+">
+                                <input type="hidden" name="price" value="{{ item.price }}">
                                 <button class="quantity-btn" type="submit">+</button>
                             </form>
                         </div>

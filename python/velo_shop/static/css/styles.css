@@ -174,7 +174,27 @@ main
 }
 
 #loginTab.active, #registerTab.active {
-    color: #639ea8; /* цвет для активной кнопки */
+    color: #639ea8;
+}
+
+.password-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.password-container input {
+    flex: 1;
+    height: 40px;
+    padding-right: 40px;
 }
 
 .add-to-cart, .add-product, .sign-in, .sign-up {
@@ -197,7 +217,7 @@ main
     transition: background-color 0.3s;
 }
 
-.main-add-product, .login-container {
+.main-add-product, .login-container, .main-personal-account {
     width: 60%;
     align-items: center;
     text-align: center;
@@ -210,6 +230,45 @@ main
     width: 30%;
     margin-bottom: 20px;
 }
+
+.login-container label{
+    align-items: left;
+    text-align: left;
+}
+
+.main-personal-account {
+    margin-bottom: 20px;
+}
+
+.main-personal-account p {
+    align-items: left;
+    text-align: left;
+}
+
+.main-personal-account li{
+    display: block;
+}
+
+.orders-container {
+    display: flex; 
+    flex-direction: column;
+}
+
+.product-item-order {
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 0 10px 10px 10px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.product-item-order img {
+    width: 50px;
+    height: auto;
+    margin-right: 10px; /* Отступ между изображением и текстом */
+}
+
 
 label {
     display: block;
