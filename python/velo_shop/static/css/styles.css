@@ -97,6 +97,12 @@ h2
     margin-top: 0;
 }
 
+.filter {
+    width: 20%;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
 main
 {
     flex: 1;
@@ -276,6 +282,46 @@ label {
     font-weight: bold;
 }
 
+.custom-select {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.select-selected {
+    background-color: #ffffff;
+    padding: 10px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+
+.select-items {
+    position: absolute;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    z-index: 99;
+    width: 100%;
+    max-height: 200px; /* Указание максимальной высоты */
+    overflow-y: auto; /* Полоса прокрутки при большой высоте */
+}
+
+.select-items div {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.select-items div:hover {
+    background-color: #f1f1f1; /* Цвет фона при наведении */
+}
+
+/* Скрыть по умолчанию */
+.select-hide {
+    display: none;
+}
+
+
+
 input[type="text"],
 input[type="number"],
 input[type="file"],
@@ -292,6 +338,7 @@ input[type="file"] {
 }
 
 .file-upload {
+    margin-top: 10px;
     position: relative;
     overflow: hidden;
     display: inline-block;

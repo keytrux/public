@@ -35,6 +35,24 @@
             
             <label for="name">Название товара:</label>
             <input type="text" id="name" name="name" required><br>
+
+            <!-- <label for="category">Категория:</label>
+            <select id="category" name="category" required>
+                {% for category in categories %}
+                    <option value="{{ category.id_category}}">{{ category.name }}</option>
+                {% endfor %}
+            </select><br> -->
+
+            <div class="custom-select">
+                <div class="select-selected">Выберите категорию</div>
+                <div class="select-items select-hide">
+                    {% for category in categories %}
+                        <div data-value="{{ category.id_category }}">{{ category.name }}</div>
+                    {% endfor %}
+                </div>
+            </div>
+            <input type="hidden" name="category" id="selected-category" value="">
+            
             
             <label for="image">Изображение (png, jpg, jpeg):</label>
             <div class="file-upload">

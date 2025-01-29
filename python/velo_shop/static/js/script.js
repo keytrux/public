@@ -68,29 +68,87 @@ $(document).ready(function() {
     });
 });
 
-
-
-
 function setActiveTab(activeId) {
     document.getElementById('loginTab').classList.remove('active');
     document.getElementById('registerTab').classList.remove('active');
     document.getElementById(activeId).classList.add('active');
 }
 
-// Ф-я при добавлении товара в корзину
-$(document).ready(function() {
-    $('.add-to-cart-form').submit(function(event) {
-        event.preventDefault();
-        
-        const formData = $(this).serialize();
 
-        $.ajax({
-            url: '/add_to_cart',
-            type: 'POST',
-            data: formData,
-            success: function(response) {
-                if (response.success) {
-                    updateCartQuantity(); // Обновление кол-ва товаров в корзине 
+$(document).ready(function() {
+    console.log('000');
+
+        // Обработка отправки фильтра
+        $('.category-filter-form').submit(function(event) {
+            event.preventDefault();
+            
+            const formData = $(this).serialize();
+    
+            $.ajax({
+                url: '/filter',
+                type: 'POST',
+                data: formData,
+                success: function(response) {
+                    if (response.products) {
+                        // Очистите текущие продукты из контейнера
+                        $('.main-products').empty();
+    
+                        const h3 = `<h3>${response.name_category}</h3>`;
+                        const divOpen = `<div class="products">`;
+                        const divClose = `</div>`;
+    
+                        // Добавляем заголовок и открывающий див
+                        $('.main-products').append(h3);
+                        $('.main-products').append(divOpen);
+    
+                        // Добавляем новые продукты
+                        response.products.forEach(function(product) {
+                            const productHtml = `
+                                <div class="product animate__animated animate__fadeInUp">
+                                    <a href="/product/${product.id_product}">
+                                        <img src="${product.image}" width="220" height="150" alt="${product.name}">
+                                        <h3>${product.name}</h3>
+                                        <p>Цена: ${product.price}₽</p>
+                                    </a>
+                                    <form action="/add_to_cart" method="post" class="add-to-cart-form">
+                                        <input type="hidden" name="id_product" value="${product.id_product}">
+                                        <input type="hidden" name="image" value="${product.image}">
+                                        <input type="hidden" name="price" value="${product.price}">
+                                        <input type="hidden" name="name" value="${product.name}">
+                                        <button type="submit" class="add-to-cart">Добавить в корзину</button>
+                                    </form>
+                                </div>
+                            `;
+    
+                            // Добавляем продукт с анимацией
+                            $('.products').append(productHtml);
+                        });
+    
+                        // Закрывающий див
+                        $('.main-products').append(divClose);
+                    } else {
+                        console.log("Ошибка получения продуктов.");
+                    }
+                },
+                error: function() {
+                    console.log("Ошибка в AJAX запросе");
+                }
+            });
+        });
+    
+        // Делегирование событий для динамически добавленных форм
+        $(document).on('submit', '.add-to-cart-form', function(event) {
+            event.preventDefault();
+            
+            const formData = $(this).serialize();
+    
+            $.ajax({
+                url: '/add_to_cart',
+                type: 'POST',
+                data: formData,
+                success: function(response) {
+                    if (response.success) {
+                        updateCartQuantity(); // Обновление кол-ва товаров в корзине 
                     console.log(response.message);
                 } else {
                     console.log(response.message);
@@ -101,7 +159,61 @@ $(document).ready(function() {
             }
         });
     });
+
+    
+
+    // Обработка нажатия на категорию
+    $(document).on('click', '.select-items div', function() {
+        const selectedValue = $(this).data('value');
+        $('#selected-category').val(selectedValue);
+        $('.select-selected').text($(this).text());
+        console.log('Выбрана категория: ' + selectedValue); // Проверка вывода
+        $('.select-items').addClass('select-hide'); // Скрыть выпадающий список
+
+        // Подаем форму
+        $('.category-filter-form').submit();
+    });
+
+    // Показ/скрытие выпадающего списка
+    $('.select-selected').click(function() {
+        $(this).next('.select-items').toggleClass('select-hide');
+    });
+
+    // Закрытие выпадающего списка при клике вне
+    $(document).click(function(e) {
+        if (!$(e.target).closest('.custom-select').length) {
+            $('.select-items').addClass('select-hide');
+        }
+    });
 });
+
+
+
+// // Ф-я при добавлении товара в корзину
+// $(document).ready(function() {
+//     $('.add-to-cart-form').submit(function(event) {
+//         event.preventDefault();
+        
+//         const formData = $(this).serialize();
+
+//         $.ajax({
+//             url: '/add_to_cart',
+//             type: 'POST',
+//             data: formData,
+//             success: function(response) {
+//                 if (response.success) {
+//                     updateCartQuantity(); // Обновление кол-ва товаров в корзине 
+//                     console.log(response.message);
+//                 } else {
+//                     console.log(response.message);
+//                 }
+//             },
+//             error: function() {
+//                 console.log("error");
+//             }
+//         });
+//     });
+// });
 
 // Ф-я для обновления кол-ва товаров в корзине
 function updateCartQuantity() {
@@ -113,6 +225,7 @@ function updateCartQuantity() {
 $(document).ready(function() {
     updateCartQuantity(); // Обновление кол-ва товаров в корзине при загрузке страницы
 });
+
 
 // Ф-я при удалении товара в корзине
 $(document).ready(function() {

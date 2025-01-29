@@ -25,18 +25,56 @@ def send_image(filename):
 def home():
     quantity = 0
 
-    # Извлечение всех продуктов из базы данных
+    # Извлечение всех категорий и продуктов из базы данных
     conn = get_db_connection()
+    categories_filter = conn.execute('SELECT * FROM categories').fetchall()
+
+    categories = conn.execute('SELECT * FROM categories').fetchall()
+    
     products = conn.execute('SELECT * FROM products').fetchall()
     conn.close()
+
+    categories_sorted = sorted(categories, key = lambda category: category['name'])
+
+    # Группируем продукты по категориям
+    category_products = {category['id_category']: {'name': category['name'], 'products': []} for category in categories_sorted}
+    for product in products:
+        category_products[product['id_category']]['products'].append(product)
 
     for item in cart:
         quantity += item['quantity']
 
     return render_template('index.html', 
-        products=products,
+        categories_filter=categories_filter,
+        categories=category_products,
         cart_length=quantity
     )
+
+@application.route('/filter', methods=['GET', 'POST'])
+def filter():
+    id_category = request.form.get('category')
+    quantity = 0
+
+    # Извлечение всех категорий и продуктов из базы данных
+    conn = get_db_connection()
+
+    categories_filter = conn.execute('SELECT * FROM categories').fetchall()
+
+    name_category = conn.execute('SELECT * FROM categories WHERE id_category = ?', (id_category,)).fetchone()
+
+    products = conn.execute('SELECT * FROM products WHERE id_category = ?', (id_category,)).fetchall()
+    conn.close()
+
+    products_data = []
+    for product in products:
+        products_data.append({
+            'id_product': product['id_product'],
+            'image': product['image'],
+            'name': product['name'],
+            'price': product['price']
+        })
+
+    return jsonify(products=products_data, name_category=name_category['name'])  # Отправляем данные в формате JSON
 
 @application.route('/cart/quantity')
 # Ф-я для получения кол-ва товаров в корзине
@@ -187,8 +225,9 @@ def exit():
 def admin():
     conn = get_db_connection()
     products = conn.execute('SELECT * FROM products').fetchall()
+    categories = conn.execute('SELECT * FROM categories').fetchall()
     conn.close()
-    return render_template('admin.html', products=products)
+    return render_template('admin.html', products=products, categories=categories)
     
 @application.route('/personal_account')
 def personal_account():
@@ -210,6 +249,7 @@ def personal_account():
 def add_product():
     name = request.form['name']
     price = request.form['price']
+    id_category = request.form['category']  # Получение выбранной категории
     
     # Обработка изображения
     if 'image' not in request.files:
@@ -219,15 +259,20 @@ def add_product():
     if file.filename == '':
         return "Нет выбранного файла"
 
+    conn = get_db_connection()
+
+    category = conn.execute('SELECT * FROM categories WHERE id_category = ?', (id_category,)).fetchone()
+
     # Сохранение изображения
     filename = file.filename
-    file_path = os.path.join(application.config['UPLOAD_FOLDER'], filename)
+    file_path = os.path.join(application.config['UPLOAD_FOLDER'], category['path'], filename)
     file.save(file_path)
 
     # Сохранение записи в БД
-    conn = get_db_connection()
-    conn.execute('INSERT INTO products (name, image, price) VALUES (?, ?, ?)',
-                 (name, f'/images/product/{filename}', price))
+    
+
+    conn.execute('INSERT INTO products (id_category, name, image, price) VALUES (?, ?, ?, ?)',
+                 (id_category, name, f'/images/product/{category['path']}/{filename}', price))
     conn.commit()
     conn.close()
     flash("Товар добавлен!", "success")

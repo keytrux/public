@@ -23,29 +23,51 @@
         <img src="/images/cart-icon.png" alt="Корзина" class="cart-icon">
         <span class="item-count" id="item-count">{{ cart_length }}</span>
     </a>
-    
-    <main>
-        <h2>Каталог</h2>
-        <div class="products">
-            {% for product in products %}
-                <div class="product">
-                    <a href="/product/{{ product.id_product }}">
-                        <img src="{{ product.image }}" width="220" height="150">
-                        <h3>{{ product.name }}</h3>
-                        <p>Цена: {{ product.price }}₽</p>
-                    </a>
 
-                    <form action="/add_to_cart" method="post" class="add-to-cart-form">
-                        <input type="hidden" name="id_product" value="{{ product.id_product }}">
-                        <input type="hidden" name="image" value="{{ product.image }}">
-                        <input type="hidden" name="price" value="{{ product.price }}">
-                        <input type="hidden" name="name" value="{{ product.name }}">
-                        <button type="submit" class="add-to-cart">Добавить в корзину</button>
-                    </form>
+    <main><h2>Каталог</h2></main>
+
+    <main class="filter">
+        <label>Фильтры</label>
+
+        <form id="category-filter" method="POST" action="/filter" class="category-filter-form">
+            <div class="custom-select">
+                <div class="select-selected">Выберите категорию</div>
+                <div class="select-items select-hide">
+                    {% for category in categories_filter %}
+                        <div data-value="{{ category.id_category }}">{{ category.name }}</div>
+                    {% endfor %}
                 </div>
-            {% endfor %}
-        </div>
+            </div>
+            <input type="hidden" name="category" id="selected-category" value="">
+            <button type="submit" class="submit-button" style="display: none;">Отправить</button> 
+        </form>
     </main>
+
+    <main class="main-products">
+        {% for category_id, category in categories.items() %}
+            <h3>{{ category.name }}</h3>
+            <div class="products">
+                {% for product in category.products %}
+                    <div class="product">
+                        <a href="/product/{{ product.id_product }}">
+                            <img src="{{ product.image }}" width="220" height="150">
+                            <h3>{{ product.name }}</h3>
+                            <p>Цена: {{ product.price }}₽</p>
+                        </a>
+    
+                        <form action="/add_to_cart" method="post" class="add-to-cart-form">
+                            <input type="hidden" name="id_product" value="{{ product.id_product }}">
+                            <input type="hidden" name="image" value="{{ product.image }}">
+                            <input type="hidden" name="price" value="{{ product.price }}">
+                            <input type="hidden" name="name" value="{{ product.name }}">
+                            <button type="submit" class="add-to-cart">Добавить в корзину</button>
+                        </form>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </main>
+    
     
     <footer>
         <p>© 2025 Вело-шоп-63</p>
