@@ -12,7 +12,7 @@ header {
     background-image: url(/../images/header.jpg);
     background-size: cover;
     background-position: center;
-    height: 300px;
+    min-height: 300px;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
@@ -203,7 +203,7 @@ main
     padding-right: 40px;
 }
 
-.add-to-cart, .add-product, .sign-in, .sign-up {
+.add-to-cart, .add-product, .sign-in, .sign-up, .add-category, .edit-user, .edit-product {
     background-color: white;
     color: black;
     border: 1px solid black;
@@ -213,7 +213,33 @@ main
     transition: background-color 0.3s;
 }
 
-.delete-product {
+.adminTabs {
+    /* flex: 1; */
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+}
+
+#adminTab, #productTab, #categoryTab, #orderTab, #userTab {
+    border: 0;
+    color: #9ad3dd;
+    background-color: white;
+    font-size: 16px;
+}
+
+#adminTab:hover, #productTab:hover, #categoryTab:hover, #orderTab:hover, #userTab:hover {
+    border: 0;
+    color: #639ea8;
+    background-color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#adminTab.active, #productTab.active, #categoryTab.active, #orderTab.active, #userTab.active {
+    color: #639ea8;
+}
+
+.delete-product, .delete-category, .delete-order, .delete-user {
     background-color: white;
     color: black;
     border: 1px solid black;
@@ -221,15 +247,36 @@ main
     font-size: 12px;
     cursor: pointer;
     transition: background-color 0.3s;
+
+    margin: 0 0 0 10px;
 }
 
-.main-add-product, .login-container, .main-personal-account {
+.delete-order {
+    margin: 0 0 20px 10px;
+}
+
+.main-add-product, .login-container, .main-personal-account, .main-admin, .admin-main-category, .main-edit-user, .main-edit-product {
     width: 60%;
     align-items: center;
     text-align: center;
     margin: 0 auto;
     border: 1px solid #ccc;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.main-edit-user, .main-edit-product {
+    margin-bottom: 20px;
+}
+
+.main-edit-user label {
+    align-items: left;
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+.main-admin {
+    width: 30%;
+    margin-bottom: 20px;
 }
 
 .login-container {
@@ -481,7 +528,11 @@ li p, li h2 {
     margin-right: 10px;
 }
 
-.quantity-btn:hover, .reset:hover, .order:hover, .add-to-cart:hover, .add-product:hover, .sign-in:hover, .delete-product:hover, .sign-up:hover  {
+.quantity-btn:hover, .reset:hover, .order:hover, 
+.add-to-cart:hover, .add-product:hover, .sign-in:hover, 
+.delete-product:hover, .sign-up:hover, .add-category:hover, 
+.delete-category:hover, .delete-order:hover, .delete-user:hover,
+.edit-user:hover, .edit-product:hover {
     background-color: #f1f1f1;
 }
 

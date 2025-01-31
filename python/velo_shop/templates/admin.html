@@ -19,6 +19,14 @@
         <span>Выход</span>
     </a>
 
+    <div class="adminTabs">
+        <button id="adminTab" onclick="showAdmin()" class="active">Административная панель</button>
+        <button id="productTab" onclick="showProduct()">Товары</button>
+        <button id="categoryTab" onclick="showCategory()">Категории</button>
+        <button id="orderTab" onclick="showOrder()">Заказы</button>
+        <button id="userTab" onclick="showUser()">Пользователи</button>
+    </div>
+
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
             <ul class="flashes">
@@ -29,59 +37,135 @@
         {% endif %}
     {% endwith %}
 
-    <main class="main-add-product">
-        <h1>Добавить новый товар</h1>
-        <form action="/add_product" method="POST" enctype="multipart/form-data">
-            
-            <label for="name">Название товара:</label>
-            <input type="text" id="name" name="name" required><br>
+    <div id="admin">
+        <main class="main-admin">
+            <p>Административная панель сайта VeloShop</p><br>
+            <label>Стек: html, css, javascript, jquery, python (flask)</label><br>
+            <p>Данный сайт — это тестовая версия, разработанная для личных целей, и не представляет собой настоящий интернет-магазин</p><br>
+            <p>Разработчик: keytrux</p>
+        </main>
+    </div>
 
-            <!-- <label for="category">Категория:</label>
-            <select id="category" name="category" required>
-                {% for category in categories %}
-                    <option value="{{ category.id_category}}">{{ category.name }}</option>
-                {% endfor %}
-            </select><br> -->
+    <div id="admin-product">
+        <main class="main-add-product">
+            <h1>Добавить новый товар</h1>
+            <form action="/add_product" method="POST" enctype="multipart/form-data">
+                
+                <label for="name">Название товара:</label>
+                <input type="text" id="name" name="name" required><br>
 
-            <div class="custom-select">
-                <div class="select-selected">Выберите категорию</div>
-                <div class="select-items select-hide">
-                    {% for category in categories %}
-                        <div data-value="{{ category.id_category }}">{{ category.name }}</div>
-                    {% endfor %}
+                <div class="custom-select">
+                    <div class="select-selected">Выберите категорию</div>
+                    <div class="select-items select-hide">
+                        {% for category in categories %}
+                            <div data-value="{{ category.id_category }}">{{ category.name }}</div>
+                        {% endfor %}
+                    </div>
                 </div>
-            </div>
-            <input type="hidden" name="category" id="selected-category" value="">
-            
-            
-            <label for="image">Изображение (png, jpg, jpeg):</label>
-            <div class="file-upload">
-                <input type="file" id="image" name="image" required="" accept=".png, .jpg, .jpeg">
-                <label for="image" class="custom-file-upload">
-                    Выберите файл
-                </label>
-            </div>
-            
-            <label for="price">Цена:</label>
-            <input type="number" id="price" name="price" required min="1" step="1" onkeydown="return validateInput(event)"><br>
-            
-            <button class="add-product" type="submit">Добавить товар</button>
-        </form>
-    </main>
+                <input type="hidden" name="category" id="selected-category" value="">
+                
+                
+                <label for="image">Изображение (png, jpg, jpeg):</label>
+                <div class="file-upload">
+                    <input type="file" id="image" name="image" required="" accept=".png, .jpg, .jpeg">
+                    <label for="image" class="custom-file-upload">
+                        Выберите файл
+                    </label>
+                </div>
+                
+                <label for="price">Цена:</label>
+                <input type="number" id="price" name="price" required min="1" step="1" onkeydown="return validateInput(event)"><br>
+                
+                <button class="add-product" type="submit">Добавить товар</button>
+            </form>
+        </main>
 
-    <h2>Существующие товары</h2>
-    <ul>
-        {% for product in products %}
-            <li>
-                <img src="{{ product.image }}" width="50"> 
-                {{ product.name }} - {{ product.price }} руб.
-                <form method="POST" action="{{ url_for('delete_product', product_id=product.id_product) }}" style="display:inline;">
-                    <button type="submit" class = "delete-product">Удалить</button>
+        <h2>Существующие товары</h2>
+        <ul>
+            {% for product in products %}
+                <li>
+                    <a href="/edit_product/{{ product.id_product }}">
+                    <img src="{{ product.image }}" width="50"> 
+                    {{ product.name }} - {{ product.price }} руб.
+                    </a>
+                    <form method="POST" action="{{ url_for('delete_product', product_id=product.id_product) }}" style="display:inline;">
+                        <button type="submit" class = "delete-product">Удалить</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div id="admin-category">
+        <main class="admin-main-category">
+            <h1>Добавить новую категорию</h1>
+            <form action="/add_category" method="POST" enctype="multipart/form-data">
+                
+                <label for="name">Название категории:</label>
+                <input type="text" id="name" name="name" required><br>
+
+                <label for="path">Название папки для изображений категории:</label>
+                <input type="text" id="path" name="path" required><br>
+                
+                <button class="add-category" type="submit">Добавить категорию</button>
+            </form>
+        </main>
+
+        <h2>Существующие категории</h2>
+        <ul>
+            {% for category in categories %}
+                <li>
+                    {{ category.name }} - {{ category.path }} (папка)
+                    <form method="POST" action="{{ url_for('delete_category', id_category=category.id_category) }}" style="display:inline;">
+                        <button type="submit" class = "delete-category">Удалить</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div id="admin-order">
+        <main class="admin-main-order">
+
+        </main>
+
+        <h2>Существующие заказы</h2>
+        <ul>
+            {% for order in orders %}
+                <li>
+                    {{ order.id_order }}. {{ order.date_order }} <br> 
+                    {{ order.order_details }} <br> 
+                    Статус: {{ order.status }} <br> 
+                    Сумма: {{ order.amount }} руб. <br> 
+                    Логин пользователя: {{ order.login }}
+                    
+                </li>
+                <form method="POST" action="{{ url_for('delete_order', id_order=order.id_order) }}" style="display:inline;">
+                    <button type="submit" class = "delete-order">Удалить</button>
                 </form>
-            </li>
-        {% endfor %}
-    </ul>
-    
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div id="admin-user">
+        <main class="admin-main-user">
+
+        </main>
+
+        <h2>Существующие пользователи</h2>
+        <ul>
+            {% for user in users %}
+                <li>
+                    <a href="/user/{{ user.id_user }}">
+                        {{ user.id_user }}. Логин: {{ user.login }}. Имя: {{ user.name }}. Роль: {{ user.role }}.
+                    </a>
+                    <form method="POST" action="{{ url_for('delete_user', id_user=user.id_user) }}" style="display:inline;">
+                        <button type="submit" class = "delete-user">Удалить</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
 
     <footer>
         <p>© 2025 Вело-шоп-63</p>

@@ -17,6 +17,7 @@ document.addEventListener("DOMContentLoaded", function() {
         header.classList.add('animate');
     }
     
+    showAdmin();
 });
 
 // Ф-я для ввода только цифр в цену
@@ -71,6 +72,66 @@ $(document).ready(function() {
 function setActiveTab(activeId) {
     document.getElementById('loginTab').classList.remove('active');
     document.getElementById('registerTab').classList.remove('active');
+    document.getElementById(activeId).classList.add('active');
+}
+
+
+function showAdmin()
+{
+    document.getElementById('admin').style.display = 'block';
+    document.getElementById('admin-product').style.display = 'none';
+    document.getElementById('admin-category').style.display = 'none';
+    document.getElementById('admin-order').style.display = 'none';
+    document.getElementById('admin-user').style.display = 'none';
+    setActiveTabAdmin('adminTab');
+}
+
+function showProduct()
+{
+    document.getElementById('admin').style.display = 'none';
+    document.getElementById('admin-product').style.display = 'block';
+    document.getElementById('admin-category').style.display = 'none';
+    document.getElementById('admin-order').style.display = 'none';
+    document.getElementById('admin-user').style.display = 'none';
+    setActiveTabAdmin('productTab');
+}
+
+function showCategory()
+{
+    document.getElementById('admin').style.display = 'none';
+    document.getElementById('admin-product').style.display = 'none';
+    document.getElementById('admin-category').style.display = 'block';
+    document.getElementById('admin-order').style.display = 'none';
+    document.getElementById('admin-user').style.display = 'none';
+    setActiveTabAdmin('categoryTab');
+}
+
+function showOrder()
+{
+    document.getElementById('admin').style.display = 'none';
+    document.getElementById('admin-product').style.display = 'none';
+    document.getElementById('admin-category').style.display = 'none';
+    document.getElementById('admin-order').style.display = 'block';
+    document.getElementById('admin-user').style.display = 'none';
+    setActiveTabAdmin('orderTab');
+}
+
+function showUser()
+{
+    document.getElementById('admin').style.display = 'none';
+    document.getElementById('admin-product').style.display = 'none';
+    document.getElementById('admin-category').style.display = 'none';
+    document.getElementById('admin-order').style.display = 'none';
+    document.getElementById('admin-user').style.display = 'block';
+    setActiveTabAdmin('userTab');
+}
+
+function setActiveTabAdmin(activeId) {
+    document.getElementById('adminTab').classList.remove('active');
+    document.getElementById('productTab').classList.remove('active');
+    document.getElementById('categoryTab').classList.remove('active');
+    document.getElementById('orderTab').classList.remove('active');
+    document.getElementById('userTab').classList.remove('active');
     document.getElementById(activeId).classList.add('active');
 }
 
@@ -166,8 +227,9 @@ $(document).ready(function() {
     $(document).on('click', '.select-items div', function() {
         const selectedValue = $(this).data('value');
         $('#selected-category').val(selectedValue);
+        $('#selected-role').val(selectedValue);
         $('.select-selected').text($(this).text());
-        console.log('Выбрана категория: ' + selectedValue); // Проверка вывода
+        console.log('Выбрано: ' + selectedValue); // Проверка вывода
         $('.select-items').addClass('select-hide'); // Скрыть выпадающий список
 
         // Подаем форму
@@ -185,6 +247,8 @@ $(document).ready(function() {
             $('.select-items').addClass('select-hide');
         }
     });
+
+    
 });
 
 

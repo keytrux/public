@@ -35,6 +35,7 @@
             {% for order in orders %}
                 <li class="order-li">
                     <label>Номер заказа: {{ order.id_order }}</label><br>
+                    <label>Статус: {{ order.status }}</label>
                     
                     <div class="orders-container">
                         {% set items = order.order_details.split(', ') %}
@@ -75,8 +76,8 @@
                                         <div>
                                             <strong>{{ product_dict[product_id].name }}</strong><br>
                                             Количество: {{ product_quantity }}<br>
-                                            Цена за единицу: {{ product_price }}<br>
-                                            Итого: {{ (product_price | replace(' руб.', '') | int) * (product_quantity | int) }}
+                                            Цена за единицу: {{ (product_price | replace(' руб.', '') | int) }}₽<br>
+                                            Итого: {{ (product_price | replace(' руб.', '') | int) * (product_quantity | int) }}₽
                                         </div>                
                                     </div></a>
                             {% else %}
@@ -86,7 +87,7 @@
                     </div>
                     <br>
 
-                    <label>Сумма: {{ order.amount }} руб.</label>
+                    <label>Итого: {{ order.amount }}₽</label>
                 </li>
             {% endfor %}
         </ul>

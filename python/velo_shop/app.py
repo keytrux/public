@@ -120,6 +120,107 @@ def view_product(product_id):
 
     return render_template('product.html', product=product, cart=cart)
 
+@application.route('/edit_product/<int:id_product>', methods=['GET', 'POST'])
+def view_edit_product(id_product):
+    if request.method == 'POST':
+        id_product_post = request.form.get('id')
+        name = request.form.get('name')
+        category_id = request.form.get('category')  # Можно менять название переменной на более подходящее
+        
+        # Получаем загрузку изображения; может быть None, если не загружено
+        price = request.form.get('price')
+
+        conn = get_db_connection()
+        
+        # Получаем текущее значение из продукта
+        current_product = conn.execute('SELECT image FROM products WHERE id_product = ?', (id_product_post,)).fetchone()
+        
+        # Проверка на загруженное изображение
+        if 'image' in request.files:
+            file = request.files['image']
+            
+            if file.filename == '':
+                image = current_product['image']  # Используем текущее изображение
+            else:
+                # Удаляем предыдущее изображение, если есть
+                if current_product and current_product['image']:
+                    image_path = current_product['image'].lstrip('/')
+                    full_path = os.path.join(application.config['UPLOAD_FOLDER'], image_path)
+                    os.remove(image_path)
+                    # if os.path.exists(full_path):
+                    #     try:
+                    #         os.remove(full_path)
+                    #     except Exception as e:
+                    #         print(f'Ошибка при удалении файла: {e}')
+                    # else:
+                    #     print(f'Файл для удаления не найден: {full_path}')
+
+                category = conn.execute('SELECT path FROM categories WHERE id_category = ?', (category_id,)).fetchone()
+                filename = file.filename
+                # Путь для сохранения файла
+                file_path = os.path.join(application.config['UPLOAD_FOLDER'], category['path'], filename)
+                file.save(file_path)
+                
+                # Путь к изображению для сохранения в БД
+                image = f'/images/product/{category["path"]}/{filename}'  # Корректный путь к изображению
+
+        else:
+            image = current_product['image']  # Если изображение не загружено, оставляем текущее
+
+        # Обновляем информацию о продукте
+        conn.execute('UPDATE products SET name = ?, id_category = ?, image = ?, price = ? WHERE id_product = ?',
+                     (name, category_id, image, price, id_product_post))
+        conn.commit()
+
+    # Получаем актуальные данные о продукте для отображения
+    conn = get_db_connection()
+    products = conn.execute('''SELECT products.*, categories.name as name_category, categories.id_category as id_selected_category 
+                                FROM products JOIN categories ON products.id_category = categories.id_category''').fetchall()
+    categories = conn.execute('SELECT * FROM categories').fetchall()
+    conn.close()
+
+    product = next((item for item in products if item['id_product'] == id_product), None)
+
+    return render_template('edit_product.html', product=product, categories=categories)
+
+
+
+@application.route('/user/<int:id_user>')
+# Ф-я для карточки пользователя
+def view_edit_user(id_user):
+    conn = get_db_connection()
+    users = conn.execute('SELECT * FROM users').fetchall()
+    conn.close()
+
+    user = next((item for item in users if item['id_user'] == id_user), None)
+
+    return render_template('edit_user.html', user=user)
+
+@application.route('/edit_user', methods=['GET', 'POST'])
+def edit_user():
+    id_user = request.form.get('id')
+    login = request.form.get('login')
+    phone = request.form.get('phone')
+    name = request.form.get('name')
+    role = request.form.get('role')
+
+    if not role:
+        flash('Ошибка: роль не может быть пустой', 'error')
+        return redirect(url_for('view_edit_user', id_user=id_user))
+
+
+    conn = get_db_connection()
+    conn.execute('UPDATE users SET login = ?, phone = ?, name = ?, role = ? WHERE id_user = ?',
+                 (login, phone, name, role, id_user))
+    conn.commit()
+    
+    # user = conn.execute('SELECT * FROM users WHERE id_user = ?', (id_user,)).fetchone()
+    conn.close()
+    
+    flash('Пользователь успешно обновлен', 'success')
+    return redirect(url_for('view_user', id_user=id_user))
+
+
 @application.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
@@ -219,22 +320,24 @@ def exit():
     session.pop('id_user', None)
     session.pop('role', None)
     session.clear()
-    return render_template('index.html', products=products, cart_length=quantity)
+    return redirect(url_for('home'))
 
 @application.route('/admin')
 def admin():
     conn = get_db_connection()
     products = conn.execute('SELECT * FROM products').fetchall()
     categories = conn.execute('SELECT * FROM categories').fetchall()
+    orders = conn.execute('''SELECT orders.*, users.login, statuses.name as status FROM orders JOIN users ON orders.id_user = users.id_user JOIN statuses ON orders.id_status = statuses.id_status''').fetchall()
+    users = conn.execute('SELECT * FROM users').fetchall()
     conn.close()
-    return render_template('admin.html', products=products, categories=categories)
+    return render_template('admin.html', products=products, categories=categories, orders=orders, users=users)
     
 @application.route('/personal_account')
 def personal_account():
     conn = get_db_connection()
     id_user = int(session.get('id_user'))
     user = conn.execute('SELECT * FROM users WHERE id_user = ?', (id_user,)).fetchone()
-    orders = conn.execute('SELECT * FROM orders WHERE id_user = ?', (id_user,)).fetchall()
+    orders = conn.execute('SELECT orders.*, statuses.name as status FROM orders JOIN statuses ON orders.id_status = statuses.id_status WHERE id_user = ?', (id_user,)).fetchall()
 
     # Получаем информацию о товарах
     products = conn.execute('SELECT * FROM products').fetchall()
@@ -276,6 +379,61 @@ def add_product():
     conn.commit()
     conn.close()
     flash("Товар добавлен!", "success")
+    return redirect('/sign_in')
+
+@application.route('/add_category', methods=['POST'])
+# Ф-я для добавления товара
+def add_category():
+    name = request.form['name']
+    path = request.form['path']
+
+    conn = get_db_connection()
+
+    # Создание папки, если она не существует
+    category_folder = os.path.join(application.config['UPLOAD_FOLDER'], path)
+    if not os.path.exists(category_folder):
+        os.makedirs(category_folder)
+
+    # Сохранение записи в БД
+    conn.execute('INSERT INTO categories (name, path) VALUES (?, ?)', (name, path))
+    conn.commit()
+    conn.close()
+    flash("Категория добавлена!", "success")
+    return redirect('/sign_in')
+
+@application.route('/delete_category/<int:id_category>', methods=['POST'])
+def delete_category(id_category):
+    conn = get_db_connection()
+
+    category = conn.execute('SELECT path FROM categories WHERE id_category = ?', (id_category,)).fetchone()
+    category_folder = os.path.join(application.config['UPLOAD_FOLDER'], category['path'][1:])
+    if os.path.exists(category_folder):
+        shutil.rmtree(category_folder)
+
+    conn.execute('DELETE FROM categories WHERE id_category = ?', (id_category,))
+    conn.commit()
+    conn.close()
+    flash('Категория успешно удалена.', 'success')  # Подтверждение успешного удаления
+    return redirect('/sign_in')
+
+@application.route('/delete_order/<int:id_order>', methods=['POST'])
+def delete_order(id_order):
+    conn = get_db_connection()
+
+    conn.execute('DELETE FROM orders WHERE id_order = ?', (id_order,))
+    conn.commit()
+    conn.close()
+    flash('Заказ успешно удален.', 'success')  # Подтверждение успешного удаления
+    return redirect('/sign_in')
+
+@application.route('/delete_user/<int:id_user>', methods=['POST'])
+def delete_user(id_user):
+    conn = get_db_connection()
+
+    conn.execute('DELETE FROM users WHERE id_user = ?', (id_user,))
+    conn.commit()
+    conn.close()
+    flash('Пользователь успешно удален.', 'success')  # Подтверждение успешного удаления
     return redirect('/sign_in')
 
 @application.route('/delete_product/<int:product_id>', methods=['POST'])

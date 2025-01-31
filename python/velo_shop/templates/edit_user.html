@@ -1,0 +1,71 @@
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <link rel="icon" href="images/icon.ico" type="image/x-icon">
+    <title>Редактирование {{ user.login }}</title>
+</head>
+<body>
+    <header>
+        <a href="/" class="main-button">На главную</a>
+    </header>
+
+    <a href="/sign_in" class="admin-button">
+        <span>Личный кабинет</span>
+    </a>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul class="flashes">
+                {% for category, message in messages %}
+                    <li class="{{ category }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    <main class="main-edit-user">
+        <form action="/edit_user" method="POST" enctype="multipart/form-data">
+            <label for="login">Логин:</label>
+            <input type="text" id="login" name="login" required value="{{user.login}}"><br>
+
+            <label for="phone">Телефон:</label>
+            <input type="text" id="phone" name="phone" required value="{{user.phone}}"><br>
+
+            <label for="name">Имя:</label>
+            <input type="text" id="name" name="name" required value="{{user.name}}"><br>
+
+            <!-- <label for="role">Роль:</label>
+            <input type="text" id="role" name="role" required value="{{user.role}}"><br> -->
+
+            <div class="custom-select">
+                <div class="select-selected">Выберите роль</div>
+                <div class="select-items select-hide">
+                    <div data-value="admin">Администратор</div>
+                    <div data-value="user">Пользователь</div>
+                </div>
+            </div>
+            <input type="hidden" name="role" id="selected-role" value="">
+
+            <input type="hidden" id="id" name="id" required value="{{user.id_user}}"><br>
+
+            <button class="edit-user" type="submit">Сохранить</button>
+        </form>
+    </main>
+
+    <footer>
+        <p>© 2025 Вело-шоп-63</p>
+        <div class="contacts">
+            <a href="mailto:info@veloshop63.com"><img src="/images/email-icon.png" alt="Почта" width="50"></a>
+            <a href="tel:+7986533688"><img src="/images/phone-icon.png" alt="Телефон" width="50"></a>
+            <a href="https://t.me/veloshop63"><img src="/images/tg-icon.png" alt="Телеграмм" width="50"></a>
+            <p>Автозаводское ш., 6, Тольятти</p>
+        </div>
+    </footer>
+    
+</body>
+</html>
