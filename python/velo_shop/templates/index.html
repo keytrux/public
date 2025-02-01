@@ -26,51 +26,78 @@
 
     <main><h2>Каталог</h2></main>
 
-    <main class="filter">
-        <label>Фильтры</label>
+    <main class="main-catalog">
+        <div class="filter">
 
-        <form id="category-filter" method="POST" action="/filter" class="category-filter-form">
-            <div class="custom-select">
-                <div class="select-selected">Выберите категорию</div>
-                <div class="select-items select-hide">
-                    {% for category in categories_filter %}
-                        <div data-value="{{ category.id_category }}">{{ category.name }}</div>
+            <label>Сортировка</label>
+            <form id="alphabet-sorting" method="POST" action="/filter" class="category-filter-form">
+                <input type="hidden" name="sort" value="alphabet">
+                <button type="submit" class="alphabet-sorting-button">По алфавиту</button>
+            </form>
+            <form id="price-sorting" method="POST" action="/filter" class="category-filter-form">
+                <input type="hidden" name="sort" value="price">
+                <button type="submit" class="price-sorting-button">По цене</button>
+            </form>
+
+            <label>Фильтры</label>
+        
+            <form id="category-filter" method="POST" action="/filter" class="category-filter-form">
+                <div class="custom-select">
+                    <div class="select-selected">Выберите категорию</div>
+                    <div class="select-items select-hide">
+                        {% for category in categories_filter %}
+                            <div data-value="{{ category.id_category }}">{{ category.name }}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <input type="hidden" name="category" id="selected-category" value="">
+                <button type="submit" class="submit-button" style="display: none;">Отправить</button> 
+        
+                <div class="price-filter">
+                    <label for="price_from">Цена от:</label>
+                    <input type="number" id="price_from" name="price_from" min="1" step="1" onkeydown="return validateInput(event)"><br>
+        
+                    <label for="price_to">Цена до:</label>
+                    <input type="number" id="price_to" name="price_to" min="1" step="1" onkeydown="return validateInput(event)"><br>
+                </div>
+                
+                <button type="submit" class="filter-button">Применить фильтры</button>
+            </form>
+
+            <form id="reset-filter" method="POST" action="/resest_filter" class="reset-filter-form">
+                <button type="submit" class="reset-filter-button">Сбросить фильтры</button>
+            </form>
+        </div>
+
+        <div class="main-products">
+            {% for category_id, category in categories.items() %}
+                <h3>{{ category.name }}</h3>
+                <div class="products">
+                    {% for product in category.products %}
+                        <div class="product">
+                            <a href="/product/{{ product.id_product }}">
+                                <img src="{{ product.image }}" width="220" height="150">
+                                <h3>{{ product.name }}</h3>
+                                <p>Цена: {{ product.price }}₽</p>
+                            </a>
+        
+                            <form action="/add_to_cart" method="post" class="add-to-cart-form">
+                                <input type="hidden" name="id_product" value="{{ product.id_product }}">
+                                <input type="hidden" name="image" value="{{ product.image }}">
+                                <input type="hidden" name="price" value="{{ product.price }}">
+                                <input type="hidden" name="name" value="{{ product.name }}">
+                                <button type="submit" class="add-to-cart">Добавить в корзину</button>
+                            </form>
+                        </div>
                     {% endfor %}
                 </div>
-            </div>
-            <input type="hidden" name="category" id="selected-category" value="">
-            <button type="submit" class="submit-button" style="display: none;">Отправить</button> 
-        </form>
-    </main>
-
-    <main class="main-products">
-        {% for category_id, category in categories.items() %}
-            <h3>{{ category.name }}</h3>
-            <div class="products">
-                {% for product in category.products %}
-                    <div class="product">
-                        <a href="/product/{{ product.id_product }}">
-                            <img src="{{ product.image }}" width="220" height="150">
-                            <h3>{{ product.name }}</h3>
-                            <p>Цена: {{ product.price }}₽</p>
-                        </a>
-    
-                        <form action="/add_to_cart" method="post" class="add-to-cart-form">
-                            <input type="hidden" name="id_product" value="{{ product.id_product }}">
-                            <input type="hidden" name="image" value="{{ product.image }}">
-                            <input type="hidden" name="price" value="{{ product.price }}">
-                            <input type="hidden" name="name" value="{{ product.name }}">
-                            <button type="submit" class="add-to-cart">Добавить в корзину</button>
-                        </form>
-                    </div>
-                {% endfor %}
-            </div>
-        {% endfor %}
+            {% endfor %}
+        </div>
     </main>
     
     
     <footer>
-        <p>© 2025 Вело-шоп-63</p>
+        <p>© {{ current_year }} Вело-шоп-63</p>
         <div class="contacts">
             <a href="mailto:info@veloshop63.com"><img src="/images/email-icon.png" alt="Почта" width="50"></a>
             <a href="tel:+7986533688"><img src="/images/phone-icon.png" alt="Телефон" width="50"></a>

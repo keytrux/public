@@ -137,7 +137,6 @@ function setActiveTabAdmin(activeId) {
 
 
 $(document).ready(function() {
-    console.log('000');
 
         // Обработка отправки фильтра
         $('.category-filter-form').submit(function(event) {
@@ -150,47 +149,62 @@ $(document).ready(function() {
                 type: 'POST',
                 data: formData,
                 success: function(response) {
+                    console.log('1224');
                     if (response.products) {
-                        // Очистите текущие продукты из контейнера
                         $('.main-products').empty();
-    
-                        const h3 = `<h3>${response.name_category}</h3>`;
-                        const divOpen = `<div class="products">`;
-                        const divClose = `</div>`;
-    
-                        // Добавляем заголовок и открывающий див
-                        $('.main-products').append(h3);
-                        $('.main-products').append(divOpen);
-    
-                        // Добавляем новые продукты
-                        response.products.forEach(function(product) {
-                            const productHtml = `
-                                <div class="product animate__animated animate__fadeInUp">
-                                    <a href="/product/${product.id_product}">
-                                        <img src="${product.image}" width="220" height="150" alt="${product.name}">
-                                        <h3>${product.name}</h3>
-                                        <p>Цена: ${product.price}₽</p>
-                                    </a>
-                                    <form action="/add_to_cart" method="post" class="add-to-cart-form">
-                                        <input type="hidden" name="id_product" value="${product.id_product}">
-                                        <input type="hidden" name="image" value="${product.image}">
-                                        <input type="hidden" name="price" value="${product.price}">
-                                        <input type="hidden" name="name" value="${product.name}">
-                                        <button type="submit" class="add-to-cart">Добавить в корзину</button>
-                                    </form>
-                                </div>
-                            `;
-    
-                            // Добавляем продукт с анимацией
-                            $('.products').append(productHtml);
+                        
+                        // Группируем продукты по категориям
+                        const productsByCategory = response.products.reduce((acc, product) => {
+                            const category = product.name_category;
+                            if (!acc[category]) {
+                                acc[category] = []; // Если категория не существует, создаем массив для товаров
+                            }
+                            acc[category].push(product); // Добавляем продукт в соответствующую категорию
+                            return acc;
+                        }, {});
+                    
+                        // Сортируем категории от А до Я
+                        const sortedCategories = Object.keys(productsByCategory).sort();
+                    
+                        // Проходим по отсортированным категориям и выводим их с товарами
+                        sortedCategories.forEach(category => {
+                            const h3 = `<h3>${category}</h3>`;
+                            $('.main-products').append(h3); // Добавляем заголовок категории
+                    
+                            const divOpen = '<div class="products">';
+                            const divClose = '</div>';
+                            $('.main-products').append(divOpen); // Открываем блок продуктов
+                    
+                            productsByCategory[category].forEach(function(product) {
+                                const productHtml = `
+                                    <div class="product animate__animated animate__fadeInUp">
+                                        <a href="/product/${product.id_product}">
+                                            <img src="${product.image}" width="220" height="150" alt="${product.name}">
+                                            <h3>${product.name}</h3>
+                                            <p>Цена: ${product.price}₽</p>
+                                        </a>
+                                        <form action="/add_to_cart" method="post" class="add-to-cart-form">
+                                            <input type="hidden" name="id_product" value="${product.id_product}">
+                                            <input type="hidden" name="image" value="${product.image}">
+                                            <input type="hidden" name="price" value="${product.price}">
+                                            <input type="hidden" name="name" value="${product.name}">
+                                            <button type="submit" class="add-to-cart">Добавить в корзину</button>
+                                        </form>
+                                    </div>
+                                `;
+                                $('.main-products .products:last').append(productHtml); // Добавляем товар в последний открытый блок
+                            });
+                    
+                            $('.main-products').append(divClose); // Закрываем блок с продуктами
                         });
-    
-                        // Закрывающий див
-                        $('.main-products').append(divClose);
-                    } else {
+                    }
+                                    
+                    
+                     else {
                         console.log("Ошибка получения продуктов.");
                     }
-                },
+                }
+                ,
                 error: function() {
                     console.log("Ошибка в AJAX запросе");
                 }
@@ -228,12 +242,13 @@ $(document).ready(function() {
         const selectedValue = $(this).data('value');
         $('#selected-category').val(selectedValue);
         $('#selected-role').val(selectedValue);
+        $('#selected-status').val(selectedValue);
         $('.select-selected').text($(this).text());
         console.log('Выбрано: ' + selectedValue); // Проверка вывода
         $('.select-items').addClass('select-hide'); // Скрыть выпадающий список
 
         // Подаем форму
-        $('.category-filter-form').submit();
+        // $('.category-filter-form').submit();
     });
 
     // Показ/скрытие выпадающего списка
@@ -251,33 +266,6 @@ $(document).ready(function() {
     
 });
 
-
-
-// // Ф-я при добавлении товара в корзину
-// $(document).ready(function() {
-//     $('.add-to-cart-form').submit(function(event) {
-//         event.preventDefault();
-        
-//         const formData = $(this).serialize();
-
-//         $.ajax({
-//             url: '/add_to_cart',
-//             type: 'POST',
-//             data: formData,
-//             success: function(response) {
-//                 if (response.success) {
-//                     updateCartQuantity(); // Обновление кол-ва товаров в корзине 
-//                     console.log(response.message);
-//                 } else {
-//                     console.log(response.message);
-//                 }
-//             },
-//             error: function() {
-//                 console.log("error");
-//             }
-//         });
-//     });
-// });
 
 // Ф-я для обновления кол-ва товаров в корзине
 function updateCartQuantity() {

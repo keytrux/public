@@ -7,7 +7,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
     <link rel="icon" href="images/icon.ico" type="image/x-icon">
-    <title>Редактирование {{ user.login }}</title>
+    <title>Редактирование {{ category.name }}</title>
 </head>
 <body>
     <header>
@@ -28,32 +28,18 @@
         {% endif %}
     {% endwith %}
 
-    <main class="main-edit-user">
-        <form action="/edit_user" method="POST" enctype="multipart/form-data">
-            <label for="login">Логин:</label>
-            <input type="text" id="login" name="login" required value="{{user.login}}"><br>
+    <main class="main-edit-category">
+        <form action="/edit_category/{{ category.id_category }}" method="POST" enctype="multipart/form-data">
 
-            <label for="phone">Телефон:</label>
-            <input type="text" id="phone" name="phone" required value="{{user.phone}}"><br>
+            <label for="name">Название:</label>
+            <input type="text" id="name" name="name" required value="{{category.name}}"><br>
 
-            <label for="name">Имя:</label>
-            <input type="text" id="name" name="name" required value="{{user.name}}"><br>
+            <label for="path">Папка:</label>
+            <input type="text" id="path" name="path" required value="{{category.path}}"><br>
 
-            <label for="email">Email:</label>
-            <input type="text" id="email" name="email" required value="{{user.email}}"><br>
+            <input type="hidden" id="id" name="id" required value="{{category.id_category}}"><br>
 
-            <div class="custom-select">
-                <div class="select-selected">Выберите роль</div>
-                <div class="select-items select-hide">
-                    <div data-value="admin">Администратор</div>
-                    <div data-value="user">Пользователь</div>
-                </div>
-            </div>
-            <input type="hidden" name="role" id="selected-role" value="{{user.role}}">
-
-            <input type="hidden" id="id" name="id" required value="{{user.id_user}}"><br>
-
-            <button class="edit-user" type="submit">Сохранить</button>
+            <button class="edit-category" type="submit">Сохранить</button>
         </form>
     </main>
 

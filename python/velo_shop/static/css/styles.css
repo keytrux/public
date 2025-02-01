@@ -1,3 +1,6 @@
+* {
+    box-sizing: border-box; 
+}
 body {
     font-family: 'DejaVu Sans Mono', monospace;
     height: 100%;
@@ -98,22 +101,35 @@ h2
 }
 
 .filter {
-    width: 20%;
-    border: 1px solid #ccc;
+    width: 15%; /* Ширина для фильтров */
+    border: 1px solid #ccc; 
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px; /* Добавленные отступы для фильтров */
 }
 
 main
 {
     flex: 1;
-    align-items: center;
+    /* align-items: center; */
     text-align: center;
     padding: 20px;
+}
+
+.main-catalog {
+    display: flex; /* Гибкая компоновка */
+    width: 100%; /* Задает 100% ширины */
+    padding: 0;
+}
+
+.main-products {
+    width: 85%; /* Ширина для продуктов */
+    padding: 0 20px 0 20px; 
 }
 
 .flashes {
     list-style: none;
     padding: 0;
+    height: auto;
 }
 
 .flashes li {
@@ -140,7 +156,7 @@ main
     flex-wrap: wrap;
     justify-content: space-between;
     gap: 20px;
-    width: 95%;
+    /* width: 95%; */
     margin: 0 auto;
     margin-bottom: 50px;
 }
@@ -203,7 +219,8 @@ main
     padding-right: 40px;
 }
 
-.add-to-cart, .add-product, .sign-in, .sign-up, .add-category, .edit-user, .edit-product {
+.add-to-cart, .add-product, .sign-in, .sign-up, .add-category, .edit-user, .edit-product, .edit-category, .edit-order, .filter-button, .reset-filter-button,
+.alphabet-sorting-button, .price-sorting-button {
     background-color: white;
     color: black;
     border: 1px solid black;
@@ -211,6 +228,8 @@ main
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s;
+
+    margin: 10px;
 }
 
 .adminTabs {
@@ -255,7 +274,7 @@ main
     margin: 0 0 20px 10px;
 }
 
-.main-add-product, .login-container, .main-personal-account, .main-admin, .admin-main-category, .main-edit-user, .main-edit-product {
+.main-add-product, .login-container, .main-personal-account, .main-admin, .admin-main-category, .main-edit-user, .main-edit-product, .main-edit-category, .main-edit-order {
     width: 60%;
     align-items: center;
     text-align: center;
@@ -264,7 +283,7 @@ main
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.main-edit-user, .main-edit-product {
+.main-edit-user, .main-edit-product, .main-edit-category, .main-edit-order {
     margin-bottom: 20px;
 }
 
@@ -284,7 +303,7 @@ main
     margin-bottom: 20px;
 }
 
-.login-container label{
+.login-container label, .main-edit-order label{
     align-items: left;
     text-align: left;
 }
@@ -368,7 +387,7 @@ label {
 }
 
 
-
+input[type="email"],
 input[type="text"],
 input[type="number"],
 input[type="file"],
@@ -532,7 +551,9 @@ li p, li h2 {
 .add-to-cart:hover, .add-product:hover, .sign-in:hover, 
 .delete-product:hover, .sign-up:hover, .add-category:hover, 
 .delete-category:hover, .delete-order:hover, .delete-user:hover,
-.edit-user:hover, .edit-product:hover {
+.edit-user:hover, .edit-product:hover, .edit-category:hover,
+.edit-order:hover, .filter-button:hover, .reset-filter-button:hover,
+.alphabet-sorting-button:hover, .price-sorting-button:hover {
     background-color: #f1f1f1;
 }
 

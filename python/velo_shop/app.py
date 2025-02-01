@@ -3,6 +3,11 @@ import sqlite3
 import os
 from datetime import datetime
 import hashlib
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+import http.client
+import urllib.parse
 
 application = Flask(__name__)
 application.secret_key = '333'
@@ -44,37 +49,78 @@ def home():
     for item in cart:
         quantity += item['quantity']
 
+    current_year = datetime.now().year
+
     return render_template('index.html', 
         categories_filter=categories_filter,
         categories=category_products,
-        cart_length=quantity
+        cart_length=quantity,
+        current_year=current_year
     )
+
+# @application.route('/alphabet_sorting', methods=['GET', 'POST'])
+# def alphabet_sorting():
+
+#     return jsonify(products=products_data, name_category=name_category)
 
 @application.route('/filter', methods=['GET', 'POST'])
 def filter():
     id_category = request.form.get('category')
-    quantity = 0
+    price_from = request.form.get('price_from')
+    price_to = request.form.get('price_to')
+    sort = request.form.get('sort')
 
-    # Извлечение всех категорий и продуктов из базы данных
+    if not id_category and not price_from and not price_to and not sort:
+        return jsonify(products=[], message='Нет параметров для фильтрации'), 400
+
+    query = '''SELECT products.*, categories.name AS name_category FROM products JOIN categories ON products.id_category = categories.id_category WHERE 1=1'''
+
+    params = []
+
+    if id_category:
+        query += ' AND products.id_category = ?'
+        params.append(id_category)
+
+    if price_from:
+        query += ' AND price >= ?'
+        params.append(int(price_from))
+
+    if price_to:
+        query += ' AND price <= ?'
+        params.append(int(price_to))
+
+    # Добавление условия сортировки
+    if sort == 'alphabet':
+        query += ' ORDER BY products.name ASC'
+    elif sort == 'price':
+        query += ' ORDER BY products.price ASC'
+
     conn = get_db_connection()
-
-    categories_filter = conn.execute('SELECT * FROM categories').fetchall()
-
-    name_category = conn.execute('SELECT * FROM categories WHERE id_category = ?', (id_category,)).fetchone()
-
-    products = conn.execute('SELECT * FROM products WHERE id_category = ?', (id_category,)).fetchall()
+    products = conn.execute(query, params).fetchall()
     conn.close()
+
+    # Получение уникальных категорий
+    unique_categories = {product['name_category'] for product in products} if products else set()
+    name_category = list(unique_categories)  # Преобразование в список
 
     products_data = []
     for product in products:
         products_data.append({
             'id_product': product['id_product'],
+            'name_category': product['name_category'],
             'image': product['image'],
             'name': product['name'],
             'price': product['price']
         })
 
-    return jsonify(products=products_data, name_category=name_category['name'])  # Отправляем данные в формате JSON
+    return jsonify(products=products_data, name_category=name_category)
+
+    # return jsonify(products=products_data, name_category=name_category['name'] if name_category else '')  # Отправляем данные в формате JSON
+
+@application.route('/resest_filter', methods=['GET', 'POST'])
+def resest_filter():
+
+    return redirect(url_for('home'))
 
 @application.route('/cart/quantity')
 # Ф-я для получения кол-ва товаров в корзине
@@ -118,7 +164,61 @@ def view_product(product_id):
 
     product = next((item for item in products if item['id_product'] == product_id), None)
 
-    return render_template('product.html', product=product, cart=cart)
+    current_year = datetime.now().year
+
+    return render_template('product.html', product=product, cart=cart, current_year=current_year)
+
+@application.route('/edit_order/<int:id_order>', methods=['GET', 'POST'])
+def view_edit_order(id_order):
+    conn = get_db_connection()
+    order = conn.execute('''SELECT orders.*, users.login, statuses.name as status FROM orders JOIN users ON orders.id_user = users.id_user JOIN statuses ON orders.id_status = statuses.id_status WHERE id_order = ?''', (id_order,)).fetchone()
+    statuses = conn.execute('SELECT * FROM statuses').fetchall()
+    conn.close()
+
+    if request.method == 'POST':
+        id_order_post = request.form.get('id')
+        status = request.form.get('status')
+        conn = get_db_connection()
+        conn.execute('UPDATE orders SET id_status = ? WHERE id_order = ?',
+                     (status, id_order_post))
+        conn.commit()
+        order = conn.execute('''SELECT orders.*, users.login, statuses.name as status FROM orders JOIN users ON orders.id_user = users.id_user JOIN statuses ON orders.id_status = statuses.id_status WHERE id_order = ?''', (id_order,)).fetchone()
+        statuses = conn.execute('SELECT * FROM statuses').fetchall()
+        conn.close()
+
+    current_year = datetime.now().year
+
+    return render_template('edit_order.html', order=order, current_year=current_year, statuses=statuses)
+
+@application.route('/edit_category/<int:id_category>', methods=['GET', 'POST'])
+def view_edit_category(id_category):
+    conn = get_db_connection()
+    category = conn.execute('SELECT * FROM categories WHERE id_category = ?', (id_category,)).fetchone()
+    conn.close()
+
+    if request.method == 'POST':
+        id_category_post = request.form.get('id')
+        name = request.form.get('name')
+        path = request.form.get('path')
+        old_path = category['path']
+        conn = get_db_connection()
+        conn.execute('UPDATE categories SET name = ?, path = ? WHERE id_category = ?',
+                     (name, path, id_category_post))
+        conn.commit()
+
+        if old_path != path:
+            old_folder = os.path.join(application.config['UPLOAD_FOLDER'], old_path)
+            new_folder = os.path.join(application.config['UPLOAD_FOLDER'], path)
+            if os.path.exists(old_folder):
+                os.rename(old_folder, new_folder)  # Переименовываем папку
+        category = conn.execute('SELECT * FROM categories WHERE id_category = ?', (id_category,)).fetchone()
+        conn.close()
+        flash("Категория обновлена!", "success")
+
+    current_year = datetime.now().year
+
+    return render_template('edit_category.html', category=category, current_year=current_year)
+
 
 @application.route('/edit_product/<int:id_product>', methods=['GET', 'POST'])
 def view_edit_product(id_product):
@@ -147,13 +247,6 @@ def view_edit_product(id_product):
                     image_path = current_product['image'].lstrip('/')
                     full_path = os.path.join(application.config['UPLOAD_FOLDER'], image_path)
                     os.remove(image_path)
-                    # if os.path.exists(full_path):
-                    #     try:
-                    #         os.remove(full_path)
-                    #     except Exception as e:
-                    #         print(f'Ошибка при удалении файла: {e}')
-                    # else:
-                    #     print(f'Файл для удаления не найден: {full_path}')
 
                 category = conn.execute('SELECT path FROM categories WHERE id_category = ?', (category_id,)).fetchone()
                 filename = file.filename
@@ -181,7 +274,9 @@ def view_edit_product(id_product):
 
     product = next((item for item in products if item['id_product'] == id_product), None)
 
-    return render_template('edit_product.html', product=product, categories=categories)
+    current_year = datetime.now().year
+
+    return render_template('edit_product.html', product=product, categories=categories, current_year=current_year)
 
 
 
@@ -194,7 +289,9 @@ def view_edit_user(id_user):
 
     user = next((item for item in users if item['id_user'] == id_user), None)
 
-    return render_template('edit_user.html', user=user)
+    current_year = datetime.now().year
+
+    return render_template('edit_user.html', user=user, current_year=current_year)
 
 @application.route('/edit_user', methods=['GET', 'POST'])
 def edit_user():
@@ -202,6 +299,7 @@ def edit_user():
     login = request.form.get('login')
     phone = request.form.get('phone')
     name = request.form.get('name')
+    email = request.form.get('email')
     role = request.form.get('role')
 
     if not role:
@@ -210,15 +308,13 @@ def edit_user():
 
 
     conn = get_db_connection()
-    conn.execute('UPDATE users SET login = ?, phone = ?, name = ?, role = ? WHERE id_user = ?',
-                 (login, phone, name, role, id_user))
+    conn.execute('UPDATE users SET login = ?, phone = ?, name = ?, email = ?, role = ? WHERE id_user = ?',
+                 (login, phone, name, email, role, id_user))
     conn.commit()
-    
-    # user = conn.execute('SELECT * FROM users WHERE id_user = ?', (id_user,)).fetchone()
     conn.close()
     
     flash('Пользователь успешно обновлен', 'success')
-    return redirect(url_for('view_user', id_user=id_user))
+    return redirect(url_for('view_edit_user', id_user=id_user))
 
 
 @application.route('/register', methods=['GET', 'POST'])
@@ -229,12 +325,13 @@ def register():
         confirm_password = request.form.get('confirm_password')
         phone = request.form.get('phone')
         name = request.form.get('name')
+        email = request.form.get('email')
 
         if password != confirm_password:
             return jsonify({'success': False, 'message': 'Пароли не совпадают!'}), 400
 
         # Проверка на заполненность полей
-        if not login or not password or not phone or not name:
+        if not login or not password or not phone or not name or not email:
             return jsonify({'success': False, 'message': 'Пожалуйста, заполните все поля.'}), 400
 
         # Хешируем пароль
@@ -243,8 +340,8 @@ def register():
         conn = get_db_connection()
         try:
             # Вставка нового пользователя
-            conn.execute('INSERT INTO users (login, password, phone, name, role) VALUES (?, ?, ?, ?, ?)',
-                         (login, hashed_password, phone, name, "user"))
+            conn.execute('INSERT INTO users (login, password, phone, name, role, email) VALUES (?, ?, ?, ?, ?, ?)',
+                         (login, hashed_password, phone, name, "user", email))
             conn.commit()
 
             # Авторизация пользователя
@@ -252,6 +349,7 @@ def register():
             session['logged_in'] = True
             session['id_user'] = user['id_user']
             session['role'] = user['role']
+            session['email'] = user['email']
             
             return jsonify({'success': True, 'redirect_url': url_for('personal_account')}), 200
 
@@ -261,7 +359,8 @@ def register():
         finally:
             conn.close()
 
-    return render_template('login.html')  # Отображаем форму регистрации
+    current_year = datetime.now().year
+    return render_template('login.html', current_year=current_year)  # Отображаем форму регистрации
 
 
 @application.route('/sign_in', methods=['GET', 'POST'])
@@ -282,6 +381,7 @@ def sign_in():
             session['logged_in'] = True
             session['id_user'] = users['id_user']
             session['role'] = users['role']
+            session['email'] = users['email']
             
             response = {
                 'success': True,
@@ -301,7 +401,9 @@ def sign_in():
     if session.get('logged_in'):
         return redirect(url_for('admin' if session.get('role') == 'admin' else 'personal_account'))
 
-    return render_template('login.html', products=products)
+    current_year = datetime.now().year
+
+    return render_template('login.html', products=products, current_year=current_year)
 
 
 @application.route('/exit')
@@ -319,6 +421,7 @@ def exit():
     session.pop('logged_in', None)
     session.pop('id_user', None)
     session.pop('role', None)
+    session.pop('email', None)
     session.clear()
     return redirect(url_for('home'))
 
@@ -330,7 +433,8 @@ def admin():
     orders = conn.execute('''SELECT orders.*, users.login, statuses.name as status FROM orders JOIN users ON orders.id_user = users.id_user JOIN statuses ON orders.id_status = statuses.id_status''').fetchall()
     users = conn.execute('SELECT * FROM users').fetchall()
     conn.close()
-    return render_template('admin.html', products=products, categories=categories, orders=orders, users=users)
+    current_year = datetime.now().year
+    return render_template('admin.html', products=products, categories=categories, orders=orders, users=users, current_year=current_year)
     
 @application.route('/personal_account')
 def personal_account():
@@ -342,10 +446,9 @@ def personal_account():
     # Получаем информацию о товарах
     products = conn.execute('SELECT * FROM products').fetchall()
     product_dict = {product['name']: {"id_product": product['id_product'], "image_url": product['image'], "price": product['price']} for product in products}
-
-
     conn.close()
-    return render_template('personal_account.html', id=user['id_user'], login=user['login'], name=user['name'], phone=user['phone'], orders=orders, product_dict=product_dict)
+    current_year = datetime.now().year
+    return render_template('personal_account.html', id=user['id_user'], login=user['login'], name=user['name'], phone=user['phone'], email=user['email'], orders=orders, product_dict=product_dict, current_year=current_year)
 
 @application.route('/add_product', methods=['POST'])
 # Ф-я для добавления товара
@@ -375,7 +478,7 @@ def add_product():
     
 
     conn.execute('INSERT INTO products (id_category, name, image, price) VALUES (?, ?, ?, ?)',
-                 (id_category, name, f'/images/product/{category['path']}/{filename}', price))
+                 (id_category, name, f'/images/product/{category["path"]}/{filename}', price))
     conn.commit()
     conn.close()
     flash("Товар добавлен!", "success")
@@ -461,7 +564,8 @@ def delete_product(product_id):
 @application.route('/cart')
 # Ф-я для отображения страницы корзины
 def view_cart():
-    return render_template('cart.html', cart=cart)
+    current_year = datetime.now().year
+    return render_template('cart.html', cart=cart, current_year=current_year)
 
 @application.route('/delete_item', methods=['POST'])
 # Ф-я для удаления товара с корзины
@@ -519,14 +623,75 @@ def create_order():
 
     # Сохранение записи в БД
     conn = get_db_connection()
-    conn.execute('INSERT INTO orders (id_user, order_details, amount, date_order) VALUES (?, ?, ?, ?)',
-                 (id_user, order_details, total_amount, order_date))
+    user = conn.execute('SELECT * FROM users WHERE id_user = ?', (id_user,)).fetchone()
+    conn.execute('INSERT INTO orders (id_user, order_details, amount, date_order, id_status) VALUES (?, ?, ?, ?, ?)',
+                 (id_user, order_details, total_amount, order_date, 1))
     conn.commit()
     conn.close()
+
+    send_order_confirmation_email(session.get('email'), order_details, total_amount, order_date)
+
+    send_telegram_notification(order_details, user, total_amount, order_date)
 
     cart.clear()
     flash("Заказ оформлен!", "success")  # Добавляем flash-сообщение
     return redirect('/cart')
+
+def send_order_confirmation_email(to_email, order_details, total_amount, order_date):
+    # Настройки email
+    from_email = "@yandex.ru"  # Ваш email
+    from_password = ""  # Ваш пароль приложения (используйте приложение для генерации)
+    
+    # Создание сообщения
+    subject = "Подтверждение заказа"
+    body = f"""
+    Уважаемый пользователь,
+
+    Ваш заказ оформлен успешно!
+
+    Детали заказа:
+    {order_details}
+
+    Общая сумма: {total_amount} руб.
+    Дата заказа: {order_date}
+
+    Спасибо за покупку!
+    """
+
+    msg = MIMEMultipart()
+    msg['From'] = from_email
+    msg['To'] = to_email
+    msg['Subject'] = subject
+    msg.attach(MIMEText(body, 'plain'))
+
+    # Отправка письма
+    try:
+        # Используем SMTP_SSL для порта 465
+        with smtplib.SMTP_SSL('smtp.yandex.ru', 465) as server:  
+            server.login(from_email, from_password)
+            server.sendmail(from_email, to_email, msg.as_string())
+    except Exception as e:
+        print(f"Ошибка отправки письма: {e}")
+
+def send_telegram_notification(order_details, user, total_amount, order_date):
+    token = ''
+    chat_id = ''
+    message = f"Новый заказ: \nКлиент: \nИмя: {user['name']} \nТелефон: {user['phone']} \nEmail: {user['email']}\nСодержимое заказа: {order_details}\nСумма: {total_amount} руб.\nДата заказа: {order_date}"
+    
+    url = f"/bot{token}/sendMessage"
+    params = urllib.parse.urlencode({
+        'chat_id': chat_id,
+        'text': message,
+        'parse_mode': 'Markdown'
+    })
+
+    conn = http.client.HTTPSConnection("api.telegram.org")
+    conn.request("POST", url, params, headers={"Content-type": "application/x-www-form-urlencoded"})
+    response = conn.getresponse()
+    data = response.read()
+    conn.close()
+    
+    return data
 
 if __name__ == "__main__":
     application.run(debug=True)

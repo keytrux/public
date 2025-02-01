@@ -115,7 +115,9 @@
         <ul>
             {% for category in categories %}
                 <li>
-                    {{ category.name }} - {{ category.path }} (папка)
+                    <a href="/edit_category/{{ category.id_category }}">
+                        {{ category.name }} - {{ category.path }} (папка)
+                    </a>
                     <form method="POST" action="{{ url_for('delete_category', id_category=category.id_category) }}" style="display:inline;">
                         <button type="submit" class = "delete-category">Удалить</button>
                     </form>
@@ -133,12 +135,13 @@
         <ul>
             {% for order in orders %}
                 <li>
-                    {{ order.id_order }}. {{ order.date_order }} <br> 
-                    {{ order.order_details }} <br> 
-                    Статус: {{ order.status }} <br> 
-                    Сумма: {{ order.amount }} руб. <br> 
-                    Логин пользователя: {{ order.login }}
-                    
+                    <a href="/edit_order/{{ order.id_order }}">
+                        {{ order.id_order }}. {{ order.date_order }} <br> 
+                        {{ order.order_details }} <br> 
+                        Статус: {{ order.status }} <br> 
+                        Сумма: {{ order.amount }} руб. <br> 
+                        Логин пользователя: {{ order.login }}
+                    </a>
                 </li>
                 <form method="POST" action="{{ url_for('delete_order', id_order=order.id_order) }}" style="display:inline;">
                     <button type="submit" class = "delete-order">Удалить</button>
@@ -168,7 +171,7 @@
     </div>
 
     <footer>
-        <p>© 2025 Вело-шоп-63</p>
+        <p>© {{ current_year }} Вело-шоп-63</p>
         <div class="contacts">
             <a href="mailto:info@veloshop63.com"><img src="/images/email-icon.png" alt="Почта" width="50"></a>
             <a href="tel:+7986533688"><img src="/images/phone-icon.png" alt="Телефон" width="50"></a>
