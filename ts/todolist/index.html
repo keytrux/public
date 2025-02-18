@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel = "stylesheet" type="text/css" href="style.css">
+    <link rel = "shortcut icon" href="checklist.ico">
+    <script src = "app.js"></script>
+    <title>Список дел</title>
+</head>
+<body>
+    <h1>Список задач</h1>
+    <div class="list" id="div-list"></div>
+    <form method="post" class="add-task">
+        <input type="text" class="title" id="title" name = "title" required placeholder="Введите задачу">
+        <button type="submit" class="btn-add">Добавить задачу</button>
+    </form>
+    <button class="btn-reset" onclick="resetTasks()">Очистить список</button>
+</body>
+</html>

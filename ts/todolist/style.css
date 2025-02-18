@@ -1,0 +1,100 @@
+body
+{
+    font-family: 'DejaVu Sans Mono', monospace;
+    font-size: 18px;
+}
+
+h1
+{
+    color: #0da80a;
+}
+
+#list
+{
+    border: solid 2px #42AAFF;
+    border-radius: 10px;
+    display: inline-block;
+    margin-bottom: 10px;
+}
+
+ul
+{
+    list-style-type: decimal;
+}
+
+li
+{
+    padding: 10px 10px 10px 0;
+}
+
+.btn-done, .btn-delete, .btn-add, .btn-reset
+{
+    padding: 6px 15px;
+    font-family: 'DejaVu Sans Mono', monospace;
+    border-radius: 5px;
+    margin: 0 5px 0 5px;
+}
+
+.btn-done
+{
+    background-color: #0a962f;
+    border-color: #0b2e13;
+    color: white;
+}
+
+.btn-done:hover
+{
+    background-color: #0dae37;
+    cursor: pointer;
+}
+
+.btn-delete
+{
+    background-color: #ffe0e1;
+    border-color: #f74c3c;
+    color: black;
+}
+
+.btn-delete:hover
+{
+    background-color: #e4cacb;
+    cursor: pointer;
+}
+
+.title
+{
+    display: block;
+    border-radius: 5px;
+    padding: 5px 15px;
+    font-size: 14px;
+}
+
+.btn-add
+{
+    background-color: #42AAFF;
+    border-color: #0a7ddd;
+    color: white;
+    display: block;
+    margin: 10px 0 0 0;
+}
+
+.btn-add:hover
+{
+    background-color: #3c99e3;
+    cursor: pointer;
+}
+
+.btn-reset
+{
+    background-color: #ffe0b2;
+    border-color: #E8BE8B;
+    color: black;
+    display: block;
+    margin: 10px 0 0 0;
+}
+
+.btn-reset:hover
+{
+    background-color: #f3d5aa;
+    cursor: pointer;
+}
