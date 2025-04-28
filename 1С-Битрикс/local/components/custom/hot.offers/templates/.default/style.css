@@ -1,0 +1,239 @@
+.maxwidth-theme {
+    max-width: 1560px;
+}
+
+.full_width.offers .offers_parent_title {
+    position: relative;
+    overflow: hidden;
+}
+
+.full_width.offers .offers_parent_title .offers_item-link {
+    color: #4D4D4D;
+    text-align: center;
+    font-size: 32px;
+    font-weight: 600;
+    line-height: 100%;
+    text-transform: uppercase;
+    padding: 0 15px;
+    background-color: #ffffff;
+    position: relative;
+    z-index: 2;
+}
+
+.slick-slider {
+    position: relative;
+    display: block;
+    box-sizing: border-box;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+    -khtml-user-select: none;
+    -ms-touch-action: pan-y;
+    touch-action: pan-y;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.full_width.offers .slider_button._prev {
+    left: -15px;
+}
+
+.full_width.offers .slider_button._next {
+    right: -15px;
+}
+
+.full_width.hot-offers .offers_parent_title .offers_item-link
+{
+    text-transform: unset !important;
+}
+
+.full_width.hot-offers .offers_parent_title .offers_item-link:hover {
+    color: unset !important;
+}
+
+/* Скрытый блок */
+.offers_child_item-char-list.hidden {
+    display: none;
+}
+
+/* Анимация раскрытия */
+.offers_child_item-char-list {
+    transition: max-height 0.3s ease, opacity 0.3s ease;
+    max-height: 200px; /* Ограничение высоты для анимации */
+    overflow: hidden;
+    opacity: 1;
+}
+
+/* При скрытии */
+.offers_child_item-char-list.hidden {
+    max-height: 0;
+    opacity: 0;
+}
+
+.offers_child_item-contents.expanded .offers_child_item-title
+{
+    padding-top: 0 !important;
+}
+
+/* Убираем фото при раскрытии */
+.offers_child_item-img.hide,
+.sale-badge.hide{
+    display: none;
+}
+
+.offers_child_items-price
+{
+    display: flex;
+    justify-content: space-between;
+}
+
+.offers_child_item-price
+{
+    display: flex;
+    flex-direction: column;
+}
+
+.slider_button::after
+{
+    border: none !important;
+}
+
+.full_width.offers .offers_child_item
+{
+    height: 438px;
+    padding: 0 !important;
+}
+
+.offers_child_item-contents
+{
+    padding: 15px;
+}
+
+.full_width.offers .offers_child_item {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Распределяет элементы по высоте */
+    /*height: 100%;*/
+    border-radius: 5px;
+    border: 1px solid #FFDA01;
+    box-shadow: none;
+    transition: border-color .3s ease;
+    padding: 15px; /* Отступы внутри карточки */
+}
+
+.full_width.offers .offers_child_item-img {
+    height: 204px;
+    border-radius: 4px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover; /* Корректное масштабирование изображения */
+
+}
+.full_width.offers .offers_child_item-order {
+    margin-top: auto; /* Перемещает кнопку в самый низ */
+}
+
+.offers_child_item-title
+{
+    min-height: 38px !important;
+    margin: 0 auto;
+}
+
+.offers_child_item-description
+{
+    font-size: 14px;
+    color: #777777;
+    margin: 0 auto;
+    border-bottom: 1px solid #D8D8D8;
+    width: 100%;
+
+    cursor: pointer;
+}
+
+.offers_child_item-description svg
+{
+    transform: translateY(-50%);
+}
+
+
+.offers_child_item-char-list.hidden {
+    display: none;
+}
+
+.offers_child_item-char-list {
+    list-style: none;
+    padding: 0;
+    margin: 8px 0 0;
+}
+
+.offers_child_item-char-list li
+{
+    margin: 8px 0 0 0;
+}
+
+/* Стилизация первого span (название характеристики) */
+.offers_child_item-char-item span:first-child {
+    font-size: 12px;
+}
+
+/* Стилизация второго span (значение характеристики) */
+.offers_child_item-char-item span:last-child {
+    font-weight: 500;
+    font-size: 12px;
+    color: #242424;
+    margin-left: auto;
+}
+
+.offers_child_item-char-item {
+    display: flex;
+    /*justify-content: space-between;*/
+    font-size: 14px;
+    color: #777777;
+    margin-bottom: 8px;
+}
+
+.offers_child_item-price-title
+{
+    font-size: 12px;
+}
+
+.offers_child_item-price-shift
+{
+    border: 1px solid #FFDA01;
+    border-radius: 5px;
+    font-size: 14px;
+
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    gap: 10px;
+    padding: 1.5px 15px;
+}
+
+.offers_child_item-price-hour
+{
+    border: 1px solid #D2D2D7;
+    border-radius: 5px;
+    font-size: 14px;
+
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    gap: 10px;
+    padding: 1.5px 15px;
+}
+
+.sale-badge
+{
+    position: absolute;
+    background-color: #DB0000;
+    color: #FFFFFF;
+    font-size: 16px;
+    border-radius: 22px;
+    padding: 1px 16px;
+    top: 10px;
+    margin-left: 10px;
+}
